@@ -43,6 +43,45 @@ class DataGenerator(object):
             temp.append(self.generated_names[i])
             temp.append(friends)
             self.generated_order.append(temp)
+
+class ScoreCalculation(object):
+    def __init__(self, name_and_friend_list, male_first_names):
+        self.name_and_friend_list = name_and_friend_list
+        self.male_first_names = male_first_names
+        self.baseline_score = 0 # Generated ny shuffling the perfect order list
+        self.best_score = 0
+        
+        self.best_order = []
+        
+        # Temporary solution, wil be deleted when score calcucalation is done
+        for i in range(0, len(name_and_friend_list)):
+            name = name_and_friend_list[i][0]
+            self.best_order.append(name)
+            
+        self.generate_empty_score_table_2d()
+            
+    def generate_empty_score_table_2d(self):
+        self.score_table_2d= []
+        for i in range(0, len(self.best_order)):
+            tmp= []
+            for j in range(0, len(self.best_order) ):
+                tmp.append(0)
+            self.score_table_2d.append(tmp)
+    
+    def calculate_score(self):
+        print("asd")
+        for i in range(0, len(self.best_order)):
+            if(i % 2== 0):
+                print("is man")
+                # check two previous index and three next if exists
+                for j in range(i-3, i+2):
+                    checked_index = i+j
+                    if(checked_index < len(self.best_order) and checked_index > 0):
+                        print("Now is time to check")
+            else:
+                print("Is woman")
+                     # check three previous index and two next if exists
+
             
 if __name__:
     print("Data generator is run in namespace")
