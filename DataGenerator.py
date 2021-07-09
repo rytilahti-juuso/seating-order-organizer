@@ -31,7 +31,6 @@ class DataGenerator(object):
         for i in range(0, len(self.generated_names)):
             participant_surname = self.generated_names[i].split(sep= " ", maxsplit=2)[1]
             participant_name = self.generated_names[i]
-            print(participant_surname)
             friends = [] # seating request, who I wan't to sit next to me
             for j in range(-5, 6): #Loop trough all people on both sides of the person
                 current_loop_index = i + j
