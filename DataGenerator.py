@@ -12,7 +12,7 @@ class DataGenerator(object):
         self.female_first_names  = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\etunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Naiset kaikki')["Etunimi"]
         self.surnames = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\sukunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Nimet')["Sukunimi"]
         self.generated_names = []
-        self.generated_order = []
+        self.name_and_friend_list = []
         self.generate_unique_names()
         self.generate_name_and_friend_list()
     
@@ -42,7 +42,7 @@ class DataGenerator(object):
             temp = [] #Temp for storing list containing two elements: <name>, <seating_request>
             temp.append(self.generated_names[i])
             temp.append(friends)
-            self.generated_order.append(temp)
+            self.name_and_friend_list.append(temp)
 
 class ScoreCalculation(object):
     def __init__(self, name_and_friend_list, male_first_names):
