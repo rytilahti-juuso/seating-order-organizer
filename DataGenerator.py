@@ -9,6 +9,8 @@ import random
 
 class DataGenerator(object):
     def __init__(self):
+        self.data_size= 100
+        self.max_data_size = 141 # Maximum data size with current parsing setting that can be used without firstname duplicates in men and women
         self.male_first_names = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\etunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Miehet ens')["Etunimi"]
         self.female_first_names  = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\etunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Naiset kaikki')["Etunimi"]
         self.surnames = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\sukunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Nimet')["Sukunimi"]
@@ -20,7 +22,7 @@ class DataGenerator(object):
     # Generate unique names for participants
     def generate_unique_names(self):
         surname_index = 0 # Same surnames for every group that has asked each other as seating company. This is simply for convenience and easier checkming later the results of seating organizer algorithm by hand
-        for i in range(0, 100):   
+        for i in range(0, self.data_size):   
             if(i % 5 == 0 and i != 0):
                 surname_index = i
             if(i % 2 == 0):
