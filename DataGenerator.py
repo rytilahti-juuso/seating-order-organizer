@@ -54,16 +54,28 @@ class Participant:
     id: int
     name_without_typos:str = field(init=False) #Name where the caps and spaces are removed. 
     full_name: str 
-    first_name: str
-    last_name: str
+    first_name: str = field(init=False)
+    last_name: str = field(init=False)
     
     def __post_init__(self):
-        self.name_without_typos =self.asd()
+        self.generate_first_name_and_last_name()
+        self.name_without_typos =self.generate_name_without_spaces_and_caps()
     
-    def generate_name_without_spaces_and_caps(self): #TODO NOT YET TESTED
+    def generate_first_name_and_last_name(self):
+        splitted_name = self.full_name.split(" ", 1)
+        if(len(splitted_name) >= 2):
+            self.first_name = splitted_name[0]
+            self.last_name = splitted_name[1]
+        else: #TODO this is maybe unnecessary
+            self.first_name = splitted_name[0]
+            self.last_name = splitted_name[0]
+    
+    def generate_name_without_spaces_and_caps(self):
         tmp = self.full_name.lower()
-        tmp = re.sub("\s+", ",", tmp.strip())
+        tmp = re.sub("\s+", "", tmp.strip())
         return tmp
+    
+    
 
 
 class ScoreCalculation(object):
