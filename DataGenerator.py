@@ -6,6 +6,8 @@ Created on Thu Jul  8 16:00:54 2021
 """
 import pandas as pd
 import random
+from dataclasses import dataclass, field, astuple, asdict
+import re
 
 class DataGenerator(object):
     def __init__(self):
@@ -46,6 +48,23 @@ class DataGenerator(object):
             temp.append(self.generated_names[i])
             temp.append(friends)
             self.name_and_friend_list.append(temp)
+
+@dataclass()
+class Participant:
+    id: int
+    name_without_typos:str = field(init=False) #Name where the caps and spaces are removed. 
+    full_name: str 
+    first_name: str
+    last_name: str
+    
+    def __post_init__(self):
+        self.name_without_typos =self.asd()
+    
+    def generate_name_without_spaces_and_caps(self): #TODO NOT YET TESTED
+        tmp = self.full_name.lower()
+        tmp = re.sub("\s+", ",", tmp.strip())
+        return tmp
+
 
 class ScoreCalculation(object):
     def __init__(self, name_and_friend_list, male_first_names):
