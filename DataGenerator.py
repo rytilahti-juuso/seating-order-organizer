@@ -49,7 +49,8 @@ class DataGenerator(object):
             temp.append(friends)
             self.name_and_friend_list.append(temp)
 
-@dataclass()
+
+@dataclass() #TODO maybe add this class to be frozen
 class Participant:
     id: int
     name_without_typos:str = field(init=False) #Name where the caps and spaces are removed. 
