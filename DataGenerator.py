@@ -67,6 +67,7 @@ class Participant:
             self.first_name = splitted_name[0]
             self.last_name = splitted_name[1]
         else: #TODO this is maybe unnecessary
+            #Maybe other should be just an empty space?
             self.first_name = splitted_name[0]
             self.last_name = splitted_name[0]
     
