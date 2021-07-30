@@ -26,6 +26,8 @@
     # Name has spanish special letters 
 
     # name_without_typos is correct with all cases
+    
+    # is_man is working with correct, test with man and woman names
 
 
 ####################################
