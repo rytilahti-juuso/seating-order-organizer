@@ -122,10 +122,7 @@ class Participant:
 class ScoreCalculation(object):
     def __init__(self, name_and_friend_list, male_first_names):
         self.name_and_friend_list = name_and_friend_list
-        self.male_first_names = []
-        #FIXME make in operator work some other way
-        for i in range(0, len(male_first_names)): # problem with 'in' operator if this is not done this way
-            self.male_first_names.append(male_first_names[i])
+        self.male_first_names = male_first_names.tolist()
         self.baseline_score = 0 # Generated ny shuffling the perfect order list
         self.best_score = 0
         self.participant_list = []
