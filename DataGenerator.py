@@ -50,32 +50,50 @@ class DataGenerator(object):
             self.name_and_friend_list.append(temp)
 
 
-@dataclass() #TODO change this class to be frozen
-class Participant:
-    id: int
-    name_without_typos:str = field(init=False) #Name where the caps and spaces are removed. 
-    full_name: str 
-    first_name: str = field(init=False)
-    last_name: str = field(init=False)
-    
-    def __post_init__(self):
-        self.generate_first_name_and_last_name()
-        self.name_without_typos =self.generate_name_without_spaces_and_caps()
-    
-    def generate_first_name_and_last_name(self):
-        splitted_name = self.full_name.split(" ", 1)
+class ParticipantFactory(object):
+    def __init__(self):
+        #TODO make this to be taken as argument
+        self.male_first_names = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\etunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Miehet ens')["Etunimi"] 
+        
+    #Participant is list containing name and and friend list
+    def create_participant_from_given_name(self, participant_and_wishes_list):
+        full_name = participant_and_wishes_list[0]
+        wishes_list = participant_and_wishes_list[1]
+        first_name = self.generate_first_name(full_name)
+        last_name = self.generate_last_name(full_name)
+        name_without_typos = self.generate_name_without_spaces_and_caps(full_name)
+        p = Participant(0, full_name, first_name, last_name, name_without_typos)
+        return p
+        
+    # return first name if name contains space, otherwise returns full name
+    def generate_first_name(self, name):
+        splitted_name = name.split(" ", 1)
+        return splitted_name[0]
+  
+    # return last name if name contains space, otherwise returns full name
+    def generate_last_name(self, name):
+        splitted_name = name.split(" ", 1)
         if(len(splitted_name) >= 2):
-            self.first_name = splitted_name[0]
-            self.last_name = splitted_name[1]
+            return splitted_name[1]
         else: #TODO this is maybe unnecessary
             #Maybe other should be just an empty space?
-            self.first_name = splitted_name[0]
-            self.last_name = splitted_name[0]
+            return splitted_name[0]
+
     
-    def generate_name_without_spaces_and_caps(self):
-        tmp = self.full_name.lower()
+    def generate_name_without_spaces_and_caps(self, name):
+        tmp = name.lower()
         tmp = re.sub("\s+", "", tmp.strip())
         return tmp
+              
+    
+
+@dataclass(frozen = True) #TODO change this class to be frozen
+class Participant:
+    id: int
+    full_name: str 
+    first_name: str 
+    last_name: str
+    name_without_typos: str #Name where the caps and spaces are removed. This is to avoid atleast some user typos when they were typing seating wishes list
     
     
 
