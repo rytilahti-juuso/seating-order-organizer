@@ -53,11 +53,12 @@ class DataGenerator(object):
 
 class ParticipantFactory(object):
     def __init__(self):
-        #TODO make this to be taken as argument
-        self.male_first_names = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\etunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Miehet ens')["Etunimi"] 
+        male_first_names = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\etunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Miehet ens')["Etunimi"] 
+        self.male_first_names = male_first_names.tolist()
+       
         
-    # returns new Participant object with necessary information
-    #Participant is list containing name and and friend list
+    # Returns new Participant object with necessary information
+    # Participant is list containing name and and friend list
     def create_participant_from_given_name(self, participant_and_wishes_list):
         ######################
         # Participant's name
@@ -66,6 +67,8 @@ class ParticipantFactory(object):
         first_name = self.generate_first_name(full_name)
         last_name = self.generate_last_name(full_name)
         name_without_typos = self.generate_name_without_spaces_and_caps(full_name)
+        is_man = first_name in self.male_first_names
+         
         
         ######################
         # wish list
@@ -73,7 +76,7 @@ class ParticipantFactory(object):
         wish_list = participant_and_wishes_list[1]
         wish_list_without_spaces_and_caps = self.generate_wish_list_without_spaces_and_caps(wish_list)
         
-        p = Participant(0, full_name, first_name, last_name, name_without_typos, wish_list, wish_list_without_spaces_and_caps)
+        p = Participant(0, full_name, first_name, last_name, name_without_typos, is_man, wish_list, wish_list_without_spaces_and_caps)
         return p
         
     # return first name if name contains space, otherwise returns full name
@@ -109,6 +112,7 @@ class Participant:
     first_name: str 
     last_name: str
     name_without_typos: str #Name where the caps and spaces are removed. This is to avoid atleast some user typos when they were typing seating wishes list
+    is_man: bool
     seating_wish_list: List[str]
     seating_wish_list_without_spaces_and_caps: List[str]
     
