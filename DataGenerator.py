@@ -73,7 +73,6 @@ class NecessaryListsFactory(object):
         for p in self.participant_list:
             individual_participant_and_wishes_list = [] # is anonymous using only id's
             individual_participant_and_wishes_list.append(p.id)
-            
             individual_participant_and_wishes_list.append(self.create_anonymous_seating_wish_list(p))
             individual_participant_and_wishes_list.append(p.is_man)
             self.anonymous_list.append(individual_participant_and_wishes_list)
