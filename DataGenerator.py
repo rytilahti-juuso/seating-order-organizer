@@ -51,6 +51,37 @@ class DataGenerator(object):
             self.name_and_friend_list.append(temp)
 
 
+class NecessaryListsFactory(object):
+    
+    def __init__(self, name_and_wish_list):
+        self.name_and_wish_list = name_and_wish_list
+        self.pf = ParticipantFactory()
+        self.participant_list = [] # Contains only participant objects
+        self.dict_of_participants = {} # dictionary of participants, key value is participants name without spaces and caps
+        self.anonymous_list = [] #TODO should this be a list or dictionary?
+        self.generate_lists_from_name_and_wish_list()
+        self.generate_anonymous_list()
+        
+    def generate_lists_from_name_and_wish_list(self):
+        for i in range(0, len(self.name_and_wish_list)):
+            p = self.pf.create_participant_from_given_name(self.name_and_wish_list[i], i)
+            self.dict_of_participants[p.name_without_typos] = p
+            self.participant_list.append(p)
+    
+    # creates elements to self.anonymous list in the following format [<participant id>, <seating order wishes id> <is man>]
+    def generate_anonymous_list(self):
+        for p in self.participant_list:
+            individual_participant_and_wishes_list = [] # is anonymous using only id's
+            individual_participant_and_wishes_list.append(p.id)
+            
+            seating_wish_list = []
+            for wish in p.seating_wish_list_without_spaces_and_caps:
+                seating_wish_list.append(self.dict_of_participants[wish].id)
+            individual_participant_and_wishes_list.append(seating_wish_list)
+            individual_participant_and_wishes_list.append(p.is_man)
+            self.anonymous_list.append(individual_participant_and_wishes_list)
+
+
 class ParticipantFactory(object):
     def __init__(self):
         male_first_names = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\etunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Miehet ens')["Etunimi"] 
@@ -59,7 +90,7 @@ class ParticipantFactory(object):
         
     # Returns new Participant object with necessary information
     # Participant is list containing name and and friend list, where elements are [<participant fullname>, <seating order wishes>]
-    def create_participant_from_given_name(self, participant_and_wishes_list):
+    def create_participant_from_given_name(self, participant_and_wishes_list, id):
         ######################
         # Participant's name
         ######################
@@ -76,7 +107,7 @@ class ParticipantFactory(object):
         wish_list = participant_and_wishes_list[1]
         wish_list_without_spaces_and_caps = self.generate_wish_list_without_spaces_and_caps(wish_list)
         
-        p = Participant(0, full_name, first_name, last_name, name_without_typos, is_man, wish_list, wish_list_without_spaces_and_caps)
+        p = Participant(id, full_name, first_name, last_name, name_without_typos, is_man, wish_list, wish_list_without_spaces_and_caps)
         return p
         
     # return first name if name contains space, otherwise returns full name
