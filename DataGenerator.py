@@ -58,7 +58,7 @@ class ParticipantFactory(object):
        
         
     # Returns new Participant object with necessary information
-    # Participant is list containing name and and friend list
+    # Participant is list containing name and and friend list, where elements are [<participant fullname>, <seating order wishes>]
     def create_participant_from_given_name(self, participant_and_wishes_list):
         ######################
         # Participant's name
@@ -113,8 +113,8 @@ class Participant:
     last_name: str
     name_without_typos: str #Name where the caps and spaces are removed. This is to avoid atleast some user typos when they were typing seating wishes list
     is_man: bool
-    seating_wish_list: List[str]
-    seating_wish_list_without_spaces_and_caps: List[str]
+    seating_wish_list: List[str] #TODO this can be mutated afterwards, convert to frozen dataclass object
+    seating_wish_list_without_spaces_and_caps: List[str] #TODO this can be mutated afterwards, convert to frozen dataclass object
     
     
 
