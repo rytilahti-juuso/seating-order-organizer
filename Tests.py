@@ -17,7 +17,11 @@
 
 # dataclass object has correct values in default case
 
+# man-name list is List<string> type instead of any other data types (because of use of "in" operator)
+
 #fullname_has_multiple_spaces
+
+# How duplicate name is handeld?
 
 #for every name field:
     
