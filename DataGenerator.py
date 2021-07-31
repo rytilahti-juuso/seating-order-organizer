@@ -74,12 +74,17 @@ class NecessaryListsFactory(object):
             individual_participant_and_wishes_list = [] # is anonymous using only id's
             individual_participant_and_wishes_list.append(p.id)
             
-            seating_wish_list = []
-            for wish in p.seating_wish_list_without_spaces_and_caps:
-                seating_wish_list.append(self.dict_of_participants[wish].id)
-            individual_participant_and_wishes_list.append(seating_wish_list)
+            individual_participant_and_wishes_list.append(self.create_anonymous_seating_wish_list(p))
             individual_participant_and_wishes_list.append(p.is_man)
             self.anonymous_list.append(individual_participant_and_wishes_list)
+    
+    def create_anonymous_seating_wish_list(self, p):
+        seating_wish_list = []
+        for wish in p.seating_wish_list_without_spaces_and_caps:
+            seating_wish_list.append(self.dict_of_participants[wish].id)
+        return seating_wish_list
+        
+        
 
 
 class ParticipantFactory(object):
