@@ -42,6 +42,8 @@
 
 # Added gender score is calculated correctly in ideal case (all partipants are in order, man, woman, man woman)
 
+# In 2d Table how participants own score should be handeld (should it be put to be -1)
+
 # Added gender score is calculated correctly not in ideal case when:
     # Both are men
     # Both are women
