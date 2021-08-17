@@ -254,7 +254,15 @@ class ScoreCalculation(object):
 if __name__:
     print("Data generator is run in namespace")
     d = DataGenerator()
-    s = ScoreCalculation(d.name_and_friend_list, d.male_first_names)
-    print(d.generated_order[10][1])
+    nlf = NecessaryListsFactory(d.name_and_friend_list) #Necessary lists factory
+    #print(nlf.anonymous_list)
+    #print(nlf.participant_list)
+    s = ScoreCalculation(nlf.anonymous_list, d.male_first_names)
+    #print(s.score_table_2d)
+    #print(d.generated_order[10]][1)
+    #pf = ParticipantFactory()
+    #p = pf.create_participant_from_given_name(d.name_and_friend_list[1])
+    #print(p)
+    #print(s.score_table_2d)
     #print(d.female_first_names)
     #print(d.surnames)
