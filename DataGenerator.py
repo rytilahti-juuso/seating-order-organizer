@@ -205,7 +205,7 @@ class ScoreCalculation(object):
         for i in range (0, len(seating_wishes)):
             print("a")
             seating_wish_id = seating_wishes[i]
-            self.score_table_2d[checked_index][seating_wish_id] += 3
+            self.score_table_2d[checked_index][seating_wish_id] += friend_score
                         
 
     
