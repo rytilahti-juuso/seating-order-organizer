@@ -162,6 +162,7 @@ class ScoreCalculation(object):
         self.final_score = 0
         self.participant_id_list = []
         self.best_order = []
+        #random.shuffle(self.anonymous_list)
         
         
         # Temporary solution, wil be deleted when score calcucalation is done
@@ -169,7 +170,6 @@ class ScoreCalculation(object):
             participant_id = anonymous_list[i][0]
             self.best_order.append(participant_id)
             self.participant_id_list.append(participant_id) 
-        #random.shuffle(self.participant_id_list) # TODO remove
         
         
         self.generate_empty_score_table_2d()
@@ -204,7 +204,7 @@ class ScoreCalculation(object):
         friend_score = 3
         seating_wishes = self.anonymous_list[checked_index][1]
         for i in range (0, len(seating_wishes)):
-            print("a")
+            
             seating_wish_id = seating_wishes[i]
             self.score_table_2d[checked_index][seating_wish_id] += friend_score
                         
