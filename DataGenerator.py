@@ -241,11 +241,16 @@ class ScoreCalculation(object):
     def calculate_score_from_index(self, index, starting_value, ending_value):
             participant_id = self.best_order[index]
             for checked_index in range(starting_value, ending_value):        
-                    if((checked_index < len(self.best_order) and checked_index >= 0) and index != checked_index):
+                    if(self.is_valid_index(checked_index, len(self.best_order)) and index != checked_index):
                         checked_id_of_index = self.best_order[checked_index]
                         #print("index in best order", checked_index)
                         #print("id of best order: ", checked_id_of_index)
                         self.final_score += self.score_table_2d[participant_id][checked_id_of_index]
+    
+    # Element exists in given array
+    def is_valid_index(self, checked_index, length_of_array):
+        return (checked_index < length_of_array and checked_index >= 0)
+    
 if __name__:
     print("Data generator is run in namespace")
     d = DataGenerator()
