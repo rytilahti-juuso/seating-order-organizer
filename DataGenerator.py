@@ -187,6 +187,7 @@ class ScoreCalculation(object):
     def add_scores_to_table(self):
         for i in range(0, len(self.participant_id_list)):
             self.add_score_based_on_gender(i, self.anonymous_list[i][2])
+            self.add_score_based_on_wishes(i)
             
     # checked_index: person who is checked
     # is_man: previusly checked that person's first name is found from list of men names
@@ -196,6 +197,16 @@ class ScoreCalculation(object):
             if(self.anonymous_list[i][2] != is_man):
                 previous_score = self.score_table_2d[checked_index][i] 
                 self.score_table_2d[checked_index][i] = previous_score + different_gender_score
+    
+    # Add score to 2d_score_table generated from seating wishes
+    def add_score_based_on_wishes(self, checked_index):
+        friend_score = 3
+        seating_wishes = self.anonymous_list[checked_index][1]
+        for i in range (0, len(seating_wishes)):
+            print("a")
+            seating_wish_id = seating_wishes[i]
+            self.score_table_2d[checked_index][seating_wish_id] += 3
+                        
 
     
     def calculate_score(self):
