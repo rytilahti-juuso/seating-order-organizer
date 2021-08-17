@@ -159,7 +159,7 @@ class ScoreCalculation(object):
         self.anonymous_list = anonymous_list
         self.male_first_names = male_first_names.tolist()
         self.baseline_score = 0 # Generated ny shuffling the perfect order list
-        self.best_score = 0
+        self.final_score = 0
         self.participant_id_list = []
         self.best_order = []
         
@@ -188,6 +188,7 @@ class ScoreCalculation(object):
         for i in range(0, len(self.participant_id_list)):
             self.add_score_based_on_gender(i, self.anonymous_list[i][2])
             self.add_score_based_on_wishes(i)
+        self.calculate_score()
             
     # checked_index: person who is checked
     # is_man: previusly checked that person's first name is found from list of men names
@@ -207,23 +208,44 @@ class ScoreCalculation(object):
             seating_wish_id = seating_wishes[i]
             self.score_table_2d[checked_index][seating_wish_id] += friend_score
                         
+# Index numbers for helping to visualise seating order
+#0, 1
+#3, 2
+#4, 5
+#7, 6
+#8, 9
+#11, 10
+    # sets self.final_score to 0 and after that calculates the correct score
+    def calculate_score(self):        
+        self.final_score = 0
 
-    
-    def calculate_score(self):
-        print("asd")
         for i in range(0, len(self.best_order)):
-            if(i % 2== 0):
-                print("is man")
-                # check two previous index and three next if exists
-                for j in range(i-3, i+2):
-                    checked_index = i+j
-                    if(checked_index < len(self.best_order) and checked_index > 0):
-                        print("Now is time to check")
-            else:
-                print("Is woman")
-                     # check three previous index and two next if exists
-
             
+            #-------------------------------------------
+            # DO PROPER TESTS FOR THIS, SHOULD WORK NOW THOUGH
+            #-------------------------------------------
+            #print("NEW PERSON, his index is: " , i)
+            if(i % 2== 0): #Check the left side of generated table (check github repo's wiki-section for reference)               
+                # check two previous index and three next if exists
+                starting_value = i-2
+                ending_value = i+4
+                self.calculate_score_from_index(i, starting_value, ending_value)             
+            else:
+                starting_value = i-3
+                ending_value = i+3
+                self.calculate_score_from_index(i, starting_value, ending_value)
+            #-------------------------------------------
+            # DO PROPER TESTS ENDS
+            #-------------------------------------------
+    
+    def calculate_score_from_index(self, index, starting_value, ending_value):
+            participant_id = self.best_order[index]
+            for checked_index in range(starting_value, ending_value):        
+                    if((checked_index < len(self.best_order) and checked_index >= 0) and index != checked_index):
+                        checked_id_of_index = self.best_order[checked_index]
+                        #print("index in best order", checked_index)
+                        #print("id of best order: ", checked_id_of_index)
+                        self.final_score += self.score_table_2d[participant_id][checked_id_of_index]
 if __name__:
     print("Data generator is run in namespace")
     d = DataGenerator()
