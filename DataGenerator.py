@@ -155,21 +155,21 @@ class Participant:
 
 
 class ScoreCalculation(object):
-    def __init__(self, name_and_friend_list, male_first_names):
-        self.name_and_friend_list = name_and_friend_list
+    def __init__(self, anonymous_list, male_first_names):
+        self.anonymous_list = anonymous_list
         self.male_first_names = male_first_names.tolist()
         self.baseline_score = 0 # Generated ny shuffling the perfect order list
         self.best_score = 0
-        self.participant_list = []
+        self.participant_id_list = []
         self.best_order = []
         
         
         # Temporary solution, wil be deleted when score calcucalation is done
-        for i in range(0, len(name_and_friend_list)):
-            name = name_and_friend_list[i][0]
-            self.best_order.append(name)
-            self.participant_list.append(name) 
-        #random.shuffle(self.participant_list) # TODO remove
+        for i in range(0, len(anonymous_list)):
+            participant_id = anonymous_list[i][0]
+            self.best_order.append(participant_id)
+            self.participant_id_list.append(participant_id) 
+        #random.shuffle(self.participant_id_list) # TODO remove
         
         
         self.generate_empty_score_table_2d()
@@ -178,26 +178,25 @@ class ScoreCalculation(object):
     # Generate empty score table with starting base score of 10        
     def generate_empty_score_table_2d(self):
         self.score_table_2d= []
-        for i in range(0, len(self.participant_list)):
+        for i in range(0, len(self.participant_id_list)):
             tmp= []
-            for j in range(0, len(self.participant_list) ):
+            for j in range(0, len(self.participant_id_list) ):
                 tmp.append(10)
             self.score_table_2d.append(tmp)
             
     def add_scores_to_table(self):
-        for i in range(0, len(self.participant_list)):
-            front_name = self.participant_list[i].split(sep= " ", maxsplit=2)[0]
-            self.add_score_based_on_gender(i, front_name in self.male_first_names)
+        for i in range(0, len(self.participant_id_list)):
+            self.add_score_based_on_gender(i, self.anonymous_list[i][2])
             
     # checked_index: person who is checked
     # is_man: previusly checked that person's first name is found from list of men names
     def add_score_based_on_gender(self, checked_index, is_man):
-        same_gender_added_score = 2
-        for i in range(0, len(self.participant_list)):
-            #Take the front name 
-            front_name = self.participant_list[i].split(sep= " ", maxsplit=2)[0]
-            if (front_name in self.male_first_names and  is_man == False)or (front_name not in self.male_first_names and is_man == True) : #TODO this currently only supports men, not women
-                self.score_table_2d[checked_index][i] = self.score_table_2d[checked_index][i] + same_gender_added_score 
+        different_gender_score = 2
+        for i in range(0, len(self.participant_id_list)):
+            if(self.anonymous_list[i][2] != is_man):
+                previous_score = self.score_table_2d[checked_index][i] 
+                self.score_table_2d[checked_index][i] = previous_score + different_gender_score
+
     
     def calculate_score(self):
         print("asd")
