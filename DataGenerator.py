@@ -190,7 +190,7 @@ class PoolCreation(object):
                 new_pool = self.add_participant_to_new_pool(participant, new_pool, self.all_pools_list)
                 for x in range(0, len(participant_wishing_list)):
                     new_pool = self.add_participant_to_new_pool(participant_wishing_list[x], new_pool, self.all_pools_list)
-                print("all_pool_list_is_not_empty")
+                #print("all_pool_list_is_not_empty")
                 if(new_pool):    
                     self.all_pools_list.append(new_pool)
                     
@@ -198,7 +198,7 @@ class PoolCreation(object):
                         
                     
             else: # special case for the first pool
-                print("all_pools_list_is_empty") #TODO if this prints once, everything works
+                #print("all_pools_list_is_empty") 
                 new_pool.append(participant)
                 if(participant_wishing_list):
                     for j in range(0, len(participant_wishing_list)):
