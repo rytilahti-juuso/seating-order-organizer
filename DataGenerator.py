@@ -49,6 +49,28 @@ class DataGenerator(object):
             temp.append(self.generated_names[i])
             temp.append(friends)
             self.name_and_friend_list.append(temp)
+    
+    #Generate new target csv. This should be called only when you want to create external excel from pregenerated data. Added for convenience.
+    #name and friend list format: [['Juha Korhonen', ['Helena Korhonen', 'Matti Korhonen', 'Johanna Korhonen', 'Mikko Korhonen']], ...]
+    #Requires that the target exists #TODO create a new file if target file does not exist
+    #NOTE: #FIXME #TODO You may need to import the file with LibreOffice Calc and change it to correct format from .xlsx text import.
+    def generate_new_csv(self, name_and_friend_list):
+        print("New csv is being generated")
+        name = [] #Every participant's name in format: [name1, name2, ...]
+        wishes = [] #Wishes of every person in following format: [[wish_list_of_person_1], [wish_list_of_person_2], ...]
+        for i in range(0, len(name_and_friend_list)):
+            name.append(name_and_friend_list[i][0])
+            all_one_person_wishes_as_string = ''
+            for j in range(0, len(name_and_friend_list[i][1])): # Loop through all friends
+                wished_person_name = name_and_friend_list[i][1][j]
+                if(j != (len( name_and_friend_list[i][1])-1) ): # If person is last on the wished list, don't add comma to end    
+                    wished_person_name = wished_person_name + ", "
+                all_one_person_wishes_as_string += wished_person_name  
+            wishes.append(all_one_person_wishes_as_string)
+        dictionary = {'name': name, 'wishing_list': wishes}  
+        dataframe = pd.DataFrame(dictionary) 
+        dataframe.to_csv(r'C:\Users\rytil\Documents\Github\seating-order-organizer\target.xlsx')
+        
 
 
 class NecessaryListsFactory(object):
