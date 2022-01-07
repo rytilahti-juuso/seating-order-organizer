@@ -361,12 +361,19 @@ class ScoreCalculation(object):
     
 if __name__:
     print("Data generator is run in namespace")
-    d = DataGenerator()
-    nlf = NecessaryListsFactory(d.name_and_friend_list) #Necessary lists factory
+    #d = DataGenerator()
+    #nlf = NecessaryListsFactory(d.name_and_friend_list) #Necessary lists factory
+    #print(d.name_and_friend_list)
     #print(nlf.anonymous_list)
     #print(nlf.participant_list)
-    poolcreation = PoolCreation(nlf.anonymous_list)
-    imp = ImportDataFromExcel()
+    
+    ###IMPORT DUMMY DATA FROM EXCEL AND CREATE POOLS FROM THAT DATA ###################################
+    #imp = ImportDataFromExcel()
+    #nlf = NecessaryListsFactory(imp.data)
+    #poolcreation = PoolCreation(nlf.anonymous_list)
+    ###IMPORT DUMMY DATA FROM EXCEL AND CREATE POOLS FROM THAT DATA ENDS ###################################
+    
+    #print(poolcreation.all_pools_list)
     #s = ScoreCalculation(nlf.anonymous_list, d.male_first_names)
     #print(s.score_table_2d)
     #print(d.generated_order[10]][1)
