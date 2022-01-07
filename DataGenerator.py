@@ -314,7 +314,8 @@ if __name__:
     nlf = NecessaryListsFactory(d.name_and_friend_list) #Necessary lists factory
     #print(nlf.anonymous_list)
     #print(nlf.participant_list)
-    s = ScoreCalculation(nlf.anonymous_list, d.male_first_names)
+    poolcreation = PoolCreation(nlf.anonymous_list)
+    print(poolcreation.all_pools_list)
     #s = ScoreCalculation(nlf.anonymous_list, d.male_first_names)
     #print(s.score_table_2d)
     #print(d.generated_order[10]][1)
