@@ -71,7 +71,36 @@ class DataGenerator(object):
         dataframe = pd.DataFrame(dictionary) 
         dataframe.to_csv(r'C:\Users\rytil\Documents\Github\seating-order-organizer\target.xlsx')
         
-
+class ImportDataFromExcel(object):
+    def __init__(self):
+        print("Importing data from excel")
+        self.df = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\target.xlsx', header=None, names=('Name', 'Wishes'))
+        self.data = [] #Format [['Juha Korhonen', ['Helena Korhonen', 'Matti Korhonen', 'Johanna Korhonen', 'Mikko Korhonen']], ...]
+        names = self.df['Name'].values.tolist()
+        wishes = self.df['Wishes']
+        wishes = wishes.tolist()
+        for i in range(0, len(wishes)):
+            wishes_as_string = str(wishes[i])
+            wishes_as_list = self.convert_wishes_to_list(wishes_as_string)
+            row = [] #contains: person's_name, [wish_list], example row with all information: 'Juha Korhonen', ['Helena Korhonen', 'Matti Korhonen', 'Johanna Korhonen', 'Mikko Korhonen']
+            row.append(names[i])
+            row.append(wishes_as_list)
+            self.data.append(row)
+        self.data.pop(0) # Removes headers from the list ("name" and "[wishes]") 
+            
+            
+            
+        print("Data import has been completed!")
+    
+    def convert_wishes_to_list(self, wishes):
+        wishes =   wishes.split(",") if wishes else [] #return empty list if string is empty
+        #TODO item can contain extra space before the name ' Matti Korhonen', fix it
+        wishes = filter(None, wishes) # Remove all empty strings ('A', 'B', 'C', '')
+        wishes = list(filter(None, wishes))
+        if(len(wishes) == 1 and wishes[0] == 'nan'): # If wish list cell in excel is empty when importing, it defaults to 'nan'.
+            wishes = []
+        return wishes
+        
 
 class NecessaryListsFactory(object):
     
@@ -337,7 +366,7 @@ if __name__:
     #print(nlf.anonymous_list)
     #print(nlf.participant_list)
     poolcreation = PoolCreation(nlf.anonymous_list)
-    print(poolcreation.all_pools_list)
+    imp = ImportDataFromExcel()
     #s = ScoreCalculation(nlf.anonymous_list, d.male_first_names)
     #print(s.score_table_2d)
     #print(d.generated_order[10]][1)
