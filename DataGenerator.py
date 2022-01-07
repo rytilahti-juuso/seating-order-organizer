@@ -67,7 +67,7 @@ class DataGenerator(object):
                     wished_person_name = wished_person_name + ", "
                 all_one_person_wishes_as_string += wished_person_name  
             wishes.append(all_one_person_wishes_as_string)
-        dictionary = {'name': name, 'wishing_list': wishes}  
+        dictionary = {'Name': name, 'Wishes': wishes}  
         dataframe = pd.DataFrame(dictionary) 
         dataframe.to_csv(r'C:\Users\rytil\Documents\Github\seating-order-organizer\target.xlsx')
         
