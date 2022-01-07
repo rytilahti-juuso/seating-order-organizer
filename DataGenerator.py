@@ -160,28 +160,28 @@ class PoolCreation(object):
         self.all_pools_list = [] #contains all different pools
         print("pool creation has started")
         for i in range(0, len(anonymous_list)):
-            new_pool_list = []
+            new_pool = []
             ##TODO check that the references do not break
             participant = self.anonymous_list[i][0]
             participant_wishing_list = self.anonymous_list[i][1] 
             if(self.all_pools_list):
-                new_pool_list = self.add_participant_to_new_pool(participant, new_pool_list, self.all_pools_list)
+                new_pool = self.add_participant_to_new_pool(participant, new_pool, self.all_pools_list)
                 for x in range(0, len(participant_wishing_list)):
-                    new_pool_list = self.add_participant_to_new_pool(participant_wishing_list[x], new_pool_list, self.all_pools_list)
+                    new_pool = self.add_participant_to_new_pool(participant_wishing_list[x], new_pool, self.all_pools_list)
                 print("all_pool_list_is_not_empty")
-                if(new_pool_list):    
-                    self.all_pools_list.append(new_pool_list)
+                if(new_pool):    
+                    self.all_pools_list.append(new_pool)
                     
                     
                         
                     
             else: # special case for the first pool
                 print("all_pools_list_is_empty") #TODO if this prints once, everything works
-                new_pool_list.append(participant)
+                new_pool.append(participant)
                 if(participant_wishing_list):
                     for j in range(0, len(participant_wishing_list)):
-                        new_pool_list.append(participant_wishing_list[j])
-                self.all_pools_list.append(new_pool_list)
+                        new_pool.append(participant_wishing_list[j])
+                self.all_pools_list.append(new_pool)
     
 #participant_id: Id of the checked participant
 #pool: pool that is checked if it contains the given id                
@@ -315,6 +315,7 @@ if __name__:
     #print(nlf.anonymous_list)
     #print(nlf.participant_list)
     s = ScoreCalculation(nlf.anonymous_list, d.male_first_names)
+    #s = ScoreCalculation(nlf.anonymous_list, d.male_first_names)
     #print(s.score_table_2d)
     #print(d.generated_order[10]][1)
     #pf = ParticipantFactory()
