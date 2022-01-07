@@ -152,7 +152,64 @@ class Participant:
     seating_wish_list_without_spaces_and_caps: List[str] #TODO this can be mutated afterwards, convert to frozen dataclass object
     
     
+    #TODO pool creation
+class PoolCreation(object):
+    
+    def __init__(self, anonymous_list):
+        self.anonymous_list = anonymous_list
+        self.all_pools_list = [] #contains all different pools
+        print("pool creation has started")
+        for i in range(0, len(anonymous_list)):
+            new_pool_list = []
+            ##TODO check that the references do not break
+            participant = self.anonymous_list[i][0]
+            participant_wishing_list = self.anonymous_list[i][1] 
+            if(self.all_pools_list):
+                new_pool_list = self.add_participant_to_new_pool(participant, new_pool_list, self.all_pools_list)
+                for x in range(0, len(participant_wishing_list)):
+                    new_pool_list = self.add_participant_to_new_pool(participant_wishing_list[x], new_pool_list, self.all_pools_list)
+                print("all_pool_list_is_not_empty")
+                if(new_pool_list):    
+                    self.all_pools_list.append(new_pool_list)
+                    
+                    
+                        
+                    
+            else: # special case for the first pool
+                print("all_pools_list_is_empty") #TODO if this prints once, everything works
+                new_pool_list.append(participant)
+                if(participant_wishing_list):
+                    for j in range(0, len(participant_wishing_list)):
+                        new_pool_list.append(participant_wishing_list[j])
+                self.all_pools_list.append(new_pool_list)
+    
+#participant_id: Id of the checked participant
+#pool: pool that is checked if it contains the given id                
+    def is_participant_id_in_iterated_pool(self, pool, participant_id):
+        for i in range(len(pool)):
+            #print(pool[i])
+            #print(participant_id)
+            #print(pool[i] == participant_id)
+            if(pool[i] == participant_id):
+                return True
+        return False
 
+    def add_participant_to_new_pool(self, participant, new_pool, all_pools):
+        is_already_in_some_pool = self.is_participant_id_in_iterated_pool(new_pool, participant)
+        if(is_already_in_some_pool is False):    
+            for i in range(0, len(all_pools)):
+                iterated_pool = all_pools[i]
+                if(self.is_participant_id_in_iterated_pool(iterated_pool, participant)):
+                    is_already_in_some_pool = True
+                    break
+                #Else do nothing
+            if(is_already_in_some_pool is False): # Time to add a new pool
+                new_pool.append(participant)
+        return new_pool
+                        
+            
+        
+        
 
 class ScoreCalculation(object):
     def __init__(self, anonymous_list, male_first_names):
