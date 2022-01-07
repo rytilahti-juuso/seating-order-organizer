@@ -93,8 +93,8 @@ class ImportDataFromExcel(object):
         print("Data import has been completed!")
     
     def convert_wishes_to_list(self, wishes):
+        wishes = wishes.replace(", ", ",")
         wishes =   wishes.split(",") if wishes else [] #return empty list if string is empty
-        #TODO item can contain extra space before the name ' Matti Korhonen', fix it
         wishes = filter(None, wishes) # Remove all empty strings ('A', 'B', 'C', '')
         wishes = list(filter(None, wishes))
         if(len(wishes) == 1 and wishes[0] == 'nan'): # If wish list cell in excel is empty when importing, it defaults to 'nan'.
