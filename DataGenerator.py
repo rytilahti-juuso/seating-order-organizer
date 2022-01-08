@@ -110,6 +110,7 @@ class NecessaryListsFactory(object):
         self.participant_list = [] # Contains only participant objects
         self.dict_of_participants = {} # dictionary of participants, key value is participants name without spaces and caps
         self.anonymous_list = [] #TODO should this be a list or dictionary?
+        self.participants_ids_with_special_wishes = []
         self.generate_lists_from_name_and_wish_list()
         self.generate_anonymous_list()
         
@@ -124,14 +125,21 @@ class NecessaryListsFactory(object):
         for p in self.participant_list:
             individual_participant_and_wishes_list = [] # is anonymous using only id's
             individual_participant_and_wishes_list.append(p.id)
-            individual_participant_and_wishes_list.append(self.create_anonymous_seating_wish_list(p))
+            individual_participant_and_wishes_list.append(self.create_anonymous_seating_wish_list_and_special_wishes_list(p))
             individual_participant_and_wishes_list.append(p.is_man)
             self.anonymous_list.append(individual_participant_and_wishes_list)
     
-    def create_anonymous_seating_wish_list(self, p):
+    #p = Participant dataclass object
+    def create_anonymous_seating_wish_list_and_special_wishes_list(self, p):
         seating_wish_list = []
+        has_special_wishes = False
         for wish in p.seating_wish_list_without_spaces_and_caps:
-            seating_wish_list.append(self.dict_of_participants[wish].id)
+            if(wish in self.dict_of_participants): #If wish is typo or special wish (e.g old students) it should not be added to seating wish list (raises KeyError)     
+                seating_wish_list.append(self.dict_of_participants[wish].id)
+            else:
+                has_special_wishes = True
+        if(has_special_wishes):
+            self.participants_ids_with_special_wishes.append(p.id)
         return seating_wish_list
         
         
