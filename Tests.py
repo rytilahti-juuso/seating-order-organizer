@@ -12,6 +12,16 @@
 
 
 ####################################
+#           NecessaryListFactory
+####################################
+
+# Test that all lists are in sync
+
+# Test that asking for a wish that is not a participant (e.g. old students or bigger typos) does not raise an error
+
+# Participant having no wishes should not create an error 
+
+####################################
 #           Participant
 ####################################
 
