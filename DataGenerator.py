@@ -113,6 +113,8 @@ class NecessaryListsFactory(object):
         self.participants_ids_with_special_wishes = []
         self.generate_lists_from_name_and_wish_list()
         self.generate_anonymous_list()
+        pc = PoolCreation(self.anonymous_list)
+        self.participants_in_correct_order = self.generate_final_seating_list(self.participant_list, pc.all_pools_list)
         
     def generate_lists_from_name_and_wish_list(self):
         for i in range(0, len(self.name_and_wish_list)):
@@ -141,6 +143,19 @@ class NecessaryListsFactory(object):
         if(has_special_wishes):
             self.participants_ids_with_special_wishes.append(p.id)
         return seating_wish_list
+    
+    def generate_final_seating_list(self, participants, pools):
+        anonymous_flat_list = [item for sublist in pools for item in sublist]
+        result = [] # format, [name1, name2,...nameN]
+        for i in range(0, len(anonymous_flat_list)):
+            result.append(participants[i].full_name)
+        return result
+        
+        
+        
+        
+        
+    
         
         
 
