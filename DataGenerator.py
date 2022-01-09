@@ -5,6 +5,7 @@ Created on Thu Jul  8 16:00:54 2021
 @author: rytil
 """
 import pandas as pd
+import numpy as np
 import random
 from dataclasses import dataclass, field, astuple, asdict
 from typing import List
@@ -116,7 +117,9 @@ class NecessaryListsFactory(object):
         pc = PoolCreation(self.anonymous_list)
         self.all_pools = pc.all_pools_list
         self.seating_order = self.generate_final_seating_list(self.participant_list, pc.all_pools_list) # Participant full names are in correct seating order
-        
+        self.seating_order_with_ids = [item for sublist in self.all_pools for item in sublist]
+        self.names_with_color_rules = self.generate_color_rules(self.participant_list, self.participants_ids_with_special_wishes)
+        e = ExportData(nlf.seating_order, self.names_with_color_rules)
     def generate_lists_from_name_and_wish_list(self):
         for i in range(0, len(self.name_and_wish_list)):
             p = self.pf.create_participant_from_given_name(self.name_and_wish_list[i], i)
@@ -151,6 +154,14 @@ class NecessaryListsFactory(object):
         for i in range(0, len(anonymous_flat_list)):
             result.append(participants[anonymous_flat_list[i]].full_name)
         return result
+    
+    # Background of people with special wishes will be yellow 
+    def generate_color_rules(self, participants, participant_ids_with_special_wishes):
+        dict_of_participants_colors = {} # key: participants full name, value: style formatting settings
+        for i in range(0, len(participant_ids_with_special_wishes)):
+            name = participants[participant_ids_with_special_wishes[i]].full_name
+            dict_of_participants_colors[name] = 'background-color: yellow;'
+        return dict_of_participants_colors
         
         
         
@@ -283,7 +294,10 @@ class PoolCreation(object):
         return new_pool
                         
 class ExportData(object):
-    def __init__(self, participants_in_correct_order):
+    # participants_in_correct_order: ["name1","name2",... "nameN"]
+    # names_that_have_special_wishes: participants names that have special wishes. key: name, value: style formatting settings
+    def __init__(self, participants_in_correct_order, names_that_have_special_wishes):
+        self.names_that_have_special_wishes = names_that_have_special_wishes
         #TODO At later date this could be made more efficient
         left_side = []
         right_side = []
@@ -296,11 +310,27 @@ class ExportData(object):
         if(len(right_side) < len(left_side)): # ValueError: arrays must all be same length, and since they are added one by one to each side this is the only possible breaking point to produce error
             right_side.append("")
         dictionary = {'left_side': left_side, 'right_side': right_side}  
-        dataframe = pd.DataFrame(dictionary) 
-        dataframe.to_excel(r'C:\Users\rytil\Documents\Github\seating-order-organizer\out.xlsx',index=False)
-                
-        
-        
+        df = pd.DataFrame(dictionary)
+
+        self.df = df
+        df.style.apply(self.highlight_special_wishes, axis=None).to_excel(r'C:\Users\rytil\Documents\Github\seating-order-organizer\out.xlsx', sheet_name='seating_order',index=False, engine='openpyxl')
+
+    
+    def highlight_special_wishes(self, x):
+        #https://stackoverflow.com/questions/54019597/export-styled-pandas-data-frame-to-excel
+        #if not match return empty string
+        df1 = pd.DataFrame('', index=x.index, columns=x.columns)
+        #rewrite values by boolean masks
+        #df1['left_side'] = np.where(m1, 'background-color: {}'.format(r), df1['left_side'])
+        #df1['right_side'] = np.where(self.lol, 'background-color: red', df1['left_side'])
+        color = 'background-color: lightgreen; color: red'
+        for i in range(0, len(df1)):
+            if(x.at[i, 'left_side'] in self.names_that_have_special_wishes):
+                df1.at[i,'left_side'] = self.names_that_have_special_wishes[x.at[i, 'left_side']]
+            if(x.at[i, 'right_side'] in self.names_that_have_special_wishes):
+                df1.at[i,'right_side'] = self.names_that_have_special_wishes[x.at[i, 'right_side']]
+        return df1
+
 
 class ScoreCalculation(object):
     def __init__(self, anonymous_list, male_first_names):
