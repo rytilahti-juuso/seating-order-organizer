@@ -114,7 +114,8 @@ class NecessaryListsFactory(object):
         self.generate_lists_from_name_and_wish_list()
         self.generate_anonymous_list()
         pc = PoolCreation(self.anonymous_list)
-        self.participants_in_correct_order = self.generate_final_seating_list(self.participant_list, pc.all_pools_list)
+        self.all_pools = pc.all_pools_list
+        self.seating_order = self.generate_final_seating_list(self.participant_list, pc.all_pools_list) # Participant full names are in correct seating order
         
     def generate_lists_from_name_and_wish_list(self):
         for i in range(0, len(self.name_and_wish_list)):
@@ -148,7 +149,7 @@ class NecessaryListsFactory(object):
         anonymous_flat_list = [item for sublist in pools for item in sublist]
         result = [] # format, [name1, name2,...nameN]
         for i in range(0, len(anonymous_flat_list)):
-            result.append(participants[i].full_name)
+            result.append(participants[anonymous_flat_list[i]].full_name)
         return result
         
         
