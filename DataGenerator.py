@@ -5,6 +5,7 @@ Created on Thu Jul  8 16:00:54 2021
 @author: rytil
 """
 import pandas as pd
+import numpy as np
 import random
 from dataclasses import dataclass, field, astuple, asdict
 from typing import List
@@ -296,9 +297,33 @@ class ExportData(object):
         if(len(right_side) < len(left_side)): # ValueError: arrays must all be same length, and since they are added one by one to each side this is the only possible breaking point to produce error
             right_side.append("")
         dictionary = {'left_side': left_side, 'right_side': right_side}  
-        dataframe = pd.DataFrame(dictionary) 
-        dataframe.to_excel(r'C:\Users\rytil\Documents\Github\seating-order-organizer\out.xlsx',index=False)
-                
+        df = pd.DataFrame(dictionary)
+        #df.style.apply('background-color: red')
+        #df.style.applymap(self.color_rule, subset=['left_side','right_side'])
+        #df.style.apply(highlight_greater, axis=None).to_excel('df.xlsx', engine='openpyxl')
+        self.df = df
+        df.style.apply(self.highlight_greater, axis=None).to_excel(r'C:\Users\rytil\Documents\Github\seating-order-organizer\out.xlsx', sheet_name='seating_order',index=False, engine='openpyxl')
+        
+    def color_rule(val):
+        color = 'red'
+        return 'color: %s' % color
+    
+    def highlight_greater(self, x):
+        r = 'red'
+        g = 'gray'
+        
+        m1 = True
+        #m1 = x['B'] > x['C']
+        #m2 = x['D'] > x['E']
+
+        #if not match return empty string
+        df1 = pd.DataFrame('', index=x.index, columns=x.columns)
+        #rewrite values by boolean masks
+        df1['left_side'] = np.where(m1, 'background-color: {}'.format(r), df1['left_side'])
+        #df1['D'] = np.where(m2, 'background-color: {}'.format(g), df1['D'])
+        return df1
+
+
         
         
 
