@@ -50,11 +50,11 @@ class DataGenerator(object):
             temp.append(friends)
             self.name_and_friend_list.append(temp)
     
-    #Generate new target csv. This should be called only when you want to create external excel from pregenerated data. Added for convenience.
+    # Write_new_dummy_data_to_target_excel This should be called only when you want to create external excel from pregenerated data. Added for convenience.
     #name and friend list format: [['Juha Korhonen', ['Helena Korhonen', 'Matti Korhonen', 'Johanna Korhonen', 'Mikko Korhonen']], ...]
     #Requires that the target exists #TODO create a new file if target file does not exist
     #NOTE: #FIXME #TODO You may need to import the file with LibreOffice Calc and change it to correct format from .xlsx text import.
-    def generate_new_csv(self, name_and_friend_list):
+    def write_new_dummy_data_to_target_excel(self, name_and_friend_list):
         print("New csv is being generated")
         name = [] #Every participant's name in format: [name1, name2, ...]
         wishes = [] #Wishes of every person in following format: [[wish_list_of_person_1], [wish_list_of_person_2], ...]
@@ -69,7 +69,7 @@ class DataGenerator(object):
             wishes.append(all_one_person_wishes_as_string)
         dictionary = {'Name': name, 'Wishes': wishes}  
         dataframe = pd.DataFrame(dictionary) 
-        dataframe.to_csv(r'C:\Users\rytil\Documents\Github\seating-order-organizer\target.xlsx')
+        dataframe.to_excel(r'C:\Users\rytil\Documents\Github\seating-order-organizer\target.xlsx', index = False)
         
 class ImportDataFromExcel(object):
     def __init__(self):
