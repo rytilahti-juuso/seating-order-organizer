@@ -282,7 +282,23 @@ class PoolCreation(object):
                 new_pool.append(participant)
         return new_pool
                         
-            
+class ExportData(object):
+    def __init__(self, participants_in_correct_order):
+        #TODO At later date this could be made more efficient
+        left_side = []
+        right_side = []
+        for i in range(0, len(participants_in_correct_order)):
+            if(i % 2== 0):
+                #add to left side
+                left_side.append(participants_in_correct_order[i])
+            else:
+                right_side.append(participants_in_correct_order[i])
+        if(len(right_side) < len(left_side)): # ValueError: arrays must all be same length, and since they are added one by one to each side this is the only possible breaking point to produce error
+            right_side.append("")
+        dictionary = {'left_side': left_side, 'right_side': right_side}  
+        dataframe = pd.DataFrame(dictionary) 
+        dataframe.to_excel(r'C:\Users\rytil\Documents\Github\seating-order-organizer\out.xlsx',index=False)
+                
         
         
 
