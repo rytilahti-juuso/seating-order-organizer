@@ -119,7 +119,8 @@ class NecessaryListsFactory(object):
         self.seating_order = self.generate_final_seating_list(self.participant_list, pc.all_pools_list) # Participant full names are in correct seating order
         self.seating_order_with_ids = [item for sublist in self.all_pools for item in sublist]
         self.names_with_color_rules = self.generate_color_rules(self.participant_list, self.participants_ids_with_special_wishes)
-        e = ExportData(nlf.seating_order, self.names_with_color_rules)
+        e = ExportData(self.seating_order, self.names_with_color_rules)
+        
     def generate_lists_from_name_and_wish_list(self):
         for i in range(0, len(self.name_and_wish_list)):
             p = self.pf.create_participant_from_given_name(self.name_and_wish_list[i], i)
