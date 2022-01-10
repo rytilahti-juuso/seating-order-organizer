@@ -186,10 +186,7 @@ class NecessaryListsFactory(object):
                 background_color = 'background-color: #BFD1DF;'
             elif(i % 5 == 4):
                 background_color = 'background-color: #C1BFB5;'
-            #More colors if needed
-            #f1c5ae
-            #35455d
-            #D3D3D3
+            #More colors if needed, #f1c5ae, #35455d, #D3D3D3
             for j in range(0, len(all_pools[i])):
                 id_of_p = all_pools[i][j] # id of participant
                 name = participants[id_of_p].full_name
