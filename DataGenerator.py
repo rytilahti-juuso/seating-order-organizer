@@ -107,6 +107,11 @@ class NecessaryListsFactory(object):
     
     def __init__(self, name_and_wish_list):
         random.shuffle(name_and_wish_list) # This shuffle is done because without it the first and last who signed up for the event would always sit in at the end of the table! 
+        participant_names = [i[0] for i in name_and_wish_list]
+        self.duplicate_names_without_typos = {}
+        if(len(participant_names) != len(set(participant_names))):
+            self.duplicate_names_without_typos = self.get_duplicates_without_typos(name_and_wish_list)
+            
         self.name_and_wish_list = name_and_wish_list
         self.pf = ParticipantFactory()
         self.participant_list = [] # Contains only participant objects
@@ -121,10 +126,35 @@ class NecessaryListsFactory(object):
         self.seating_order_with_ids = [item for sublist in self.all_pools for item in sublist]
         self.names_with_color_rules = self.generate_color_rules(self.participant_list, self.participants_ids_with_special_wishes, self.all_pools)
         e = ExportData(self.seating_order, self.names_with_color_rules)
+    
+    def get_duplicates_without_typos(self, name_and_wish_list):
+        duplicate_names = {}
+        for i in range(0, len(name_and_wish_list)):
+            for j in range(0, len(name_and_wish_list)):
+                name1 = name_and_wish_list[i][0].lower()
+                tmp = re.sub("\s+", "", name1.strip())
+                name2 =  name_and_wish_list[j][0].lower()
+                tmp2 = re.sub("\s+", "", name2.strip())
+                if(tmp == tmp2 and j > i): #Strings are the same, indexes are not the same and item at index j has not yet compared with item in index i
+                    if(tmp in duplicate_names.keys()):
+                        # Quite ugly way of doing this but seems to work
+                        name_list = duplicate_names[tmp]
+                        if(i not in name_list):    
+                            name_list.append(i)
+                        if(j not in name_list):
+                            name_list.append(j)
+                        duplicate_names[tmp] = name_list
+                    else:         
+                        names = []
+                        names.append(i)
+                        duplicate_names[tmp] = names
+        return duplicate_names
+        
+        
         
     def generate_lists_from_name_and_wish_list(self):
         for i in range(0, len(self.name_and_wish_list)):
-            p = self.pf.create_participant_from_given_name(self.name_and_wish_list[i], i)
+            p = self.pf.create_participant_from_given_name(self.name_and_wish_list[i], i, self.duplicate_names_without_typos)
             self.dict_of_participants[p.name_without_typos] = p
             self.participant_list.append(p)
     
@@ -205,7 +235,7 @@ class ParticipantFactory(object):
         
     # Returns new Participant object with necessary information
     # Participant is list containing name and and friend list, where elements are [<participant fullname>, <seating order wishes>]
-    def create_participant_from_given_name(self, participant_and_wishes_list, id):
+    def create_participant_from_given_name(self, participant_and_wishes_list, id, duplicate_names_without_typos):
         ######################
         # Participant's name
         ######################
@@ -213,6 +243,10 @@ class ParticipantFactory(object):
         first_name = self.generate_first_name(full_name)
         last_name = self.generate_last_name(full_name)
         name_without_typos = self.generate_name_without_spaces_and_caps(full_name)
+        if(name_without_typos in duplicate_names_without_typos):
+            d_names = duplicate_names_without_typos[name_without_typos]
+            if(id in d_names):
+                name_without_typos = name_without_typos +  str(id)
         is_man = first_name in self.male_first_names
          
         
