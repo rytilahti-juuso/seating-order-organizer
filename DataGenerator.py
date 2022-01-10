@@ -119,7 +119,7 @@ class NecessaryListsFactory(object):
         self.all_pools = pc.all_pools_list
         self.seating_order = self.generate_final_seating_list(self.participant_list, pc.all_pools_list) # Participant full names are in correct seating order
         self.seating_order_with_ids = [item for sublist in self.all_pools for item in sublist]
-        self.names_with_color_rules = self.generate_color_rules(self.participant_list, self.participants_ids_with_special_wishes)
+        self.names_with_color_rules = self.generate_color_rules(self.participant_list, self.participants_ids_with_special_wishes, self.all_pools)
         e = ExportData(self.seating_order, self.names_with_color_rules)
         
     def generate_lists_from_name_and_wish_list(self):
@@ -158,11 +158,33 @@ class NecessaryListsFactory(object):
         return result
     
     # Background of people with special wishes will be yellow 
-    def generate_color_rules(self, participants, participant_ids_with_special_wishes):
+    def generate_color_rules(self, participants, participant_ids_with_special_wishes, all_pools):
         dict_of_participants_colors = {} # key: participants full name, value: style formatting settings
         for i in range(0, len(participant_ids_with_special_wishes)):
             name = participants[participant_ids_with_special_wishes[i]].full_name
-            dict_of_participants_colors[name] = 'background-color: yellow;'
+            dict_of_participants_colors[name] = 'color: red;' #TODO change that this changes border instead of font color
+        
+        for j in range(0, len(all_pools)):
+            background_color= ''
+            if(j % 4 == 0):
+                background_color = 'background-color: #ECDDD0;'
+            elif(j % 4 == 1):
+                background_color = 'background-color: #92b1b6;'
+            elif(j % 4 == 2):
+                background_color = 'background-color: #CED2C2;'
+            elif(j % 4 == 3):
+                background_color = 'background-color: #BFD1DF;'
+            #More colors if needed
+            #D3D3D3
+            #f1c5ae
+            #35455d
+            for k in range(0, len(all_pools[j])):
+                id_of_p = all_pools[j][k] # id of participant
+                name = participants[id_of_p].full_name
+                if(name in dict_of_participants_colors):
+                    dict_of_participants_colors[name] += background_color
+                else:    
+                    dict_of_participants_colors[name] = background_color
         return dict_of_participants_colors
         
         
