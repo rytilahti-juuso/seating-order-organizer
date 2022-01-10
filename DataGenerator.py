@@ -176,14 +176,16 @@ class NecessaryListsFactory(object):
     def set_background_color_by_sub_group(self, participants, all_pools, dict_of_participants_colors):
         for i in range(0, len(all_pools)):
             background_color= ''
-            if(i % 4 == 0):
+            if(i % 5 == 0):
                 background_color = 'background-color: #ECDDD0;'
-            elif(i % 4 == 1):
+            elif(i % 5 == 1):
                 background_color = 'background-color: #92b1b6;'
-            elif(i % 4 == 2):
+            elif(i % 5 == 2):
                 background_color = 'background-color: #CED2C2;'
-            elif(i % 4 == 3):
+            elif(i % 5 == 3):
                 background_color = 'background-color: #BFD1DF;'
+            elif(i % 5 == 4):
+                background_color = 'background-color: #C1BFB5;'
             #More colors if needed
             #f1c5ae
             #35455d
