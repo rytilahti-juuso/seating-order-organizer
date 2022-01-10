@@ -106,6 +106,7 @@ class ImportDataFromExcel(object):
 class NecessaryListsFactory(object):
     
     def __init__(self, name_and_wish_list):
+        random.shuffle(name_and_wish_list) # This shuffle is done because without it the first and last who signed up for the event would always sit in at the end of the table! 
         self.name_and_wish_list = name_and_wish_list
         self.pf = ParticipantFactory()
         self.participant_list = [] # Contains only participant objects
