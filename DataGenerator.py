@@ -107,6 +107,10 @@ class NecessaryListsFactory(object):
     
     def __init__(self, name_and_wish_list):
         random.shuffle(name_and_wish_list) # This shuffle is done because without it the first and last who signed up for the event would always sit in at the end of the table! 
+        # If participant list has duplicates, return and print error message
+        if(self.has_participant_list_duplicates(name_and_wish_list)):
+            return
+        
         self.name_and_wish_list = name_and_wish_list
         self.pf = ParticipantFactory()
         self.participant_list = [] # Contains only participant objects
@@ -121,7 +125,48 @@ class NecessaryListsFactory(object):
         self.seating_order_with_ids = [item for sublist in self.all_pools for item in sublist]
         self.names_with_color_rules = self.generate_color_rules(self.participant_list, self.participants_ids_with_special_wishes, self.all_pools)
         e = ExportData(self.seating_order, self.names_with_color_rules)
-        
+    
+    ###########################################
+    #         Handle duplicates STARTS        #
+    ###########################################
+    
+    #returns True if there are duplicates. Also prints error message which lists participants with duplicate names
+    def has_participant_list_duplicates(self, name_and_wish_list):
+        participant_names = [i[0] for i in name_and_wish_list] 
+        duplicate_names_without_typos = {} 
+        if(len(participant_names) != len(set(participant_names))):
+            duplicate_names_without_typos = self.get_duplicates_without_typos(name_and_wish_list)
+            print(self.get_duplicate_error_message(duplicate_names_without_typos))
+            return True
+        return False
+    #returns: dictionary, key:name_without_typos, value:full_name_with_typos
+    def get_duplicates_without_typos(self, name_and_wish_list): 
+        duplicate_names = {} 
+        for i in range(0, len(name_and_wish_list)): 
+            for j in range(0, len(name_and_wish_list)): 
+                name1 = name_and_wish_list[i][0].lower() 
+                tmp = re.sub("\s+", "", name1.strip()) 
+                name2 =  name_and_wish_list[j][0].lower() 
+                tmp2 = re.sub("\s+", "", name2.strip()) 
+                if(tmp == tmp2 and j > i): #Strings are the same       
+                    name = name_and_wish_list[i][0] 
+                    duplicate_names[tmp] = name
+        return duplicate_names
+    
+    def get_duplicate_error_message(self, duplicate_names_without_typos):
+        error_message = 'There are some duplicates, deal with them first! The duplicate participants are: '
+        i = 0
+        for item in duplicate_names_without_typos:
+            if(i == 0): 
+                error_message += duplicate_names_without_typos[item]
+            else:    
+                error_message += ', ' + duplicate_names_without_typos[item]
+            i += 1
+        return(error_message)
+    ###########################################
+    #         Handle duplicates ENDS          #
+    ###########################################        
+    
     def generate_lists_from_name_and_wish_list(self):
         for i in range(0, len(self.name_and_wish_list)):
             p = self.pf.create_participant_from_given_name(self.name_and_wish_list[i], i)
