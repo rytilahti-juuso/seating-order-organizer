@@ -110,6 +110,7 @@ class NecessaryListsFactory(object):
         participant_names = [i[0] for i in name_and_wish_list]
         self.duplicate_names_without_typos = {}
         if(len(participant_names) != len(set(participant_names))):
+            print('Data has duplicates, do something!')
             self.duplicate_names_without_typos = self.get_duplicates_without_typos(name_and_wish_list)
             
         self.name_and_wish_list = name_and_wish_list
@@ -244,9 +245,17 @@ class ParticipantFactory(object):
         last_name = self.generate_last_name(full_name)
         name_without_typos = self.generate_name_without_spaces_and_caps(full_name)
         if(name_without_typos in duplicate_names_without_typos):
+            print("IM HERE")
+            print(duplicate_names_without_typos[name_without_typos])
+            print(id)
+            ## TODO LOOP THORUGH LIST
             d_names = duplicate_names_without_typos[name_without_typos]
             if(id in d_names):
                 name_without_typos = name_without_typos +  str(id)
+                full_name = participant_and_wishes_list[0]+str(id)
+                print('ILKITYO ONNISTUI')
+                print(name_without_typos)
+            
         is_man = first_name in self.male_first_names
          
         
@@ -254,7 +263,7 @@ class ParticipantFactory(object):
         # wish list
         ######################
         wish_list = participant_and_wishes_list[1]
-        wish_list_without_spaces_and_caps = self.generate_wish_list_without_spaces_and_caps(wish_list)
+        wish_list_without_spaces_and_caps = self.generate_wish_list_without_spaces_and_caps(wish_list, duplicate_names_without_typos)
         
         p = Participant(id, full_name, first_name, last_name, name_without_typos, is_man, wish_list, wish_list_without_spaces_and_caps)
         return p
@@ -279,10 +288,21 @@ class ParticipantFactory(object):
         tmp = re.sub("\s+", "", tmp.strip())
         return tmp
     
-    def generate_wish_list_without_spaces_and_caps(self, wish_list):
+    def generate_wish_list_without_spaces_and_caps(self, wish_list, duplicate_names_without_typos):
         wish_list_without_spaces_and_caps = []
         for name in wish_list:
-            wish_list_without_spaces_and_caps.append(self.generate_name_without_spaces_and_caps(name))
+            name_without_typos = self.generate_name_without_spaces_and_caps(name)
+            if(name_without_typos in duplicate_names_without_typos):
+                d_names = duplicate_names_without_typos[name_without_typos]
+                for i in d_names:
+                    d_name_with_id = name_without_typos + str(i)
+                    wish_list_without_spaces_and_caps.append(d_name_with_id)
+            else:    
+                wish_list_without_spaces_and_caps.append(name_without_typos)
+        print("WISHLIST STARTS")
+        for name in wish_list_without_spaces_and_caps:
+            print(name)
+        print('WISHLIST ENDS')
         return wish_list_without_spaces_and_caps
 
 @dataclass(frozen = True) #TODO change this class to be frozen
