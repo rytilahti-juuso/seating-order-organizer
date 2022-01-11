@@ -503,7 +503,7 @@ class ScoreCalculation(object):
         return (checked_index < length_of_array and checked_index >= 0)
     
 if __name__:
-    print("Data generator is run in namespace")
+    print('Code is run trough namespace')
     #d = DataGenerator()
     #nlf = NecessaryListsFactory(d.name_and_friend_list) #Necessary lists factory
     #print(d.name_and_friend_list)
