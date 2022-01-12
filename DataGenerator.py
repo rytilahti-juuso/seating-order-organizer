@@ -70,12 +70,12 @@ class DataGenerator(object):
             wishes.append(all_one_person_wishes_as_string)
         dictionary = {'Name': name, 'Wishes': wishes}  
         dataframe = pd.DataFrame(dictionary) 
-        dataframe.to_excel(r'C:\Users\rytil\Documents\Github\seating-order-organizer\target.xlsx', index = False)
+        dataframe.to_excel(r'C:\Users\rytil\Documents\Github\seating-order-organizer\input-participant-and_wishing-list.xlsx', index = False)
         
 class ImportDataFromExcel(object):
     def __init__(self):
         print("Importing data from excel")
-        self.df = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\target.xlsx', header=None, names=('Name', 'Wishes'))
+        self.df = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\input-participant-and_wishing-list.xlsx', header=None, names=('Name', 'Wishes'))
         self.data = [] #Format [['Juha Korhonen', ['Helena Korhonen', 'Matti Korhonen', 'Johanna Korhonen', 'Mikko Korhonen']], ...]
         names = self.df['Name'].values.tolist()
         wishes = self.df['Wishes']
@@ -386,7 +386,7 @@ class ExportData(object):
         df = pd.DataFrame(dictionary)
 
         self.df = df
-        df.style.apply(self.highlight_special_wishes, axis=None).to_excel(r'C:\Users\rytil\Documents\Github\seating-order-organizer\out.xlsx', sheet_name='seating_order',index=False, engine='openpyxl')
+        df.style.apply(self.highlight_special_wishes, axis=None).to_excel(r'C:\Users\rytil\Documents\Github\seating-order-organizer\output-seating-order.xlsx', sheet_name='seating_order',index=False, engine='openpyxl')
 
     
     def highlight_special_wishes(self, x):
