@@ -51,8 +51,8 @@
 
 # Add all wishes to same pool.
 
-# If participant have wish and that wish have someone he wished, add them to same pool.
-#  e.g. [0, [1, 2]] and [1, [0, 2, 5]] will be in the same pool (all_pools = [ [0,1,2,5], [pool2],... [poolN] ])
+# If participant have wish and that wish have someone he wished, add them to same pool, and support for even deeper nesting.
+#  e.g. [0, [1, 2]],[1, [0, 2, 5]] and [5, [7]] will be in the same pool (all_pools = [ [0,1,2,5,7], [pool2],... [poolN] ])
 
 # TODO: Specify mutual and non mutual wishes to different array.
 
