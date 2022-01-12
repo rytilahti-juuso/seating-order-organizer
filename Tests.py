@@ -43,6 +43,18 @@
     
     # is_man is working with correct, test with man and woman names
 
+####################################
+#           PoolCreation
+####################################
+
+# Check that there are no duplicates in the pools.
+
+# Add all wishes to same pool.
+
+# If participant have wish and that wish have someone he wished, add them to same pool.
+#  e.g. [0, [1, 2]] and [1, [0, 2, 5]] will be in the same pool (all_pools = [ [0,1,2,5], [pool2],... [poolN] ])
+
+# TODO: Specify mutual and non mutual wishes to different array.
 
 ####################################
 #           ScoreCalculation

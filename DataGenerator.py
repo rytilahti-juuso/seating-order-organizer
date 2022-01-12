@@ -322,49 +322,52 @@ class PoolCreation(object):
             new_pool = []
             ##TODO check that the references do not break
             participant = self.anonymous_list[i][0]
-            participant_wishing_list = self.anonymous_list[i][1] 
-            if(self.all_pools_list):
-                new_pool = self.add_participant_to_new_pool(participant, new_pool, self.all_pools_list)
-                for x in range(0, len(participant_wishing_list)):
-                    new_pool = self.add_participant_to_new_pool(participant_wishing_list[x], new_pool, self.all_pools_list)
-                #print("all_pool_list_is_not_empty")
-                if(new_pool):    
+            participant_wishing_list = self.anonymous_list[i][1]
+            if(self.all_pools_list): 
+                #Check all existing pools
+                duplicate_pools_to_be_removed = []
+                for x in range(len(self.all_pools_list)):
+                    pool = self.all_pools_list[x]
+                    if participant in pool:
+                        # they should not be the same object
+                        duplicate_pools_to_be_removed.append(pool)
+                        new_pool = new_pool + pool
+                    wishes_to_be_deleted = []    
+                    for wish in participant_wishing_list:
+                        #Combine the pools if necessary
+                        if(wish in pool and participant not in pool):
+                            if(pool not in duplicate_pools_to_be_removed):
+                                duplicate_pools_to_be_removed.append(pool)    
+                            new_pool =  pool + new_pool
+                            wishes_to_be_deleted.append(wish)
+                    # Remove already added wishes
+                    for dele in wishes_to_be_deleted:
+                        participant_wishing_list.remove(dele)
+                # Remove duplicate pools
+                for dup in duplicate_pools_to_be_removed:
+                    if(dup in self.all_pools_list):
+                        self.all_pools_list.remove(dup)
+                
+                # Add participant to new_pool if he is not in the new_pool
+                if participant not in new_pool:
+                    new_pool.append(participant)
+                #Add rest of the wishing list to new_pool
+                if(participant_wishing_list):
+                    for part in participant_wishing_list:
+                        if(part not in new_pool):
+                            new_pool.append(part)
+                #Finally, add new pool to all_pools
+                if(new_pool):
                     self.all_pools_list.append(new_pool)
-                    
-                    
-                        
-                    
             else: # special case for the first pool
-                #print("all_pools_list_is_empty") 
                 new_pool.append(participant)
                 if(participant_wishing_list):
                     for j in range(0, len(participant_wishing_list)):
                         new_pool.append(participant_wishing_list[j])
                 self.all_pools_list.append(new_pool)
+        print('Pools have been created!')
+        
     
-#participant_id: Id of the checked participant
-#pool: pool that is checked if it contains the given id                
-    def is_participant_id_in_iterated_pool(self, pool, participant_id):
-        for i in range(len(pool)):
-            #print(pool[i])
-            #print(participant_id)
-            #print(pool[i] == participant_id)
-            if(pool[i] == participant_id):
-                return True
-        return False
-
-    def add_participant_to_new_pool(self, participant, new_pool, all_pools):
-        is_already_in_some_pool = self.is_participant_id_in_iterated_pool(new_pool, participant)
-        if(is_already_in_some_pool is False):    
-            for i in range(0, len(all_pools)):
-                iterated_pool = all_pools[i]
-                if(self.is_participant_id_in_iterated_pool(iterated_pool, participant)):
-                    is_already_in_some_pool = True
-                    break
-                #Else do nothing
-            if(is_already_in_some_pool is False): # Time to add a new pool
-                new_pool.append(participant)
-        return new_pool
                         
 class ExportData(object):
     # participants_in_correct_order: ["name1","name2",... "nameN"]
@@ -387,7 +390,7 @@ class ExportData(object):
 
         self.df = df
         df.style.apply(self.highlight_special_wishes, axis=None).to_excel(r'C:\Users\rytil\Documents\Github\seating-order-organizer\output-seating-order.xlsx', sheet_name='seating_order',index=False, engine='openpyxl')
-
+        print('Data export succesfully completed!')
     
     def highlight_special_wishes(self, x):
         #https://stackoverflow.com/questions/54019597/export-styled-pandas-data-frame-to-excel
