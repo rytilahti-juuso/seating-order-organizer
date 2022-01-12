@@ -462,13 +462,23 @@ class ScoreCalculation(object):
             seating_wish_id = seating_wishes[i]
             self.score_table_2d[checked_index][seating_wish_id] += friend_score
                         
-# Index numbers for helping to visualise seating order
+# Index numbers for helping to visualise seating order # DEPRECATED, #FIXME
+#Old way:
 #0, 1
 #3, 2
 #4, 5
 #7, 6
 #8, 9
 #11, 10
+# I changed it to go more logically in the actual algorithm, so score calculation needs to be done in the following way:
+#New way:
+#0, 1
+#2, 3
+#4, 5
+#6, 7
+#8, 9
+#11, 10
+# Note: I think this only affects to gender score calculation though, so it maybe does not needed to be fixed.
     # sets self.final_score to 0 and after that calculates the correct score
     def calculate_score(self):        
         self.final_score = 0
