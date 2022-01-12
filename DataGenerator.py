@@ -323,9 +323,7 @@ class PoolCreation(object):
             ##TODO check that the references do not break
             participant = self.anonymous_list[i][0]
             participant_wishing_list = self.anonymous_list[i][1]
-            #print('starting to check new participant')
-            if(self.all_pools_list):
-                
+            if(self.all_pools_list): 
                 #Check all existing pools
                 duplicate_pools_to_be_removed = []
                 for x in range(len(self.all_pools_list)):
@@ -360,19 +358,14 @@ class PoolCreation(object):
                             new_pool.append(part)
                 #Finally, add new pool to all_pools
                 if(new_pool):
-                    #new_pool = list(set(new_pool))
                     self.all_pools_list.append(new_pool)
-                    #print(len(self.all_pools_list))
-   
-                        
-                    
             else: # special case for the first pool
-                print("all_pools_list_is_empty") 
                 new_pool.append(participant)
                 if(participant_wishing_list):
                     for j in range(0, len(participant_wishing_list)):
                         new_pool.append(participant_wishing_list[j])
                 self.all_pools_list.append(new_pool)
+        print('Pools have been created!')
         
     
                         
@@ -397,7 +390,7 @@ class ExportData(object):
 
         self.df = df
         df.style.apply(self.highlight_special_wishes, axis=None).to_excel(r'C:\Users\rytil\Documents\Github\seating-order-organizer\output-seating-order.xlsx', sheet_name='seating_order',index=False, engine='openpyxl')
-
+        print('Data export succesfully completed!')
     
     def highlight_special_wishes(self, x):
         #https://stackoverflow.com/questions/54019597/export-styled-pandas-data-frame-to-excel
