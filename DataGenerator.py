@@ -358,14 +358,15 @@ class PoolCreation(object):
                         self.all_pools_list.remove(dup)
                 #Add rest of the wishing list to new_pool
                 if(participant_wishing_list):
-                    print(participant_wishing_list)
-                    new_pool = new_pool +participant_wishing_list
+                    for part in participant_wishing_list:
+                        if(part not in new_pool):
+                            new_pool.append(part)
                 # Add participant to new_pool if he is not in the new_pool
                 if participant not in new_pool:
                     new_pool.append(participant)
                 #Finally, add new pool to all_pools
                 if(new_pool):
-                    new_pool = list(set(new_pool))
+                    #new_pool = list(set(new_pool))
                     self.all_pools_list.append(new_pool)
                     #print(len(self.all_pools_list))
    
