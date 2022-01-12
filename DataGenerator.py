@@ -322,20 +322,57 @@ class PoolCreation(object):
             new_pool = []
             ##TODO check that the references do not break
             participant = self.anonymous_list[i][0]
-            participant_wishing_list = self.anonymous_list[i][1] 
+            participant_wishing_list = self.anonymous_list[i][1]
+            #print('starting to check new participant')
             if(self.all_pools_list):
-                new_pool = self.add_participant_to_new_pool(participant, new_pool, self.all_pools_list)
-                for x in range(0, len(participant_wishing_list)):
-                    new_pool = self.add_participant_to_new_pool(participant_wishing_list[x], new_pool, self.all_pools_list)
-                #print("all_pool_list_is_not_empty")
-                if(new_pool):    
+                #print(self.all_pools_list)
+                #TODO: Check if participant is already in some pool, fi he is, add all his wishes to that pool also and remove duplicates from that pool
+                #TODO convert to map
+                
+                #Check all existing pools
+                duplicate_pools_to_be_removed = []
+                for x in range(len(self.all_pools_list)):
+                    pool = self.all_pools_list[x]
+                    if participant in pool:
+                        # they should not be the same object
+                        duplicate_pools_to_be_removed.append(pool)
+                        new_pool = new_pool + pool
+                    wishes_to_be_deleted = []    
+                    for wish in participant_wishing_list:
+                        #Combine the pools if necessary
+                        if(wish in pool and participant not in pool):
+                            print(pool)
+                            print("sdfs")
+                            if(pool not in duplicate_pools_to_be_removed):
+                                duplicate_pools_to_be_removed.append(pool)    
+                            new_pool = new_pool + pool
+                            wishes_to_be_deleted.append(wish)
+                    # Remove already added wishes
+                    for dele in wishes_to_be_deleted:
+                        print(len(participant_wishing_list))
+                        participant_wishing_list.remove(dele)
+                        print(len(participant_wishing_list))
+                # Remove duplicate pools
+                for dup in duplicate_pools_to_be_removed:
+                    if(dup in self.all_pools_list):
+                        self.all_pools_list.remove(dup)
+                #Add rest of the wishing list to new_pool
+                if(participant_wishing_list):
+                    print(participant_wishing_list)
+                    new_pool = new_pool +participant_wishing_list
+                # Add participant to new_pool if he is not in the new_pool
+                if participant not in new_pool:
+                    new_pool.append(participant)
+                #Finally, add new pool to all_pools
+                if(new_pool):
+                    new_pool = list(set(new_pool))
                     self.all_pools_list.append(new_pool)
-                    
-                    
+                    #print(len(self.all_pools_list))
+   
                         
                     
             else: # special case for the first pool
-                #print("all_pools_list_is_empty") 
+                print("all_pools_list_is_empty") 
                 new_pool.append(participant)
                 if(participant_wishing_list):
                     for j in range(0, len(participant_wishing_list)):
