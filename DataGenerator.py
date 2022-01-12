@@ -373,30 +373,8 @@ class PoolCreation(object):
                     for j in range(0, len(participant_wishing_list)):
                         new_pool.append(participant_wishing_list[j])
                 self.all_pools_list.append(new_pool)
+        
     
-#participant_id: Id of the checked participant
-#pool: pool that is checked if it contains the given id                
-    def is_participant_id_in_iterated_pool(self, pool, participant_id):
-        for i in range(len(pool)):
-            #print(pool[i])
-            #print(participant_id)
-            #print(pool[i] == participant_id)
-            if(pool[i] == participant_id):
-                return True
-        return False
-
-    def add_participant_to_new_pool(self, participant, new_pool, all_pools):
-        is_already_in_some_pool = self.is_participant_id_in_iterated_pool(new_pool, participant)
-        if(is_already_in_some_pool is False):    
-            for i in range(0, len(all_pools)):
-                iterated_pool = all_pools[i]
-                if(self.is_participant_id_in_iterated_pool(iterated_pool, participant)):
-                    is_already_in_some_pool = True
-                    break
-                #Else do nothing
-            if(is_already_in_some_pool is False): # Time to add a new pool
-                new_pool.append(participant)
-        return new_pool
                         
 class ExportData(object):
     # participants_in_correct_order: ["name1","name2",... "nameN"]
