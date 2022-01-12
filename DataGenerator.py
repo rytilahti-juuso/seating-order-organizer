@@ -345,7 +345,7 @@ class PoolCreation(object):
                             print("sdfs")
                             if(pool not in duplicate_pools_to_be_removed):
                                 duplicate_pools_to_be_removed.append(pool)    
-                            new_pool = new_pool + pool
+                            new_pool =  pool + new_pool
                             wishes_to_be_deleted.append(wish)
                     # Remove already added wishes
                     for dele in wishes_to_be_deleted:
