@@ -371,11 +371,50 @@ class PoolCreation(object):
                         new_pool.append(participant_wishing_list[j])
                 self.wish_pools.append(new_pool)
         print('Pools have been created!')
+        self.create_only_mutual_wishes_groups(self.wish_pools, self.anonymous_list)
         
-        # Create only mutual wishes subgroups. These will be added "pools_of_mutual_wishes"-list.
-        ##pools_of_mutual_wishes format: [[0,1,2] [group2], [group3]], numbers are participant id's.
-        def create_only_mutual_wishes_groups(self, all_wishes_to_same_group):
-            pass
+    # Create only mutual wishes subgroups. These will be added "pools_of_mutual_wishes"-list.
+    #anonymous_list: [[0, [89, 75, 50, 23], True], [1, [71, 138, 81, 85], False],...] where [participant_id[participant's_wishes], isMan]
+    #pools_of_mutual_wishes format: [[0,1,2] [3,4,58, 25], [group3], ... [groupN]], numbers are participant id's.
+    def create_only_mutual_wishes_groups(self, all_wishes_to_same_group, anonymous_list):
+        mutual_wishes_pool = []
+        for pool in all_wishes_to_same_group:
+            sub_pool = []
+            already_added_ids = []
+            #Iterate through the pool
+            for i in range(len(pool)):
+                checked_p = anonymous_list[pool[i]] #checked participant
+                checked_p_id = checked_p[0]
+                checked_p_wish_list = checked_p[1]
+                #print(checked_p_wish_list)
+                # Take participant one at a time at check their wish list
+                small_pool = [] 
+                if(checked_p_id not in already_added_ids):
+                    small_pool.append(checked_p_id) 
+                
+                already_added_ids.append(checked_p_id)
+                for wish in checked_p_wish_list:
+                    #if(checked_p_id not in small_pool):
+                        #small_pool.append(checked_p_id)
+                    checked_w = anonymous_list[wish] #checked wish
+                    checked_w_id = checked_w[0]
+                    checked_w_wish_list = checked_w[1]
+                    if(checked_p_id in checked_w_wish_list and  checked_w_id not in already_added_ids):
+                        small_pool.append(checked_w_id)
+                        already_added_ids.append(checked_w_id)
+                if(small_pool):    
+                    sub_pool.append(small_pool)
+            mutual_wishes_pool.append(sub_pool)
+            
+        self.mutual_wishes_pool = mutual_wishes_pool
+                
+                    # Because everyone who asked each other are already in the same pool,
+                    # you can just iterate through the pool
+                                    
+                                
+                            
+                            
+                            
                 
     
 
