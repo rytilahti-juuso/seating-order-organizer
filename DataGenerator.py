@@ -377,7 +377,7 @@ class ExportData(object):
     
     #data = dictionary which, contains all data, different data groups named e.g.
     #d = {}
-    #d["names"] = ["Matti Meikäläinen", "Sanni Meikäläinen", "Mikki Hiiri"], the only 1d group
+    #d["final_seating_order"] = ["Matti Meikäläinen", "Sanni Meikäläinen", "Mikki Hiiri"], the only 1d group
     #d['groups_by_wished'] = [["Matti Meikäläinen", "Sanni Meikäläinen"], ['Mikki Hiiri']], 2d dictionary, value names in that group, key group index.
     # So d['groups_groups_by_wished'][1] = ['Mikki Hiiri']
     # There also can be others groups e.g d['group_by_diet'] or d['group_by_student_union'] which has not yet been implemented.
