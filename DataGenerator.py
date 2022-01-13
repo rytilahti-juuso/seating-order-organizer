@@ -373,6 +373,21 @@ class PoolCreation(object):
 
 #Contains data export classes.                         
 class ExportData(object):
+    
+    
+    #data = dictionary which, contains all data, different data groups named e.g.
+    #d = {}
+    #d["names"] = ["Matti Meikäläinen", "Sanni Meikäläinen", "Mikki Hiiri"], the only 1d group
+    #d['groups_by_wished'] = [["Matti Meikäläinen", "Sanni Meikäläinen"], ['Mikki Hiiri']], 2d dictionary, value names in that group, key group index.
+    # So d['groups_groups_by_wished'][1] = ['Mikki Hiiri']
+    # There also can be others groups e.g d['group_by_diet'] or d['group_by_student_union'] which has not yet been implemented.
+    # So e.g if d[group_by_student_union]['Asteriski ry'] returns all participants which are members of Asteriski ry 
+    # Note: Items on the different data lists should be the participant.full_name.
+    #Returns: data as json object
+    def get_data_as_json(self, data):
+        json_string = json.dumps(data)
+        return json_string
+    
     # participants_in_correct_order: ["name1","name2",... "nameN"]
     # names_that_have_special_wishes: participants names that have special wishes. key: name, value: style formatting settings
     def export_data_to_excel(self, participants_in_correct_order, names_that_have_special_wishes):
