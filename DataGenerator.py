@@ -123,7 +123,8 @@ class NecessaryListsFactory(object):
         self.participants_ids_with_special_wishes = []
         self.generate_lists_from_name_and_wish_list()
         self.generate_anonymous_list()
-        pc = PoolCreation(self.anonymous_list)
+        pc = PoolCreation()
+        pc.create_all_wishes_to_same_group(self.anonymous_list)
         self.all_pools = pc.all_pools_list
         self.seating_order = self.generate_final_seating_list(self.participant_list, pc.all_pools_list) # Participant full names are in correct seating order
         self.seating_order_with_ids = [item for sublist in self.all_pools for item in sublist]
@@ -314,10 +315,12 @@ class Participant:
     
     
     #TODO pool creation
-class PoolCreation(object):
-    
-    def __init__(self, anonymous_list):
+class PoolCreation(object):        
+    #anonymous_list: [[0, [89, 75, 50, 23], True], [1, [71, 138, 81, 85], False],...] where [participant_id[participant's_wishes], isMan]
+    # This adds all those who wished sit to next to each other to same group.
+    def create_all_wishes_to_same_group(self, anonymous_list):
         self.anonymous_list = anonymous_list
+        print(anonymous_list)
         self.all_pools_list = [] #contains all different pools
         print("pool creation has started")
         for i in range(0, len(anonymous_list)):
@@ -369,6 +372,10 @@ class PoolCreation(object):
                 self.all_pools_list.append(new_pool)
         print('Pools have been created!')
         
+        # Create only mutual wishes subgroups. These will be added pools_of_mutual_wishes
+        def create_only_mutual_wishes_groups(self, all_wishes_to_same_group):
+            pass
+                
     
 
 #Contains data export classes.                         
