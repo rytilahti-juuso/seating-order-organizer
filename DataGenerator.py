@@ -371,7 +371,7 @@ class PoolCreation(object):
                         new_pool.append(participant_wishing_list[j])
                 self.wish_pools.append(new_pool)
         print('Pools have been created!')
-        #self.create_only_mutual_wishes_groups(self.wish_pools, self.anonymous_list)
+        #self.create_mutual_wishes_groups(self.wish_pools, self.anonymous_list)
         
     # Create mutual wishes subgroups. These will be added "all_mutual_wishes_pools"-list. 
     # anonymous_list: [[0, [89, 75, 50, 23], True], [1, [71, 138, 81, 85], False],...] where [participant_id[participant's_wishes], isMan]
@@ -381,7 +381,8 @@ class PoolCreation(object):
     # So e.g. let's say that the anonymous_list is: [[0 [1,2]], [1, [0, 2]], [2, []], [3], []]. NOTE: empty list  means that that participant did not have any seat wishes.
     # It will be converted in create_all_wishes_to_same_group(anonymous_list)-method to be the following: [[0,1,2], [3]]
     # So after this method all_mutual_wishes_pools is: [[[0,1], [2]], [3]]
-    def create_only_mutual_wishes_groups(self, wish_pools, anonymous_list):
+    def create_mutual_wishes_groups(self, wish_pools, anonymous_list):
+        print('Started creating all mutual wishes pools')
         all_mutual_wishes_pools = []
         for pool in wish_pools:
             sub_pool = []
@@ -411,8 +412,8 @@ class PoolCreation(object):
                 if(mutual_wish_pool):    
                     sub_pool.append(mutual_wish_pool)
             all_mutual_wishes_pools.append(sub_pool)
-            
         self.all_mutual_wishes_pools = all_mutual_wishes_pools
+        print('all mutual wishes pools has been created')
 
 #Contains data export classes.                         
 class ExportData(object):
