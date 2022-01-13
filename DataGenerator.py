@@ -321,7 +321,6 @@ class PoolCreation(object):
     #wish pools format: [[0,1,2] [group2], [group3]], numbers are participant id's.
     def create_all_wishes_to_same_group(self, anonymous_list):
         self.anonymous_list = anonymous_list
-        print(anonymous_list)
         self.wish_pools = [] #contains all different pools
         print("pool creation has started")
         for i in range(0, len(anonymous_list)):
