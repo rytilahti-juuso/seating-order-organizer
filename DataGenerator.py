@@ -10,6 +10,7 @@ import random
 from dataclasses import dataclass, field, astuple, asdict
 from typing import List
 import re
+import json
 
 class DataGenerator(object):
     def __init__(self):
@@ -127,7 +128,8 @@ class NecessaryListsFactory(object):
         self.seating_order = self.generate_final_seating_list(self.participant_list, pc.all_pools_list) # Participant full names are in correct seating order
         self.seating_order_with_ids = [item for sublist in self.all_pools for item in sublist]
         self.names_with_color_rules = self.generate_color_rules(self.participant_list, self.participants_ids_with_special_wishes, self.all_pools)
-        e = ExportData(self.seating_order, self.names_with_color_rules)
+        e = ExportData()
+        e.export_data_to_excel(self.seating_order, self.names_with_color_rules)
     
     ###########################################
     #    Handle duplicates methods STARTS     #
@@ -368,11 +370,12 @@ class PoolCreation(object):
         print('Pools have been created!')
         
     
-                        
+
+#Contains data export classes.                         
 class ExportData(object):
     # participants_in_correct_order: ["name1","name2",... "nameN"]
     # names_that_have_special_wishes: participants names that have special wishes. key: name, value: style formatting settings
-    def __init__(self, participants_in_correct_order, names_that_have_special_wishes):
+    def export_data_to_excel(self, participants_in_correct_order, names_that_have_special_wishes):
         self.names_that_have_special_wishes = names_that_have_special_wishes
         #TODO At later date this could be made more efficient
         left_side = []
