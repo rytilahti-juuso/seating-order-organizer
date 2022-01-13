@@ -373,7 +373,8 @@ class PoolCreation(object):
                 self.wish_pools.append(new_pool)
         print('Pools have been created!')
         
-        # Create only mutual wishes subgroups. These will be added pools_of_mutual_wishes
+        # Create only mutual wishes subgroups. These will be added "pools_of_mutual_wishes"-list.
+        ##pools_of_mutual_wishes format: [[0,1,2] [group2], [group3]], numbers are participant id's.
         def create_only_mutual_wishes_groups(self, all_wishes_to_same_group):
             pass
                 
