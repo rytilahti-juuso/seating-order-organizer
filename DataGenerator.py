@@ -125,8 +125,8 @@ class NecessaryListsFactory(object):
         self.generate_anonymous_list()
         pc = PoolCreation()
         pc.create_all_wishes_to_same_group(self.anonymous_list)
-        self.all_pools = pc.all_pools_list
-        self.seating_order = self.generate_final_seating_list(self.participant_list, pc.all_pools_list) # Participant full names are in correct seating order
+        self.all_pools = pc.wish_pools
+        self.seating_order = self.generate_final_seating_list(self.participant_list, pc.wish_pools) # Participant full names are in correct seating order
         self.seating_order_with_ids = [item for sublist in self.all_pools for item in sublist]
         self.names_with_color_rules = self.generate_color_rules(self.participant_list, self.participants_ids_with_special_wishes, self.all_pools)
         e = ExportData()
@@ -317,22 +317,23 @@ class Participant:
     #TODO pool creation
 class PoolCreation(object):        
     #anonymous_list: [[0, [89, 75, 50, 23], True], [1, [71, 138, 81, 85], False],...] where [participant_id[participant's_wishes], isMan]
-    # This adds all those who wished sit to next to each other to same group.
+    # This adds all those who wished sit to next to each other to same group. The attribute where different groups are stored is "wish_pools".
+    #wish pools format: [[0,1,2] [group2], [group3]], numbers are participant id's.
     def create_all_wishes_to_same_group(self, anonymous_list):
         self.anonymous_list = anonymous_list
         print(anonymous_list)
-        self.all_pools_list = [] #contains all different pools
+        self.wish_pools = [] #contains all different pools
         print("pool creation has started")
         for i in range(0, len(anonymous_list)):
             new_pool = []
             ##TODO check that the references do not break
             participant = self.anonymous_list[i][0]
             participant_wishing_list = self.anonymous_list[i][1]
-            if(self.all_pools_list): 
+            if(self.wish_pools): 
                 #Check all existing pools
                 duplicate_pools_to_be_removed = []
-                for x in range(len(self.all_pools_list)):
-                    pool = self.all_pools_list[x]
+                for x in range(len(self.wish_pools)):
+                    pool = self.wish_pools[x]
                     if participant in pool:
                         # they should not be the same object
                         duplicate_pools_to_be_removed.append(pool)
@@ -350,8 +351,8 @@ class PoolCreation(object):
                         participant_wishing_list.remove(dele)
                 # Remove duplicate pools
                 for dup in duplicate_pools_to_be_removed:
-                    if(dup in self.all_pools_list):
-                        self.all_pools_list.remove(dup)
+                    if(dup in self.wish_pools):
+                        self.wish_pools.remove(dup)
                 
                 # Add participant to new_pool if he is not in the new_pool
                 if participant not in new_pool:
@@ -363,13 +364,13 @@ class PoolCreation(object):
                             new_pool.append(part)
                 #Finally, add new pool to all_pools
                 if(new_pool):
-                    self.all_pools_list.append(new_pool)
+                    self.wish_pools.append(new_pool)
             else: # special case for the first pool
                 new_pool.append(participant)
                 if(participant_wishing_list):
                     for j in range(0, len(participant_wishing_list)):
                         new_pool.append(participant_wishing_list[j])
-                self.all_pools_list.append(new_pool)
+                self.wish_pools.append(new_pool)
         print('Pools have been created!')
         
         # Create only mutual wishes subgroups. These will be added pools_of_mutual_wishes
@@ -554,7 +555,7 @@ if __name__:
     #poolcreation = PoolCreation(nlf.anonymous_list)
     ###IMPORT DUMMY DATA FROM EXCEL AND CREATE POOLS FROM THAT DATA ENDS ###################################
     
-    #print(poolcreation.all_pools_list)
+    #print(poolcreation.wish_pools)
     #s = ScoreCalculation(nlf.anonymous_list, d.male_first_names)
     #print(s.score_table_2d)
     #print(d.generated_order[10]][1)
