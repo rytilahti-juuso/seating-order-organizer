@@ -113,8 +113,9 @@ class NecessaryListsFactory(object):
             duplicate_names_without_typos = self.get_duplicates_without_typos(name_and_wish_list)
             print(self.get_duplicate_error_message(duplicate_names_without_typos))
             return
-        
-        random.shuffle(name_and_wish_list) # This shuffle is done because without it the first and last who signed up for the event would always sit in at the end of the table! 
+        # Dp not add random shuffle back until seating generation is done fully automatically. Now user does bulk of the work and
+        #shuffling between running the script multiple times just messes with the user flow
+        #random.shuffle(name_and_wish_list) # This shuffle is done because without it the first and last who signed up for the event would always sit in at the end of the table! 
         
         self.name_and_wish_list = name_and_wish_list
         self.pf = ParticipantFactory()
@@ -353,16 +354,19 @@ class PoolCreation(object):
     
     # Creates both pools in correct order.
     def create_pools(self, anonymous_list):
+        print("pool creation has started")
         self.create_all_wishes_to_same_group(anonymous_list)
         self.create_mutual_wishes_groups(self.wish_pools, anonymous_list)
+        print('Pools have been created!')
     
     #anonymous_list: [[0, [89, 75, 50, 23], True], [1, [71, 138, 81, 85], False],...] where [participant_id[participant's_wishes], isMan]
     # This adds all those who wished sit to next to each other to same group. The attribute where different groups are stored is "wish_pools".
     #wish pools format: [[0,1,2] [group2], [group3]], numbers are participant id's.
     def create_all_wishes_to_same_group(self, anonymous_list):
+        print("Started creating all-wishes-to-same-group-pools")
         self.anonymous_list = anonymous_list
         self.wish_pools = [] #contains all different pools
-        print("pool creation has started")
+        
         for i in range(0, len(anonymous_list)):
             new_pool = []
             ##TODO check that the references do not break
@@ -410,8 +414,7 @@ class PoolCreation(object):
                     for j in range(0, len(participant_wishing_list)):
                         new_pool.append(participant_wishing_list[j])
                 self.wish_pools.append(new_pool)
-        print('Pools have been created!')
-        #self.create_mutual_wishes_groups(self.wish_pools, self.anonymous_list)
+        print("All wishes to same-group-pools-have-been-created!")
         
     # Create mutual wishes subgroups. These will be added "all_mutual_wishes_pools"-list. 
     # anonymous_list: [[0, [89, 75, 50, 23], True], [1, [71, 138, 81, 85], False],...] where [participant_id[participant's_wishes], isMan]
