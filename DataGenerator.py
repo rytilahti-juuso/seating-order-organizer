@@ -629,9 +629,8 @@ if __name__:
     #print(nlf.participant_list)
     
     ###IMPORT DUMMY DATA FROM EXCEL AND CREATE POOLS FROM THAT DATA ###################################
-    #imp = ImportDataFromExcel()
-    #nlf = NecessaryListsFactory(imp.data)
-    #poolcreation = PoolCreation(nlf.anonymous_list)
+    imp = ImportDataFromExcel()
+    nlf = NecessaryListsFactory(imp.data)
     ###IMPORT DUMMY DATA FROM EXCEL AND CREATE POOLS FROM THAT DATA ENDS ###################################
     
     #print(poolcreation.wish_pools)
