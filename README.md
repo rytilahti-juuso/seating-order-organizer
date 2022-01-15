@@ -15,9 +15,11 @@ Code is run trough namespace
 Importing data from excel
 Data import has been completed!
 pool creation has started
-Pools have been created!
+Started creating all-wishes-to-same-group-pools
+All wishes to same-group-pools-have-been-created!
 Started creating all mutual wishes pools
 all mutual wishes pools has been created
+Pools have been created!
 Data export succesfully completed!
 ```
 If you see only some of the prints, some important code line has been commented out either at the bottom of the file under `if __name__:` clause or in the `NecessaryListsFactory` -class.
