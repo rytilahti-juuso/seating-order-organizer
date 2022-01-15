@@ -50,6 +50,4 @@ If you see only some of the prints, some important code line has been commented 
 ```
 The numbers represent final seating order, where zero is left side and 1 is on the right side of the table. Do you notice how next to partipant indexed as number `2` can only be a maximum of five different participants?
 
-# How to implement this to server-side.
-
 
