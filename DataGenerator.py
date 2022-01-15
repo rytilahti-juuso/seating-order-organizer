@@ -208,6 +208,10 @@ class NecessaryListsFactory(object):
             result.append(participants[anonymous_flat_list[i]].full_name)
         return result
     
+    ################################################
+    #    Create participants style format STARTS   #
+    ################################################
+    
     #Generate color rules for each participant. When this is called all lists must be in sync already.
     # Each subgroup will have rotating background color. People with special wishes will have their cell's font color changed to red.
     def generate_color_rules(self, participants, participant_ids_with_special_wishes, all_pools):
@@ -246,6 +250,10 @@ class NecessaryListsFactory(object):
                 else:    
                     dict_of_participants_colors[name] = background_color
         return dict_of_participants_colors
+    
+    ################################################
+    #    Create participants style format ENDS   #
+    ################################################
 
 
 class ParticipantFactory(object):
