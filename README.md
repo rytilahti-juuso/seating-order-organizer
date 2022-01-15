@@ -1,7 +1,7 @@
 © 2021 Juuso Rytilahti.  All rights reserved.
 
 # seating-order-organizer
-A way to generate seating order automatically for sitz or some other event.
+A way to generate seating order automatically for sitz or some other event. The main idea of the current version is to ease the work of the one doing the seating planning for sitz and other such events
 
 
 How to set this working:
@@ -24,3 +24,13 @@ If you see only some of the prints, some important code line has been commented 
 6. If you see all of the above prints and no errors raise, you are probably fine and can start coding. 
 
 # Workflow:
+1. See that the code is running properly using above steps
+2. Copy participants and their wishes to the columns in the file named `input-participant-and_wishing-list.xlsx`.
+3. Run all the code in the namespace
+4. Check the created `output-seating-order.xlsx` file. Look for are cells where the font is **red**. This means that the participant has special wishes (e.g. "I would like to sit next to the other old students") or they have typos in their wishes. Look in the `input-participant-and_wishing-list.xlsx` and correct the wishes so that they match the names of the participants. If there is someone who has a special wish "I don't want to sit next to person xx" you can leave that wish unaltered. It will not affect functionality of the code.
+
+General Notes:
+- The names that end up in `output-seating-order.xlsx` file are the ones under the name column
+- Most of the code handles anonymous list, which is indexes of the participants. There are at least two reason for that
+  - Performance. It is a lot lighter to handle array of numbers instead of array of strings or data-objects.
+  - it negates some user input errors. in the code before the indexes are created from the lists, the comparing between names and wishes is done after preprocessing user input.    This preprosessing is removing spaces and Capital letters. 
