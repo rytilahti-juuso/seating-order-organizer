@@ -21,6 +21,7 @@ all mutual wishes pools has been created
 Data export succesfully completed!
 ```
 If you see only some of the prints, some important code line has been commented out either at the bottom of the file under `if __name__:` clause or in the `NecessaryListsFactory` -class.
+
 6. If you see all of the above prints and no errors raise, you are probably fine and can start coding. 
 
 # Workflow:
