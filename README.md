@@ -32,12 +32,21 @@ If you see only some of the prints, some important code line has been commented 
 6. Now open the output and open a **new** empty excel file next to it.
 7. Now you can copy names to that new excel file which you just created either one name at a time or in groups using `ctrl + c` and `ctrl +v`.
 
-General Notes:
-- The names that end up in `output-seating-order.xlsx` file are the ones under the name column
+# General Notes:
+- The names that end up in `output-seating-order.xlsx` file are the ones under the `name`-column in the input excel file.
 - Most of the code handles anonymous list, which is indexes of the participants. There are at least two reason for that
   - Performance. It is a lot lighter to handle array of numbers instead of array of strings or data-objects.
   - It negates some user input errors. in the code before the indexes are created from the lists, the comparing between names and wishes is done after preprocessing user input.    This preprosessing is all removing spaces and Capital letters.
   - The code returns always the name that the participant has inputted in the `names` column. So if someone has a wish were reads e.g. `matti meikäläinen` and Partipant has inputted his name on the event signup correctly `Matti Meikäläinen` you will see that in the excel the used name is `Matti Meikäläinen`.
+
+# Color and style formatting meaning:
+- If font is red it  means that the participant has special wishes (e.g. "I would like to sit next to the other old students") or they have typos in their wishes.
+- You may notice that between some groups there are an empty column while others do not. This is intentional. The reason is that if you have names with different background color withing two empty columns, it means that there are people who have non-mutual ( basically chained) wishes.
+- The background color rotates between five different colors. This is so that there can't be a mixup of two persons belonging the same group. Consider example below:
+0 1
+2 3
+4 5
+The numbers represent final seating order, where zero is left side and 1 is on the right side of the table. Do you notice how next to partipant indexed as number `2` can only be a maximum of five different participants?
 
 # How to implement this to server-side.
 
