@@ -1,10 +1,10 @@
 © 2021 Juuso Rytilahti.  All rights reserved.
 
 # seating-order-organizer
-A way to generate seating order automatically for sitz or some other event. The main idea of the current version is to ease the work of the one doing the seating planning for sitz and other such events
+A way to generate seating order automatically for sitz or some other event. The main idea of the current version is to ease the work of the one doing the seating planning for sitz and other such events.
 
 
-How to set this working:
+# First time setup:
 1. Currently there is no `requirements.txt`. It will be added at a later date. Currently code runs fine on Spyder version 4.2.5, which was installed with Anaconda version 2.0.3.
 2.  Open the file DataGenerator.py
 3. In the file replace all the used absolute pathing ctrl + f e.g. `C:\Users\`. These are probably changed to dynamic add some point when I have time.
