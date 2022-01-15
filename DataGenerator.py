@@ -240,20 +240,23 @@ class NecessaryListsFactory(object):
     #set background color by subgroup. When this is called all lists must be in sync already
     def set_background_color_by_sub_group(self, participants, all_pools, dict_of_participants_colors, add_empty_cells_after_these_ids):
         # This is pool which contain pool of participants who has mutual and non-mutual wishes
+        j = -1
         for pool in all_pools:
             pool_length = len(pool)
+            j += 1
             # Loop through mutual wishes pools inside the bigger pool
             for i in range(pool_length):
+                j += i
                 background_color= ''
-                if(i % 5 == 0):
+                if(j % 5 == 0):
                     background_color = 'background-color: #ECDDD0;'
-                elif(i % 5 == 1):
+                elif(j % 5 == 1):
                     background_color = 'background-color: #92b1b6;'
-                elif(i % 5 == 2):
+                elif(j % 5 == 2):
                     background_color = 'background-color: #CED2C2;'
-                elif(i % 5 == 3):
+                elif(j % 5 == 3):
                     background_color = 'background-color: #BFD1DF;'
-                elif(i % 5 == 4):
+                elif(j % 5 == 4):
                     background_color = 'background-color: #C1BFB5;'
                 #More colors if needed, #f1c5ae, #35455d, #D3D3D3
                 # Loop participants in the mutual wishes list and
