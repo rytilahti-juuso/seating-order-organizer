@@ -124,7 +124,7 @@ class NecessaryListsFactory(object):
         self.generate_lists_from_name_and_wish_list()
         self.generate_anonymous_list()
         pc = PoolCreation()
-        pc.create_all_wishes_to_same_group(self.anonymous_list)
+        pc.create_pools(self.anonymous_list)
         self.all_pools = pc.wish_pools
         self.seating_order = self.generate_final_seating_list(self.participant_list, pc.wish_pools) # Participant full names are in correct seating order
         self.seating_order_with_ids = [item for sublist in self.all_pools for item in sublist]
@@ -316,6 +316,12 @@ class Participant:
     
     #TODO pool creation
 class PoolCreation(object):        
+    
+    # Creates both pools in correct order.
+    def create_pools(self, anonymous_list):
+        self.create_all_wishes_to_same_group(anonymous_list)
+        self.create_mutual_wishes_groups(self.wish_pools, anonymous_list)
+    
     #anonymous_list: [[0, [89, 75, 50, 23], True], [1, [71, 138, 81, 85], False],...] where [participant_id[participant's_wishes], isMan]
     # This adds all those who wished sit to next to each other to same group. The attribute where different groups are stored is "wish_pools".
     #wish pools format: [[0,1,2] [group2], [group3]], numbers are participant id's.
