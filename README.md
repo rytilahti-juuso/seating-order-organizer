@@ -28,9 +28,17 @@ If you see only some of the prints, some important code line has been commented 
 2. Copy participants and their wishes to the columns in the file named `input-participant-and_wishing-list.xlsx`.
 3. Run all the code in the namespace
 4. Check the created `output-seating-order.xlsx` file. Look for are cells where the font is **red**. This means that the participant has special wishes (e.g. "I would like to sit next to the other old students") or they have typos in their wishes. Look in the `input-participant-and_wishing-list.xlsx` and correct the wishes so that they match the names of the participants. If there is someone who has a special wish "I don't want to sit next to person xx" you can leave that wish unaltered. It will not affect functionality of the code.
+5. Run code again with the altered input file.
+6. Now open the output and open a **new** empty excel file next to it.
+7. Now you can copy names to that new excel file which you just created either one name at a time or in groups using `ctrl + c` and `ctrl +v`.
 
 General Notes:
 - The names that end up in `output-seating-order.xlsx` file are the ones under the name column
 - Most of the code handles anonymous list, which is indexes of the participants. There are at least two reason for that
   - Performance. It is a lot lighter to handle array of numbers instead of array of strings or data-objects.
-  - it negates some user input errors. in the code before the indexes are created from the lists, the comparing between names and wishes is done after preprocessing user input.    This preprosessing is removing spaces and Capital letters. 
+  - It negates some user input errors. in the code before the indexes are created from the lists, the comparing between names and wishes is done after preprocessing user input.    This preprosessing is all removing spaces and Capital letters.
+  - The code returns always the name that the participant has inputted in the `names` column. So if someone has a wish were reads e.g. `matti meikäläinen` and Partipant has inputted his name on the event signup correctly `Matti Meikäläinen` you will see that in the excel the used name is `Matti Meikäläinen`.
+
+# How to implement this to server-side.
+
+
