@@ -121,16 +121,16 @@ class NecessaryListsFactory(object):
         self.dict_of_participants = {} # dictionary of participants, key value is participants name without spaces and caps
         self.anonymous_list = [] #TODO should this be a list or dictionary?
         self.participants_ids_with_special_wishes = []
-        self.add_two_empty_cells_to_excel_after_these_ids = {} #key: participant_id, value: how many empty spaces are needed
+        self.add_empty_cells_after_these_ids = {} # Add empty cells in the export excel after these ids. key: participant_id, value: how many empty spaces are needed
         self.generate_lists_from_name_and_wish_list()
         self.generate_anonymous_list()
         pc = PoolCreation()
         pc.create_pools(self.anonymous_list)
         self.all_pools = pc.all_mutual_wishes_pools
         #self.seating_order_with_ids = [item for sublist in self.all_pools for item in sublist]
-        self.names_with_color_rules = self.generate_color_rules(self.participant_list, self.participants_ids_with_special_wishes, self.all_pools, self.add_two_empty_cells_to_excel_after_these_ids)
-        self.seating_order = self.generate_final_seating_list(self.participant_list, pc.wish_pools, self.add_two_empty_cells_to_excel_after_these_ids) # Participant full names are in correct seating order
-        #print(self.add_two_empty_cells_to_excel_after_these_ids)
+        self.names_with_color_rules = self.generate_color_rules(self.participant_list, self.participants_ids_with_special_wishes, self.all_pools, self.add_empty_cells_after_these_ids)
+        self.seating_order = self.generate_final_seating_list(self.participant_list, pc.wish_pools, self.add_empty_cells_after_these_ids) # Participant full names are in correct seating order
+        #print(self.add_empty_cells_after_these_ids)
         e = ExportData()
         e.export_data_to_excel(self.seating_order, self.names_with_color_rules)
     
@@ -203,16 +203,17 @@ class NecessaryListsFactory(object):
             self.participants_ids_with_special_wishes.append(p.id)
         return seating_wish_list
     
-    def generate_final_seating_list(self, participants, pools, add_two_empty_cells_to_excel_after_these_ids):
+    def generate_final_seating_list(self, participants, pools, add_empty_cells_after_these_ids):
         anonymous_flat_list = [item for sublist in pools for item in sublist]
         result = [] # format, [name1, name2,...nameN]
         for i in range(0, len(anonymous_flat_list)):
             result.append(participants[anonymous_flat_list[i]].full_name)
-            # If id is at the end of the subgroup of mutual and non_mutual wishes, append two empty spaces after it
+            # If id is at the end of the subgroup of mutual and non_mutual wishes, append two empty spaces 
+            # (so you get a empty column in the excel) between the groups.
             # #TODO This is for the excel export and when this is running on a server backend, please remove this feature or
             # make it optional
-            if(anonymous_flat_list[i] in  add_two_empty_cells_to_excel_after_these_ids):
-                number_of_empty_spaces = add_two_empty_cells_to_excel_after_these_ids[anonymous_flat_list[i]]
+            if(anonymous_flat_list[i] in  add_empty_cells_after_these_ids):
+                number_of_empty_spaces = add_empty_cells_after_these_ids[anonymous_flat_list[i]]
                 for i in range(number_of_empty_spaces):    
                     result.append("")
         return result
@@ -223,10 +224,10 @@ class NecessaryListsFactory(object):
     
     #Generate color rules for each participant. When this is called all lists must be in sync already.
     # Each subgroup will have rotating background color. People with special wishes will have their cell's font color changed to red.
-    def generate_color_rules(self, participants, participant_ids_with_special_wishes, all_pools, add_two_empty_cells_to_excel_after_these_ids):
+    def generate_color_rules(self, participants, participant_ids_with_special_wishes, all_pools, add_empty_cells_after_these_ids):
         dict_of_participants_colors = {} # key: participants full name, value: style formatting settings
         dict_of_participants_colors = self.set_special_font_color_if_participant_has_special_wishes(participants, participant_ids_with_special_wishes, dict_of_participants_colors)    
-        dict_of_participants_colors = self.set_background_color_by_sub_group(participants, all_pools, dict_of_participants_colors, add_two_empty_cells_to_excel_after_these_ids)
+        dict_of_participants_colors = self.set_background_color_by_sub_group(participants, all_pools, dict_of_participants_colors, add_empty_cells_after_these_ids)
         return dict_of_participants_colors
     
     #When this is called all lists must be in sync already. Font is changed to red, the default font color is black.
@@ -237,7 +238,7 @@ class NecessaryListsFactory(object):
         return dict_of_participants_colors
     
     #set background color by subgroup. When this is called all lists must be in sync already
-    def set_background_color_by_sub_group(self, participants, all_pools, dict_of_participants_colors, add_two_empty_cells_to_excel_after_these_ids):
+    def set_background_color_by_sub_group(self, participants, all_pools, dict_of_participants_colors, add_empty_cells_after_these_ids):
         # This is pool which contain pool of participants who has mutual and non-mutual wishes
         for pool in all_pools:
             pool_length = len(pool)
@@ -265,11 +266,11 @@ class NecessaryListsFactory(object):
                         dict_of_participants_colors[name] = background_color
 
             final_mutual_list_pool = pool[(len(pool)-1)]
-            p_id_after_append_two_spaces = final_mutual_list_pool[(len(final_mutual_list_pool)-1)]
+            p_id_after_append_spaces = final_mutual_list_pool[(len(final_mutual_list_pool)-1)]
             if (len (final_mutual_list_pool) % 2 == 0):
-                add_two_empty_cells_to_excel_after_these_ids[p_id_after_append_two_spaces] = 2
+                add_empty_cells_after_these_ids[p_id_after_append_spaces] = 2
             else:
-                add_two_empty_cells_to_excel_after_these_ids[p_id_after_append_two_spaces] = 3
+                add_empty_cells_after_these_ids[p_id_after_append_spaces] = 3
         return dict_of_participants_colors
     
     ################################################
