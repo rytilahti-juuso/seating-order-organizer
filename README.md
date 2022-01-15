@@ -43,9 +43,11 @@ If you see only some of the prints, some important code line has been commented 
 - If font is red it  means that the participant has special wishes (e.g. "I would like to sit next to the other old students") or they have typos in their wishes.
 - You may notice that between some groups there are an empty column while others do not. This is intentional. The reason is that if you have names with different background color withing two empty columns, it means that there are people who have non-mutual ( basically chained) wishes.
 - The background color rotates between five different colors. This is so that there can't be a mixup of two persons belonging the same group. Consider example below:
+```
 0 1
 2 3
 4 5
+```
 The numbers represent final seating order, where zero is left side and 1 is on the right side of the table. Do you notice how next to partipant indexed as number `2` can only be a maximum of five different participants?
 
 # How to implement this to server-side.
