@@ -3,6 +3,7 @@
 Created on Thu Jul  8 16:00:54 2021
 
 @author: rytil
+© 2021 Juuso Rytilahti.  All rights reserved.
 """
 import pandas as pd
 import numpy as np
