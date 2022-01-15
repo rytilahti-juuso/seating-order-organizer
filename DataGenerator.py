@@ -125,7 +125,7 @@ class NecessaryListsFactory(object):
         self.generate_anonymous_list()
         pc = PoolCreation()
         pc.create_pools(self.anonymous_list)
-        self.all_pools = pc.wish_pools
+        self.all_pools = pc.all_mutual_wishes_pools
         self.seating_order = self.generate_final_seating_list(self.participant_list, pc.wish_pools) # Participant full names are in correct seating order
         self.seating_order_with_ids = [item for sublist in self.all_pools for item in sublist]
         self.names_with_color_rules = self.generate_color_rules(self.participant_list, self.participants_ids_with_special_wishes, self.all_pools)
@@ -229,26 +229,30 @@ class NecessaryListsFactory(object):
     
     #set background color by subgroup. When this is called all lists must be in sync already
     def set_background_color_by_sub_group(self, participants, all_pools, dict_of_participants_colors):
-        for i in range(0, len(all_pools)):
-            background_color= ''
-            if(i % 5 == 0):
-                background_color = 'background-color: #ECDDD0;'
-            elif(i % 5 == 1):
-                background_color = 'background-color: #92b1b6;'
-            elif(i % 5 == 2):
-                background_color = 'background-color: #CED2C2;'
-            elif(i % 5 == 3):
-                background_color = 'background-color: #BFD1DF;'
-            elif(i % 5 == 4):
-                background_color = 'background-color: #C1BFB5;'
-            #More colors if needed, #f1c5ae, #35455d, #D3D3D3
-            for j in range(0, len(all_pools[i])):
-                id_of_p = all_pools[i][j] # id of participant
-                name = participants[id_of_p].full_name
-                if(name in dict_of_participants_colors):
-                    dict_of_participants_colors[name] += background_color
-                else:    
-                    dict_of_participants_colors[name] = background_color
+        # This is pool which contain pool of participants who has mutual and non-mutual wishes
+        for pool in all_pools:
+            # Loop through mutual wishes pools inside the bigger pool
+            for i in range(len(pool)):
+                background_color= ''
+                if(i % 5 == 0):
+                    background_color = 'background-color: #ECDDD0;'
+                elif(i % 5 == 1):
+                    background_color = 'background-color: #92b1b6;'
+                elif(i % 5 == 2):
+                    background_color = 'background-color: #CED2C2;'
+                elif(i % 5 == 3):
+                    background_color = 'background-color: #BFD1DF;'
+                elif(i % 5 == 4):
+                    background_color = 'background-color: #C1BFB5;'
+                #More colors if needed, #f1c5ae, #35455d, #D3D3D3
+                # Loop participants in the mutual wishes list and
+                # add for them correct background color
+                for p_id in pool[i]: # p_id = id of participant
+                    name = participants[p_id].full_name
+                    if(name in dict_of_participants_colors):
+                        dict_of_participants_colors[name] += background_color
+                    else:    
+                        dict_of_participants_colors[name] = background_color
         return dict_of_participants_colors
     
     ################################################
