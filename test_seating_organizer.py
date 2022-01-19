@@ -50,7 +50,15 @@ class TestParticipant(unittest.TestCase):
     def test_participant_object_cant_be_mutated(self):
         pass
     
-    def test_get_first_namess(self):
+    def test_get_name_without_extra_spaces(self):
+        factory = DataGenerator.ParticipantFactory()
+        self.assertEqual(factory.get_name_without_extra_spaces("    Matti    Meikäläinen   "), "Matti Meikäläinen")
+        self.assertEqual(factory.get_name_without_extra_spaces(" Matti Meikäläinen   "), "Matti Meikäläinen")
+        self.assertEqual(factory.get_name_without_extra_spaces("    Matti Matias Meikäläinen   "), "Matti Matias Meikäläinen")
+        # with tab
+        self.assertEqual(factory.get_name_without_extra_spaces("    Matti  Meikäläinen   "), "Matti Meikäläinen")
+    
+    def test_get_first_names(self):
         factory = DataGenerator.ParticipantFactory()
         self.assertEqual(factory.get_first_names("Matti Meikäläinen"), "Matti")
         self.assertEqual(factory.get_first_names("Matti Matias Meikäläinen"), "Matti Matias")

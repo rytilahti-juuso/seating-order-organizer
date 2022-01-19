@@ -295,7 +295,7 @@ class ParticipantFactory(object):
         ######################
         # Participant's name
         ######################
-        full_name = participant_and_wishes_list[0]
+        full_name = self.get_name_without_extra_spaces(participant_and_wishes_list[0])
         first_name = self.get_first_names(full_name)
         surname = self.get_surname(full_name)
         name_without_typos = self.generate_name_without_spaces_and_caps(full_name)
@@ -314,7 +314,17 @@ class ParticipantFactory(object):
         
         p = Participant(id, full_name, first_name, surname, name_without_typos, is_man, wish_list, wish_list_without_spaces_and_caps)
         return p
+    
+    def get_name_without_extra_spaces(self, full_name):
+        name = full_name
+        name = re.sub("\s\s+" , " ", name)
+        if name[0] == ' ':
+            name = name.split(" ", 1)[1]
+        if name[len(name)-1] == ' ':
+            name = name.rsplit(" ", 1)[0]
+        return name
         
+    
     # return first names if name contains space, otherwise returns full name
     # 'Matti Matias Meikäläinen' returns 'Matti Matias'
     def get_first_names(self, name):
