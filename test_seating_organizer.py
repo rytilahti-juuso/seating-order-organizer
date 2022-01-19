@@ -24,6 +24,8 @@ import DataGenerator
 
 # Participant having no wishes should not create an error 
 
+# How duplicate name is handeld?
+
 ####################################
 #           Participant
 ####################################
@@ -94,17 +96,8 @@ class TestParticipant(unittest.TestCase):
 
 # man-name list is List<string> type instead of any other data types (because of use of "in" operator)
 
-#fullname_has_multiple_spaces
-
-# How duplicate name is handeld?
 
 #for every name field:
-    
-    # Name has finnish special letters
-
-    # Name has spanish special letters 
-
-    # name_without_typos is correct with all cases
     
     # is_man is working with correct, test with man and woman names
 
