@@ -58,13 +58,13 @@ class TestParticipant(unittest.TestCase):
         self.assertNotEqual(factory.get_first_names("Matti Meikäläinen"), "matti")
         self.assertEqual(factory.get_first_names("Matti"), "Matti")
     
-    def test_generate_surname(self):
+    def test_get_surname(self):
         factory = DataGenerator.ParticipantFactory()
-        self.assertEqual(factory.generate_surname('Matti Matias Meikäläinen'), 'Meikäläinen')
-        self.assertEqual(factory.generate_surname('Matti Meikäläinen'), 'Meikäläinen')
-        self.assertEqual(factory.generate_surname('Matti Matias Ordoñez'), 'Ordoñez')
-        self.assertNotEqual(factory.generate_surname('Matti Matias Meikäläinen'), 'meikäläinen')
-        self.assertEqual(factory.generate_surname('Matti Matias Meikäläinen-Esimerkki'), 'Meikäläinen-Esimerkki')
+        self.assertEqual(factory.get_surname('Matti Matias Meikäläinen'), 'Meikäläinen')
+        self.assertEqual(factory.get_surname('Matti Meikäläinen'), 'Meikäläinen')
+        self.assertEqual(factory.get_surname('Matti Matias Ordoñez'), 'Ordoñez')
+        self.assertNotEqual(factory.get_surname('Matti Matias Meikäläinen'), 'meikäläinen')
+        self.assertEqual(factory.get_surname('Matti Matias Meikäläinen-Esimerkki'), 'Meikäläinen-Esimerkki')
 
 
     def test_generate_participant_name_without_spaces_and_capitals(self):
