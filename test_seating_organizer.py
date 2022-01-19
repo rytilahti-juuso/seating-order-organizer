@@ -54,13 +54,17 @@ class TestParticipant(unittest.TestCase):
         factory = DataGenerator.ParticipantFactory()
         self.assertEqual(factory.generate_first_name("Matti Meikäläinen"), "Matti")
         self.assertEqual(factory.generate_first_name("Matti Matias Meikäläinen"), "Matti")
+        self.assertEqual(factory.generate_first_name("Niño Meikäläinen"), "Niño")
         self.assertNotEqual(factory.generate_first_name("Matti Meikäläinen"), "matti")
     
     def test_generate_last_name(self):
         factory = DataGenerator.ParticipantFactory()
         self.assertEqual(factory.generate_last_name('Matti Matias Meikäläinen'), 'Meikäläinen')
+        self.assertEqual(factory.generate_last_name('Matti Meikäläinen'), 'Meikäläinen')
+        self.assertEqual(factory.generate_last_name('Matti Matias Ordoñez'), 'Ordoñez')
         self.assertNotEqual(factory.generate_last_name('Matti Matias Meikäläinen'), 'meikäläinen')
         self.assertEqual(factory.generate_last_name('Matti Matias Meikäläinen-Esimerkki'), 'Meikäläinen-Esimerkki')
+    
 
     def test_generate_participant_name_without_spaces_and_capitals(self):
         pass
