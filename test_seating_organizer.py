@@ -39,7 +39,7 @@ class TestParticipant(unittest.TestCase):
         #Check that all fields that matter match (is_man is not currently used)
         #Check that name is equal
         self.assertEqual(participant_created_in_factory.first_name, participant_created_manually.first_name)
-        self.assertEqual(participant_created_in_factory.last_name, participant_created_manually.last_name)
+        self.assertEqual(participant_created_in_factory.surname, participant_created_manually.surname)
         self.assertEqual(participant_created_in_factory.full_name, participant_created_manually.full_name)
         self.assertEqual(participant_created_in_factory.name_without_typos, participant_created_manually.name_without_typos)
         
@@ -57,14 +57,14 @@ class TestParticipant(unittest.TestCase):
         self.assertEqual(factory.generate_first_name("Niño Meikäläinen"), "Niño")
         self.assertNotEqual(factory.generate_first_name("Matti Meikäläinen"), "matti")
     
-    def test_generate_last_name(self):
+    def test_generate_surname(self):
         factory = DataGenerator.ParticipantFactory()
-        self.assertEqual(factory.generate_last_name('Matti Matias Meikäläinen'), 'Meikäläinen')
-        self.assertEqual(factory.generate_last_name('Matti Meikäläinen'), 'Meikäläinen')
-        self.assertEqual(factory.generate_last_name('Matti Matias Ordoñez'), 'Ordoñez')
-        self.assertNotEqual(factory.generate_last_name('Matti Matias Meikäläinen'), 'meikäläinen')
-        self.assertEqual(factory.generate_last_name('Matti Matias Meikäläinen-Esimerkki'), 'Meikäläinen-Esimerkki')
-    
+        self.assertEqual(factory.generate_surname('Matti Matias Meikäläinen'), 'Meikäläinen')
+        self.assertEqual(factory.generate_surname('Matti Meikäläinen'), 'Meikäläinen')
+        self.assertEqual(factory.generate_surname('Matti Matias Ordoñez'), 'Ordoñez')
+        self.assertNotEqual(factory.generate_surname('Matti Matias Meikäläinen'), 'meikäläinen')
+        self.assertEqual(factory.generate_surname('Matti Matias Meikäläinen-Esimerkki'), 'Meikäläinen-Esimerkki')
+
 
     def test_generate_participant_name_without_spaces_and_capitals(self):
         pass

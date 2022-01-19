@@ -297,7 +297,7 @@ class ParticipantFactory(object):
         ######################
         full_name = participant_and_wishes_list[0]
         first_name = self.generate_first_name(full_name)
-        last_name = self.generate_last_name(full_name)
+        surname = self.generate_surname(full_name)
         name_without_typos = self.generate_name_without_spaces_and_caps(full_name)
         try:
             self.men_first_names
@@ -312,7 +312,7 @@ class ParticipantFactory(object):
         wish_list = participant_and_wishes_list[1]
         wish_list_without_spaces_and_caps = self.generate_wish_list_without_spaces_and_caps(wish_list)
         
-        p = Participant(id, full_name, first_name, last_name, name_without_typos, is_man, wish_list, wish_list_without_spaces_and_caps)
+        p = Participant(id, full_name, first_name, surname, name_without_typos, is_man, wish_list, wish_list_without_spaces_and_caps)
         return p
         
     # return first name if name contains space, otherwise returns full name
@@ -321,7 +321,7 @@ class ParticipantFactory(object):
         return splitted_name[0]
   
     # return last name if name contains space, otherwise returns full name
-    def generate_last_name(self, name):
+    def generate_surname(self, name):
         splitted_name = name.split(" ")
         if(len(splitted_name) >= 2):
             return splitted_name[len(splitted_name)-1]
@@ -346,7 +346,7 @@ class Participant:
     id: int
     full_name: str 
     first_name: str 
-    last_name: str
+    surname: str
     name_without_typos: str #Name where the caps and spaces are removed. This is to avoid atleast some user typos when they were typing seating wishes list
     is_man: bool
     seating_wish_list: List[str] #TODO this can be mutated afterwards, convert to frozen dataclass object
