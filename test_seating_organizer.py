@@ -29,10 +29,11 @@ import DataGenerator
 ####################################
 
 class TestParticipant(unittest.TestCase):
+
     
     def test_participate_creation_works(self):
-        t = DataGenerator.ParticipantFactory()
-        participant_created_in_factory = t.create_participant_from_given_name(['Matti Meikäläinen',
+        factory = DataGenerator.ParticipantFactory()
+        participant_created_in_factory = factory.create_participant_from_given_name(['Matti Meikäläinen',
                 ['Mikki Hiiri', 'Minni Hiiri' , 'Hessu Hopo']], 0) 
         participant_created_manually = DataGenerator.Participant(0, 'Matti Meikäläinen', 'Matti', 'Meikäläinen', 'mattimeikäläinen', False, ['Mikki Hiiri', 'Minni Hiiri' , 'Hessu Hopo'],['mikkihiiri', 'minnihiiri' , 'hessuhopo'])
         #Check that all fields that matter match (is_man is not currently used)
