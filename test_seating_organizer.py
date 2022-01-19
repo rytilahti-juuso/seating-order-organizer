@@ -81,9 +81,14 @@ class TestParticipant(unittest.TestCase):
         self.assertEqual(factory.generate_name_without_spaces_and_caps("Matti     Meikäläinen"), "mattimeikäläinen")
         self.assertEqual(factory.generate_name_without_spaces_and_caps("MATTI MEIKÄLÄINEN"), "mattimeikäläinen")
         self.assertEqual(factory.generate_name_without_spaces_and_caps("Matti Matias Meikäläinen"), "mattimatiasmeikäläinen")
+        self.assertEqual(factory.generate_name_without_spaces_and_caps("Matti     Matias        Meikäläinen"), "mattimatiasmeikäläinen")
     
     def test_generate_wish_list_without_spaces_and_capitals(self):
-        pass
+        factory = DataGenerator.ParticipantFactory()
+        self.assertEqual(factory.generate_wish_list_without_spaces_and_caps(['Mikki Hiiri', 'Minni Hiiri']), ['mikkihiiri', 'minnihiiri'])
+        self.assertEqual(factory.generate_wish_list_without_spaces_and_caps(['MikkI Hiiri', 'Minni HIIri']), ['mikkihiiri', 'minnihiiri'])
+        self.assertEqual(factory.generate_wish_list_without_spaces_and_caps(['Mikki   Hiiri', 'Minni    Hiiri']), ['mikkihiiri', 'minnihiiri'])
+        self.assertEqual(factory.generate_wish_list_without_spaces_and_caps([]), [])
     
 # dataclass object has correct values in default case
 
