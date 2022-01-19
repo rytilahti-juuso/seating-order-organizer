@@ -284,11 +284,11 @@ class NecessaryListsFactory(object):
 
 
 class ParticipantFactory(object):
-    def __init__(self):
-        male_first_names = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\etunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Miehet ens')["Etunimi"] 
-        self.male_first_names = male_first_names.tolist()
        
-        
+    def load_men_names(self):
+        men_first_names = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\etunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Miehet ens')["Etunimi"] 
+        self.men_first_names = men_first_names.tolist()
+       
     # Returns new Participant object with necessary information
     # Participant is list containing name and and friend list, where elements are [<participant fullname>, <seating order wishes>]
     def create_participant_from_given_name(self, participant_and_wishes_list, id):
@@ -299,7 +299,11 @@ class ParticipantFactory(object):
         first_name = self.generate_first_name(full_name)
         last_name = self.generate_last_name(full_name)
         name_without_typos = self.generate_name_without_spaces_and_caps(full_name)
-        is_man = first_name in self.male_first_names
+        try:
+            self.men_first_names
+            is_man = first_name in self.men_first_names
+        except AttributeError:
+            is_man = False
          
         
         ######################
