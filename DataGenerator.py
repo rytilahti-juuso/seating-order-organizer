@@ -297,7 +297,7 @@ class ParticipantFactory(object):
         ######################
         full_name = participant_and_wishes_list[0]
         first_name = self.get_first_names(full_name)
-        surname = self.generate_surname(full_name)
+        surname = self.get_surname(full_name)
         name_without_typos = self.generate_name_without_spaces_and_caps(full_name)
         try:
             self.men_first_names
@@ -322,7 +322,7 @@ class ParticipantFactory(object):
         return splitted_name
   
     # return last name if name contains space, otherwise returns full name
-    def generate_surname(self, name):
+    def get_surname(self, name):
         splitted_name = name.split(" ")
         if(len(splitted_name) >= 2):
             return splitted_name[len(splitted_name)-1]
