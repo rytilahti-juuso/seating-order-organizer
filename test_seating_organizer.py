@@ -36,8 +36,8 @@ class TestParticipant(unittest.TestCase):
     def test_participate_creation_works(self):
         factory = DataGenerator.ParticipantFactory()
         participant_created_in_factory = factory.create_participant_from_given_name(['Matti Meikäläinen',
-                ['Mikki Hiiri', 'Minni Hiiri' , 'Hessu Hopo']], 0) 
-        participant_created_manually = DataGenerator.Participant(0, 'Matti Meikäläinen', 'Matti', 'Meikäläinen', 'mattimeikäläinen', False, ['Mikki Hiiri', 'Minni Hiiri' , 'Hessu Hopo'],['mikkihiiri', 'minnihiiri' , 'hessuhopo'])
+                ['Mikki Hiiri', 'Minni Hiiri' , 'Hessu Hopo']], 10) 
+        participant_created_manually = DataGenerator.Participant(10, 'Matti Meikäläinen', 'Matti', 'Meikäläinen', 'mattimeikäläinen', False, ['Mikki Hiiri', 'Minni Hiiri' , 'Hessu Hopo'],['mikkihiiri', 'minnihiiri' , 'hessuhopo'])
         #Check that all fields that matter match (is_man is not currently used)
         #Check that name is equal
         self.assertEqual(participant_created_in_factory.first_name, participant_created_manually.first_name)
@@ -49,8 +49,8 @@ class TestParticipant(unittest.TestCase):
         self.assertEqual(participant_created_in_factory.seating_wish_list, participant_created_manually.seating_wish_list)
         self.assertEqual(participant_created_in_factory.seating_wish_list_without_spaces_and_caps, participant_created_manually.seating_wish_list_without_spaces_and_caps)
 
-    def test_participant_object_cant_be_mutated(self):
-        pass
+        # Check that the id is set
+        self.assertEqual(participant_created_in_factory.id, participant_created_manually.id)
     
     def test_get_name_without_extra_spaces(self):
         factory = DataGenerator.ParticipantFactory()
