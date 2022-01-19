@@ -75,20 +75,20 @@ class TestParticipant(unittest.TestCase):
         self.assertEqual(factory.get_surname('Matti Matias Meikäläinen-Esimerkki'), 'Meikäläinen-Esimerkki')
 
 
-    def test_generate_participant_name_without_spaces_and_capitals(self):
+    def test_get_participant_name_without_spaces_and_capitals(self):
         factory = DataGenerator.ParticipantFactory()
-        self.assertEqual(factory.generate_name_without_spaces_and_caps("Matti Meikäläinen"), "mattimeikäläinen")
-        self.assertEqual(factory.generate_name_without_spaces_and_caps("Matti     Meikäläinen"), "mattimeikäläinen")
-        self.assertEqual(factory.generate_name_without_spaces_and_caps("MATTI MEIKÄLÄINEN"), "mattimeikäläinen")
-        self.assertEqual(factory.generate_name_without_spaces_and_caps("Matti Matias Meikäläinen"), "mattimatiasmeikäläinen")
-        self.assertEqual(factory.generate_name_without_spaces_and_caps("Matti     Matias        Meikäläinen"), "mattimatiasmeikäläinen")
+        self.assertEqual(factory.get_name_without_spaces_and_caps("Matti Meikäläinen"), "mattimeikäläinen")
+        self.assertEqual(factory.get_name_without_spaces_and_caps("Matti     Meikäläinen"), "mattimeikäläinen")
+        self.assertEqual(factory.get_name_without_spaces_and_caps("MATTI MEIKÄLÄINEN"), "mattimeikäläinen")
+        self.assertEqual(factory.get_name_without_spaces_and_caps("Matti Matias Meikäläinen"), "mattimatiasmeikäläinen")
+        self.assertEqual(factory.get_name_without_spaces_and_caps("Matti     Matias        Meikäläinen"), "mattimatiasmeikäläinen")
     
-    def test_generate_wish_list_without_spaces_and_capitals(self):
+    def test_get_wish_list_without_spaces_and_capitals(self):
         factory = DataGenerator.ParticipantFactory()
-        self.assertEqual(factory.generate_wish_list_without_spaces_and_caps(['Mikki Hiiri', 'Minni Hiiri']), ['mikkihiiri', 'minnihiiri'])
-        self.assertEqual(factory.generate_wish_list_without_spaces_and_caps(['MikkI Hiiri', 'Minni HIIri']), ['mikkihiiri', 'minnihiiri'])
-        self.assertEqual(factory.generate_wish_list_without_spaces_and_caps(['Mikki   Hiiri', 'Minni    Hiiri']), ['mikkihiiri', 'minnihiiri'])
-        self.assertEqual(factory.generate_wish_list_without_spaces_and_caps([]), [])
+        self.assertEqual(factory.get_wish_list_without_spaces_and_caps(['Mikki Hiiri', 'Minni Hiiri']), ['mikkihiiri', 'minnihiiri'])
+        self.assertEqual(factory.get_wish_list_without_spaces_and_caps(['MikkI Hiiri', 'Minni HIIri']), ['mikkihiiri', 'minnihiiri'])
+        self.assertEqual(factory.get_wish_list_without_spaces_and_caps(['Mikki   Hiiri', 'Minni    Hiiri']), ['mikkihiiri', 'minnihiiri'])
+        self.assertEqual(factory.get_wish_list_without_spaces_and_caps([]), [])
     
 # dataclass object has correct values in default case
 

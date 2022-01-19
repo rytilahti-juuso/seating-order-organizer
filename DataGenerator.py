@@ -298,7 +298,7 @@ class ParticipantFactory(object):
         full_name = self.get_name_without_extra_spaces(participant_and_wishes_list[0])
         first_name = self.get_first_names(full_name)
         surname = self.get_surname(full_name)
-        name_without_typos = self.generate_name_without_spaces_and_caps(full_name)
+        name_without_typos = self.get_name_without_spaces_and_caps(full_name)
         try:
             self.men_first_names
             is_man = first_name in self.men_first_names
@@ -310,7 +310,7 @@ class ParticipantFactory(object):
         # wish list
         ######################
         wish_list = participant_and_wishes_list[1]
-        wish_list_without_spaces_and_caps = self.generate_wish_list_without_spaces_and_caps(wish_list)
+        wish_list_without_spaces_and_caps = self.get_wish_list_without_spaces_and_caps(wish_list)
         
         p = Participant(id, full_name, first_name, surname, name_without_typos, is_man, wish_list, wish_list_without_spaces_and_caps)
         return p
@@ -341,15 +341,15 @@ class ParticipantFactory(object):
             return splitted_name[0]
 
     
-    def generate_name_without_spaces_and_caps(self, name):
+    def get_name_without_spaces_and_caps(self, name):
         tmp = name.lower()
         tmp = re.sub("\s+", "", tmp.strip())
         return tmp
     
-    def generate_wish_list_without_spaces_and_caps(self, wish_list):
+    def get_wish_list_without_spaces_and_caps(self, wish_list):
         wish_list_without_spaces_and_caps = []
         for name in wish_list:
-            wish_list_without_spaces_and_caps.append(self.generate_name_without_spaces_and_caps(name))
+            wish_list_without_spaces_and_caps.append(self.get_name_without_spaces_and_caps(name))
         return wish_list_without_spaces_and_caps
 
 @dataclass(frozen = True) #TODO change this class to be frozen
