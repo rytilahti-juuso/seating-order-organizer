@@ -2,6 +2,7 @@
 
 import unittest
 import DataGenerator
+from dataclasses import FrozenInstanceError
 
 # This is simple test case template for writing the tests later when I have time
 
@@ -48,9 +49,27 @@ class TestParticipant(unittest.TestCase):
         # Check that parsing wishing list works
         self.assertEqual(participant_created_in_factory.seating_wish_list, participant_created_manually.seating_wish_list)
         self.assertEqual(participant_created_in_factory.seating_wish_list_without_spaces_and_caps, participant_created_manually.seating_wish_list_without_spaces_and_caps)
-
+        
         # Check that the id is set
         self.assertEqual(participant_created_in_factory.id, participant_created_manually.id)
+    
+    # Dataclass should always be frozen, lists can be mutated, but you should
+    # never mutate the lists in Participant objects once Participant object is
+    # created! It might cause huge problems later!
+    def test_that_participant_object_cant_be_mutated(self):
+        factory = DataGenerator.ParticipantFactory()
+        participant_created_in_factory = factory.create_participant_from_given_name(['Matti Meikäläinen',
+                ['Mikki Hiiri', 'Minni Hiiri' , 'Hessu Hopo']], 0)
+        with self.assertRaises(FrozenInstanceError):
+            participant_created_in_factory.full_name = 'Name modification'
+        with self.assertRaises(FrozenInstanceError):
+            participant_created_in_factory.first_name = 'Name modification'
+        with self.assertRaises(FrozenInstanceError):
+            participant_created_in_factory.surname = 'Name modification'
+        with self.assertRaises(FrozenInstanceError):
+            participant_created_in_factory.name_without_typos = 'Name modification'
+        with self.assertRaises(FrozenInstanceError):
+            participant_created_in_factory.id = 2
     
     def test_get_name_without_extra_spaces(self):
         factory = DataGenerator.ParticipantFactory()
