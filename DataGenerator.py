@@ -322,9 +322,9 @@ class ParticipantFactory(object):
   
     # return last name if name contains space, otherwise returns full name
     def generate_last_name(self, name):
-        splitted_name = name.split(" ", 1)
+        splitted_name = name.split(" ")
         if(len(splitted_name) >= 2):
-            return splitted_name[1]
+            return splitted_name[len(splitted_name)-1]
         else: #TODO this is maybe unnecessary
             #Maybe other should be just an empty space?
             return splitted_name[0]
