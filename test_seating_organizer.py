@@ -67,7 +67,11 @@ class TestParticipant(unittest.TestCase):
 
 
     def test_generate_participant_name_without_spaces_and_capitals(self):
-        pass
+        factory = DataGenerator.ParticipantFactory()
+        self.assertEqual(factory.generate_name_without_spaces_and_caps("Matti Meikäläinen"), "mattimeikäläinen")
+        self.assertEqual(factory.generate_name_without_spaces_and_caps("Matti     Meikäläinen"), "mattimeikäläinen")
+        self.assertEqual(factory.generate_name_without_spaces_and_caps("MATTI MEIKÄLÄINEN"), "mattimeikäläinen")
+        self.assertEqual(factory.generate_name_without_spaces_and_caps("Matti Matias Meikäläinen"), "mattimatiasmeikäläinen")
     
     def test_generate_wish_list_without_spaces_and_capitals(self):
         pass
