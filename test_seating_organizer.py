@@ -46,6 +46,21 @@ class TestParticipant(unittest.TestCase):
         self.assertEqual(participant_created_in_factory.seating_wish_list, participant_created_manually.seating_wish_list)
         self.assertEqual(participant_created_in_factory.seating_wish_list_without_spaces_and_caps, participant_created_manually.seating_wish_list_without_spaces_and_caps)
 
+    def test_participant_object_cant_be_mutated(self):
+        pass
+    
+    def test_generate_first_name(self):
+        pass
+    
+    def test_generate_last_name(self):
+        pass
+
+    def test_generate_participant_name_without_spaces_and_capitals(self):
+        pass
+    
+    def test_generate_wish_list_without_spaces_and_capitals(self):
+        pass
+    
 # dataclass object has correct values in default case
 
 # man-name list is List<string> type instead of any other data types (because of use of "in" operator)
