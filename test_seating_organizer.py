@@ -56,6 +56,7 @@ class TestParticipant(unittest.TestCase):
         self.assertEqual(factory.get_first_names("Matti Matias Meikäläinen"), "Matti Matias")
         self.assertEqual(factory.get_first_names("Niño Meikäläinen"), "Niño")
         self.assertNotEqual(factory.get_first_names("Matti Meikäläinen"), "matti")
+        self.assertEqual(factory.get_first_names("Matti"), "Matti")
     
     def test_generate_surname(self):
         factory = DataGenerator.ParticipantFactory()
