@@ -296,7 +296,7 @@ class ParticipantFactory(object):
         # Participant's name
         ######################
         full_name = participant_and_wishes_list[0]
-        first_name = self.generate_first_name(full_name)
+        first_name = self.get_first_names(full_name)
         surname = self.generate_surname(full_name)
         name_without_typos = self.generate_name_without_spaces_and_caps(full_name)
         try:
@@ -315,10 +315,11 @@ class ParticipantFactory(object):
         p = Participant(id, full_name, first_name, surname, name_without_typos, is_man, wish_list, wish_list_without_spaces_and_caps)
         return p
         
-    # return first name if name contains space, otherwise returns full name
-    def generate_first_name(self, name):
-        splitted_name = name.split(" ", 1)
-        return splitted_name[0]
+    # return first names if name contains space, otherwise returns full name
+    # 'Matti Matias Meikäläinen' returns 'Matti Matias'
+    def get_first_names(self, name):
+        splitted_name = name.rsplit(" ", 1)[0]
+        return splitted_name
   
     # return last name if name contains space, otherwise returns full name
     def generate_surname(self, name):

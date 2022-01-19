@@ -50,12 +50,12 @@ class TestParticipant(unittest.TestCase):
     def test_participant_object_cant_be_mutated(self):
         pass
     
-    def test_generate_first_name(self):
+    def test_get_first_namess(self):
         factory = DataGenerator.ParticipantFactory()
-        self.assertEqual(factory.generate_first_name("Matti Meikäläinen"), "Matti")
-        self.assertEqual(factory.generate_first_name("Matti Matias Meikäläinen"), "Matti")
-        self.assertEqual(factory.generate_first_name("Niño Meikäläinen"), "Niño")
-        self.assertNotEqual(factory.generate_first_name("Matti Meikäläinen"), "matti")
+        self.assertEqual(factory.get_first_names("Matti Meikäläinen"), "Matti")
+        self.assertEqual(factory.get_first_names("Matti Matias Meikäläinen"), "Matti Matias")
+        self.assertEqual(factory.get_first_names("Niño Meikäläinen"), "Niño")
+        self.assertNotEqual(factory.get_first_names("Matti Meikäläinen"), "matti")
     
     def test_generate_surname(self):
         factory = DataGenerator.ParticipantFactory()
