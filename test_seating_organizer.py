@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import unittest
+import DataGenerator
+
 # This is simple test case template for writing the tests later when I have time
 
 ####################################
@@ -24,6 +27,24 @@
 ####################################
 #           Participant
 ####################################
+
+class TestParticipant(unittest.TestCase):
+    
+    def test_participate_creation_works(self):
+        t = DataGenerator.ParticipantFactory()
+        participant_created_in_factory = t.create_participant_from_given_name(['Matti Meikäläinen',
+                ['Mikki Hiiri', 'Minni Hiiri' , 'Hessu Hopo']], 0) 
+        participant_created_manually = DataGenerator.Participant(0, 'Matti Meikäläinen', 'Matti', 'Meikäläinen', 'mattimeikäläinen', False, ['Mikki Hiiri', 'Minni Hiiri' , 'Hessu Hopo'],['mikkihiiri', 'minnihiiri' , 'hessuhopo'])
+        #Check that all fields that matter match (is_man is not currently used)
+        #Check that name is equal
+        self.assertEqual(participant_created_in_factory.first_name, participant_created_manually.first_name)
+        self.assertEqual(participant_created_in_factory.last_name, participant_created_manually.last_name)
+        self.assertEqual(participant_created_in_factory.full_name, participant_created_manually.full_name)
+        self.assertEqual(participant_created_in_factory.name_without_typos, participant_created_manually.name_without_typos)
+        
+        # Check that parsing wishing list works
+        self.assertEqual(participant_created_in_factory.seating_wish_list, participant_created_manually.seating_wish_list)
+        self.assertEqual(participant_created_in_factory.seating_wish_list_without_spaces_and_caps, participant_created_manually.seating_wish_list_without_spaces_and_caps)
 
 # dataclass object has correct values in default case
 
@@ -70,3 +91,7 @@
     # Both are men
     # Both are women
     # Different relational positions (ex. <man, woman, man, man>, <man, man, man, woman> etc.)
+    
+if __name__ == '__main__':
+    #Will run all tests
+    unittest.main()
