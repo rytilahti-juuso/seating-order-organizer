@@ -133,8 +133,8 @@ class NecessaryListsFactory(object):
         self.names_with_color_rules = self.generate_color_rules(self.participant_list, self.participants_ids_with_special_wishes, self.all_pools, self.add_empty_cells_after_these_ids)
         self.seating_order = self.generate_final_seating_list(self.participant_list, pc.wish_pools, self.add_empty_cells_after_these_ids) # Participant full names are in correct seating order
         #print(self.add_empty_cells_after_these_ids)
-        e = ExportData()
-        e.export_data_to_excel(self.seating_order, self.names_with_color_rules)
+        #e = ExportData()
+        #e.export_data_to_excel(self.seating_order, self.names_with_color_rules)
     
     ###########################################
     #    Handle duplicates methods STARTS     #
@@ -652,6 +652,8 @@ if __name__:
     ###IMPORT DUMMY DATA FROM EXCEL AND CREATE POOLS FROM THAT DATA ###################################
     imp = ImportDataFromExcel()
     nlf = NecessaryListsFactory(imp.data)
+    e = ExportData()
+    e.export_data_to_excel(nlf.seating_order, nlf.names_with_color_rules)
     ###IMPORT DUMMY DATA FROM EXCEL AND CREATE POOLS FROM THAT DATA ENDS ###################################
     
     #print(poolcreation.wish_pools)
