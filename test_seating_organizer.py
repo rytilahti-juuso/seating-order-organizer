@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from DataGenerator import ParticipantFactory, Participant
+from data_generator import ParticipantFactory, Participant, PoolCreation
 from dataclasses import FrozenInstanceError
 
 # This is simple test case template for writing the tests later when I have time
@@ -124,6 +124,43 @@ class TestParticipant(unittest.TestCase):
 #           PoolCreation
 ####################################
 
+class TestPoolCreation(unittest.TestCase):
+    
+    def setUp(self):
+        self.anonymous_list= [[0, [1,2,3]], [1, [0,2,3]], [2, [0,1,3]], [3, [0,1,2]], [4, [5,6]], [5, [4]], [6, [5, 7]], [7, [6]], [8, []]]
+        self.anonymous_deeply_nested = [ [0, [1]], [1, [2]], [2, [3]], [3, [4]], [4, [5]], [5, [4]], [6, []] ]
+    
+    
+    def test_create_pools(self):
+        pool_creation = PoolCreation()
+        pool_creation.create_pools(self.anonymous_list)
+        self.assertEqual(pool_creation.wish_pools, [[0, 1, 2, 3], [4, 5, 6, 7], [8]])
+        self.assertEqual(pool_creation.all_mutual_wishes_pools, [[[0, 1, 2, 3]], [[4, 5], [6,7]], [[8]]])
+        
+    
+    def test_create_all_wishes_to_same_group(self):
+        pool_creation = PoolCreation()
+        pool_creation.create_all_wishes_to_same_group(self.anonymous_list)
+        all_wishes_in_same_group_pool = pool_creation.wish_pools
+        self.assertEqual(all_wishes_in_same_group_pool, [[0, 1, 2, 3], [4, 5, 6, 7], [8]])
+        
+        #test also deeply nested wishes
+        deeply_nested_pool_creation = PoolCreation()
+        deeply_nested_pool_creation.create_all_wishes_to_same_group(self.anonymous_deeply_nested)
+        deeply_nested_all_wishes = deeply_nested_pool_creation.wish_pools
+        self.assertEqual(deeply_nested_all_wishes, [[0, 1, 2, 3, 4, 5], [6]])
+        
+        
+        
+    def test_create_mutual_wishes_groups(self):
+        pool_creation = PoolCreation()
+        all_wishes_in_same_group_pool = [[0, 1, 2, 3], [4, 5, 6, 7], [8]]
+        pool_creation.create_mutual_wishes_groups(all_wishes_in_same_group_pool, self.anonymous_list)
+        mutual_wishes_pools = pool_creation.all_mutual_wishes_pools
+        self.assertEqual(mutual_wishes_pools, [[[0, 1, 2, 3]], [[4, 5], [6, 7]], [[8]]])
+        
+        
+        
 # Check that there are no duplicates in the pools.
 
 # Add all wishes to same pool.
