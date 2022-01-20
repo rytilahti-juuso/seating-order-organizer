@@ -144,12 +144,13 @@ class TestPoolCreation(unittest.TestCase):
         all_wishes_in_same_group_pool = pool_creation.wish_pools
         self.assertEqual(all_wishes_in_same_group_pool, [[0, 1, 2, 3], [4, 5, 6, 7], [8]])
         
+        #test also deeply nested wishes
         deeply_nested_pool_creation = PoolCreation()
         deeply_nested_pool_creation.create_all_wishes_to_same_group(self.anonymous_deeply_nested)
         deeply_nested_all_wishes = deeply_nested_pool_creation.wish_pools
         self.assertEqual(deeply_nested_all_wishes, [[0, 1, 2, 3, 4, 5], [6]])
         
-        #test also deeply nested wishes
+        
         
     def test_create_mutual_wishes_groups(self):
         pool_creation = PoolCreation()
