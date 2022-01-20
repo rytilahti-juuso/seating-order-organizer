@@ -25,50 +25,88 @@ class TestNecessaryListsFactory(unittest.TestCase):
         # Johanna Korhonen has special wish
         self.name_and_wish_list =[['Juha Korhonen', ['Helena Korhonen']]
                                   , ['Helena Korhonen', ['Juha Korhonen']]
-                                  , ['Matti Korhonen', ['Juha Korhonen', 'Helena Korhonen', 'Johanna Korhonen', 'Mikko Korhonen']]
-                                  , ['Johanna Korhonen', ['Juha Korhonen', 'Helena Korhonen', 'Matti Korhonen', 'Mikko Korhonen']]
-                                  , ['Mikko Korhonen', ['Juha Korhonen', 'Helena Korhonen', 'Matti Korhonen', 'Johanna Korhonen. I wish not to sit next to person named xx.']]
-                                  , ['Marjatta Hämäläinen', ['Antti Hämäläinen', 'Kristiina Hämäläinen', 'Mika Hämäläinen', 'Liisa Hämäläinen']]
-                                  , ['Antti Hämäläinen', ['Marjatta Hämäläinen', 'Kristiina Hämäläinen', 'Mika Hämäläinen', 'Liisa Hämäläinen']]
-                                  , ['Kristiina Hämäläinen', ['Marjatta Hämäläinen', 'Antti Hämäläinen', 'Mika Hämäläinen', 'Liisa Hämäläinen']]
-                                  , ['Mika Hämäläinen', ['Marjatta Hämäläinen', 'Antti Hämäläinen', 'Kristiina Hämäläinen', 'Liisa Hämäläinen']]
-                                  , ['Liisa Hämäläinen', ['Marjatta Hämäläinen', 'Antti Hämäläinen', 'Kristiina Hämäläinen', 'Mika Hämäläinen']]
-                                  , ['Pekka Lehtonen', ['Sofia Lehtonen', 'Heikki Lehtonen', 'Maarit Lehtonen', 'Seppo Lehtonen']]
-                                  , ['Sofia Lehtonen', ['Pekka Lehtonen', 'Heikki Lehtonen', 'Maarit Lehtonen', 'Seppo Lehtonen']]
-                                  , ['Heikki Lehtonen', ['Pekka Lehtonen', 'Sofia Lehtonen', 'Maarit Lehtonen', 'Seppo Lehtonen']]
-                                  , ['Maarit Lehtonen', ['Pekka Lehtonen', 'Sofia Lehtonen', 'Heikki Lehtonen', 'Seppo Lehtonen']]
-                                  , ['Seppo Lehtonen', ['Pekka Lehtonen', 'Sofia Lehtonen', 'Heikki Lehtonen', 'Maarit Lehtonen', 'Annikki Heikkilä']]
+                                  , ['Matti Korhonen', ['Juha Korhonen', 'Helena Korhonen', 'Johanna Korhonen'
+                                                        , 'Mikko Korhonen']]
+                                  , ['Johanna Korhonen', ['Juha Korhonen', 'Helena Korhonen', 'Matti Korhonen'
+                                                          , 'Mikko Korhonen']]
+                                  , ['Mikko Korhonen', ['Juha Korhonen', 'Helena Korhonen', 'Matti Korhonen'
+                                                    , 'Johanna Korhonen. I wish not to sit next to person named xx.']]
+                                  , ['Marjatta Hämäläinen', ['Antti Hämäläinen', 'Kristiina Hämäläinen'
+                                                             , 'Mika Hämäläinen', 'Liisa Hämäläinen']]
+                                  , ['Antti Hämäläinen', ['Marjatta Hämäläinen', 'Kristiina Hämäläinen'
+                                                          , 'Mika Hämäläinen', 'Liisa Hämäläinen']]
+                                  , ['Kristiina Hämäläinen', ['Marjatta Hämäläinen', 'Antti Hämäläinen'
+                                                              , 'Mika Hämäläinen', 'Liisa Hämäläinen']]
+                                  , ['Mika Hämäläinen', ['Marjatta Hämäläinen', 'Antti Hämäläinen'
+                                                         , 'Kristiina Hämäläinen', 'Liisa Hämäläinen']]
+                                  , ['Liisa Hämäläinen', ['Marjatta Hämäläinen', 'Antti Hämäläinen'
+                                                          , 'Kristiina Hämäläinen', 'Mika Hämäläinen']]
+                                  , ['Pekka Lehtonen', ['Sofia Lehtonen', 'Heikki Lehtonen', 'Maarit Lehtonen'
+                                                        , 'Seppo Lehtonen']]
+                                  , ['Sofia Lehtonen', ['Pekka Lehtonen', 'Heikki Lehtonen', 'Maarit Lehtonen'
+                                                        , 'Seppo Lehtonen']]
+                                  , ['Heikki Lehtonen', ['Pekka Lehtonen', 'Sofia Lehtonen', 'Maarit Lehtonen'
+                                                         , 'Seppo Lehtonen']]
+                                  , ['Maarit Lehtonen', ['Pekka Lehtonen', 'Sofia Lehtonen', 'Heikki Lehtonen'
+                                                         , 'Seppo Lehtonen']]
+                                  , ['Seppo Lehtonen', ['Pekka Lehtonen', 'Sofia Lehtonen', 'Heikki Lehtonen'
+                                                        , 'Maarit Lehtonen', 'Annikki Heikkilä']]
                                   , ['Don Diego de la Vega', []]
-                                  , ['Annikki Heikkilä', ['Sami Heikkilä', 'Katariina Heikkilä', 'Marko Heikkilä', 'Seppo Lehtonen']]
-                                  , ['Sami Heikkilä', ['Annikki Heikkilä', 'Katariina Heikkilä', 'Marko Heikkilä', 'Marja Heikkilä']]
-                                  , ['Katariina Heikkilä', ['Annikki Heikkilä', 'Sami Heikkilä', 'Marko Heikkilä', 'Marja Heikkilä']]
-                                  , ['Marko Heikkilä', ['Annikki Heikkilä', 'Sami Heikkilä', 'Katariina Heikkilä', 'Marja Heikkilä']]
-                                  , ['Marja Heikkilä', ['Annikki Heikkilä', 'Sami Heikkilä', 'Katariina Heikkilä', 'Marko Heikkilä']]
+                                  , ['Annikki Heikkilä', ['Sami Heikkilä', 'Katariina Heikkilä', 'Marko Heikkilä'
+                                                          , 'Seppo Lehtonen']]
+                                  , ['Sami Heikkilä', ['Annikki Heikkilä', 'Katariina Heikkilä', 'Marko Heikkilä'
+                                                       , 'Marja Heikkilä']]
+                                  , ['Katariina Heikkilä', ['Annikki Heikkilä', 'Sami Heikkilä', 'Marko Heikkilä'
+                                                            , 'Marja Heikkilä']]
+                                  , ['Marko Heikkilä', ['Annikki Heikkilä', 'Sami Heikkilä', 'Katariina Heikkilä'
+                                                        , 'Marja Heikkilä']]
+                                  , ['Marja Heikkilä', ['Annikki Heikkilä', 'Sami Heikkilä', 'Katariina Heikkilä'
+                                                        , 'Marko Heikkilä']]
                                   ]
         self.nlf = NecessaryListsFactory(self.name_and_wish_list)
     
     def test_will_detect_duplicates_and_stop_execution(self):
         #Sofia Lehtonen is now Pekka Lehtonen, Sofia Lehtonen is still on peoples wishlist
-        name_and_wishlist_with_duplicates = [['Juha Korhonen', ['Helena Korhonen', 'Matti Korhonen', 'Johanna Korhonen', 'Mikko Korhonen']]
-                                  , ['Helena Korhonen', ['Juha Korhonen', 'Matti Korhonen', 'Johanna Korhonen', 'Mikko Korhonen']]
-                                  , ['Matti Korhonen', ['Juha Korhonen', 'Helena Korhonen', 'Johanna Korhonen', 'Mikko Korhonen']]
-                                  , ['Johanna Korhonen', ['Juha Korhonen', 'Helena Korhonen', 'Matti Korhonen', 'Mikko Korhonen']]
-                                  , ['Mikko Korhonen', ['Juha Korhonen', 'Helena Korhonen', 'Matti Korhonen', 'Johanna Korhonen']]
-                                  , ['Marjatta Hämäläinen', ['Antti Hämäläinen', 'Kristiina Hämäläinen', 'Mika Hämäläinen', 'Liisa Hämäläinen']]
-                                  , ['Antti Hämäläinen', ['Marjatta Hämäläinen', 'Kristiina Hämäläinen', 'Mika Hämäläinen', 'Liisa Hämäläinen']]
-                                  , ['Kristiina Hämäläinen', ['Marjatta Hämäläinen', 'Antti Hämäläinen', 'Mika Hämäläinen', 'Liisa Hämäläinen']]
-                                  , ['Mika Hämäläinen', ['Marjatta Hämäläinen', 'Antti Hämäläinen', 'Kristiina Hämäläinen', 'Liisa Hämäläinen']]
-                                  , ['Liisa Hämäläinen', ['Marjatta Hämäläinen', 'Antti Hämäläinen', 'Kristiina Hämäläinen', 'Mika Hämäläinen']]
-                                  , ['Pekka Lehtonen', ['Sofia Lehtonen', 'Heikki Lehtonen', 'Maarit Lehtonen', 'Seppo Lehtonen']]
-                                  , ['Pekka Lehtonen', ['Pekka Lehtonen', 'Heikki Lehtonen', 'Maarit Lehtonen', 'Seppo Lehtonen']]
-                                  , ['Heikki Lehtonen', ['Pekka Lehtonen', 'Sofia Lehtonen', 'Maarit Lehtonen', 'Seppo Lehtonen']]
-                                  , ['Maarit Lehtonen', ['Pekka Lehtonen', 'Sofia Lehtonen', 'Heikki Lehtonen', 'Seppo Lehtonen']]
-                                  , ['Seppo Lehtonen', ['Pekka Lehtonen', 'Sofia Lehtonen', 'Heikki Lehtonen', 'Maarit Lehtonen']]
-                                  , ['Annikki Heikkilä', ['Sami Heikkilä', 'Katariina Heikkilä', 'Marko Heikkilä', 'Marja Heikkilä']]
-                                  , ['Sami Heikkilä', ['Annikki Heikkilä', 'Katariina Heikkilä', 'Marko Heikkilä', 'Marja Heikkilä']]
-                                  , ['Katariina Heikkilä', ['Annikki Heikkilä', 'Sami Heikkilä', 'Marko Heikkilä', 'Marja Heikkilä']]
-                                  , ['Marko Heikkilä', ['Annikki Heikkilä', 'Sami Heikkilä', 'Katariina Heikkilä', 'Marja Heikkilä']]
-                                  , ['Marja Heikkilä', ['Annikki Heikkilä', 'Sami Heikkilä', 'Katariina Heikkilä', 'Marko Heikkilä']]
+        name_and_wishlist_with_duplicates = [['Juha Korhonen', ['Helena Korhonen', 'Matti Korhonen', 'Johanna Korhonen'
+                                                                , 'Mikko Korhonen']]
+                                  , ['Helena Korhonen', ['Juha Korhonen', 'Matti Korhonen', 'Johanna Korhonen'
+                                                         , 'Mikko Korhonen']]
+                                  , ['Matti Korhonen', ['Juha Korhonen', 'Helena Korhonen', 'Johanna Korhonen'
+                                                        , 'Mikko Korhonen']]
+                                  , ['Johanna Korhonen', ['Juha Korhonen', 'Helena Korhonen', 'Matti Korhonen'
+                                                          , 'Mikko Korhonen']]
+                                  , ['Mikko Korhonen', ['Juha Korhonen', 'Helena Korhonen', 'Matti Korhonen'
+                                                        , 'Johanna Korhonen']]
+                                  , ['Marjatta Hämäläinen', ['Antti Hämäläinen', 'Kristiina Hämäläinen',
+                                                             'Mika Hämäläinen', 'Liisa Hämäläinen']]
+                                  , ['Antti Hämäläinen', ['Marjatta Hämäläinen', 'Kristiina Hämäläinen',
+                                                          'Mika Hämäläinen', 'Liisa Hämäläinen']]
+                                  , ['Kristiina Hämäläinen', ['Marjatta Hämäläinen', 'Antti Hämäläinen'
+                                                              , 'Mika Hämäläinen', 'Liisa Hämäläinen']]
+                                  , ['Mika Hämäläinen', ['Marjatta Hämäläinen', 'Antti Hämäläinen'
+                                                         , 'Kristiina Hämäläinen', 'Liisa Hämäläinen']]
+                                  , ['Liisa Hämäläinen', ['Marjatta Hämäläinen', 'Antti Hämäläinen'
+                                                          , 'Kristiina Hämäläinen', 'Mika Hämäläinen']]
+                                  , ['Pekka Lehtonen', ['Sofia Lehtonen', 'Heikki Lehtonen', 'Maarit Lehtonen'
+                                                        , 'Seppo Lehtonen']]
+                                  , ['Pekka Lehtonen', ['Pekka Lehtonen', 'Heikki Lehtonen', 'Maarit Lehtonen'
+                                                        , 'Seppo Lehtonen']]
+                                  , ['Heikki Lehtonen', ['Pekka Lehtonen', 'Sofia Lehtonen', 'Maarit Lehtonen'
+                                                         , 'Seppo Lehtonen']]
+                                  , ['Maarit Lehtonen', ['Pekka Lehtonen', 'Sofia Lehtonen', 'Heikki Lehtonen'
+                                                         , 'Seppo Lehtonen']]
+                                  , ['Seppo Lehtonen', ['Pekka Lehtonen', 'Sofia Lehtonen', 'Heikki Lehtonen'
+                                                        , 'Maarit Lehtonen']]
+                                  , ['Annikki Heikkilä', ['Sami Heikkilä', 'Katariina Heikkilä', 'Marko Heikkilä'
+                                                          , 'Marja Heikkilä']]
+                                  , ['Sami Heikkilä', ['Annikki Heikkilä', 'Katariina Heikkilä', 'Marko Heikkilä'
+                                                       , 'Marja Heikkilä']]
+                                  , ['Katariina Heikkilä', ['Annikki Heikkilä', 'Sami Heikkilä', 'Marko Heikkilä'
+                                                            , 'Marja Heikkilä']]
+                                  , ['Marko Heikkilä', ['Annikki Heikkilä', 'Sami Heikkilä', 'Katariina Heikkilä'
+                                                        , 'Marja Heikkilä']]
+                                  , ['Marja Heikkilä', ['Annikki Heikkilä', 'Sami Heikkilä', 'Katariina Heikkilä'
+                                                        , 'Marko Heikkilä']]
                                   ]
     
     def test_that_wishes_are_splitted_by_comma_semicolon_and_dot(self):
@@ -123,10 +161,12 @@ class TestParticipant(unittest.TestCase):
         self.assertEqual(participant_created_in_factory.first_name, participant_created_manually.first_name)
         self.assertEqual(participant_created_in_factory.surname, participant_created_manually.surname)
         self.assertEqual(participant_created_in_factory.full_name, participant_created_manually.full_name)
-        self.assertEqual(participant_created_in_factory.name_without_typos, participant_created_manually.name_without_typos)
+        self.assertEqual(participant_created_in_factory.name_without_typos
+                         , participant_created_manually.name_without_typos)
         
         # Check that parsing wishing list works
-        self.assertEqual(participant_created_in_factory.seating_wish_list, participant_created_manually.seating_wish_list)
+        self.assertEqual(participant_created_in_factory.seating_wish_list
+                         , participant_created_manually.seating_wish_list)
         self.assertEqual(participant_created_in_factory.seating_wish_list_without_spaces_and_caps
                          , participant_created_manually.seating_wish_list_without_spaces_and_caps)
         
@@ -155,7 +195,8 @@ class TestParticipant(unittest.TestCase):
         factory = ParticipantFactory()
         self.assertEqual(factory.get_name_without_extra_spaces("    Matti    Meikäläinen   "), "Matti Meikäläinen")
         self.assertEqual(factory.get_name_without_extra_spaces(" Matti Meikäläinen   "), "Matti Meikäläinen")
-        self.assertEqual(factory.get_name_without_extra_spaces("    Matti Matias Meikäläinen   "), "Matti Matias Meikäläinen")
+        self.assertEqual(factory.get_name_without_extra_spaces("    Matti Matias Meikäläinen   ")
+                         , "Matti Matias Meikäläinen")
         # with tab
         self.assertEqual(factory.get_name_without_extra_spaces("    Matti  Meikäläinen   "), "Matti Meikäläinen")
     
@@ -181,14 +222,19 @@ class TestParticipant(unittest.TestCase):
         self.assertEqual(factory.get_name_without_spaces_and_caps("Matti Meikäläinen"), "mattimeikäläinen")
         self.assertEqual(factory.get_name_without_spaces_and_caps("Matti     Meikäläinen"), "mattimeikäläinen")
         self.assertEqual(factory.get_name_without_spaces_and_caps("MATTI MEIKÄLÄINEN"), "mattimeikäläinen")
-        self.assertEqual(factory.get_name_without_spaces_and_caps("Matti Matias Meikäläinen"), "mattimatiasmeikäläinen")
-        self.assertEqual(factory.get_name_without_spaces_and_caps("Matti     Matias        Meikäläinen"), "mattimatiasmeikäläinen")
+        self.assertEqual(factory.get_name_without_spaces_and_caps("Matti Matias Meikäläinen")
+                         , "mattimatiasmeikäläinen")
+        self.assertEqual(factory.get_name_without_spaces_and_caps("Matti     Matias        Meikäläinen")
+                         , "mattimatiasmeikäläinen")
     
     def test_get_wish_list_without_spaces_and_capitals(self):
         factory = ParticipantFactory()
-        self.assertEqual(factory.get_wish_list_without_spaces_and_caps(['Mikki Hiiri', 'Minni Hiiri']), ['mikkihiiri', 'minnihiiri'])
-        self.assertEqual(factory.get_wish_list_without_spaces_and_caps(['MikkI Hiiri', 'Minni HIIri']), ['mikkihiiri', 'minnihiiri'])
-        self.assertEqual(factory.get_wish_list_without_spaces_and_caps(['Mikki   Hiiri', 'Minni    Hiiri']), ['mikkihiiri', 'minnihiiri'])
+        self.assertEqual(factory.get_wish_list_without_spaces_and_caps(['Mikki Hiiri', 'Minni Hiiri'])
+                         , ['mikkihiiri', 'minnihiiri'])
+        self.assertEqual(factory.get_wish_list_without_spaces_and_caps(['MikkI Hiiri', 'Minni HIIri'])
+                         , ['mikkihiiri', 'minnihiiri'])
+        self.assertEqual(factory.get_wish_list_without_spaces_and_caps(['Mikki   Hiiri', 'Minni    Hiiri'])
+                         , ['mikkihiiri', 'minnihiiri'])
         self.assertEqual(factory.get_wish_list_without_spaces_and_caps([]), [])
     
 # dataclass object has correct values in default case
@@ -207,7 +253,8 @@ class TestParticipant(unittest.TestCase):
 class TestPoolCreation(unittest.TestCase):
     
     def setUp(self):
-        self.anonymous_list= [[0, [1,2,3]], [1, [0,2,3]], [2, [0,1,3]], [3, [0,1,2]], [4, [5,6]], [5, [4]], [6, [5, 7]], [7, [6]], [8, []]]
+        self.anonymous_list= [[0, [1,2,3]], [1, [0,2,3]], [2, [0,1,3]], [3, [0,1,2]], [4, [5,6]], [5, [4]]
+                              , [6, [5, 7]], [7, [6]], [8, []]]
         self.anonymous_deeply_nested = [ [0, [1]], [1, [2]], [2, [3]], [3, [4]], [4, [5]], [5, [4]], [6, []] ]
     
     
@@ -225,8 +272,10 @@ class TestPoolCreation(unittest.TestCase):
         self.assertEqual(all_wishes_in_same_group_pool, [[0, 1, 2, 3], [4, 5, 6, 7], [8]])
         
         #test also deeply nested wishes
-        # If participant have wish and that wish have someone he wished, add them to same pool, and support for even deeper nesting.
-        #  e.g. [0, [1, 2]],[1, [0, 2, 5]] and [5, [7]] will be in the same pool (all_pools = [ [0,1,2,5,7], [pool2],... [poolN] ])
+        # If participant have wish and that wish have someone he wished, add them to same pool,
+        # and support for even deeper nesting.
+        # e.g. [0, [1, 2]],[1, [0, 2, 5]] and [5, [7]] will be in the same pool (all_pools = [ [0,1,2,5,7],
+        #       [pool2],... [poolN] ])
         deeply_nested_pool_creation = PoolCreation()
         deeply_nested_pool_creation.create_all_wishes_to_same_group(self.anonymous_deeply_nested)
         deeply_nested_all_wishes = deeply_nested_pool_creation.wish_pools
