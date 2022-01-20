@@ -145,6 +145,8 @@ class TestPoolCreation(unittest.TestCase):
         self.assertEqual(all_wishes_in_same_group_pool, [[0, 1, 2, 3], [4, 5, 6, 7], [8]])
         
         #test also deeply nested wishes
+        # If participant have wish and that wish have someone he wished, add them to same pool, and support for even deeper nesting.
+        #  e.g. [0, [1, 2]],[1, [0, 2, 5]] and [5, [7]] will be in the same pool (all_pools = [ [0,1,2,5,7], [pool2],... [poolN] ])
         deeply_nested_pool_creation = PoolCreation()
         deeply_nested_pool_creation.create_all_wishes_to_same_group(self.anonymous_deeply_nested)
         deeply_nested_all_wishes = deeply_nested_pool_creation.wish_pools
@@ -157,18 +159,11 @@ class TestPoolCreation(unittest.TestCase):
         all_wishes_in_same_group_pool = [[0, 1, 2, 3], [4, 5, 6, 7], [8]]
         pool_creation.create_mutual_wishes_groups(all_wishes_in_same_group_pool, self.anonymous_list)
         mutual_wishes_pools = pool_creation.all_mutual_wishes_pools
+        # Specifies mutual and non mutual wishes to different array (e.g. example below: [[4, 5], [6, 7]]).
         self.assertEqual(mutual_wishes_pools, [[[0, 1, 2, 3]], [[4, 5], [6, 7]], [[8]]])
-        
-        
         
 # Check that there are no duplicates in the pools.
 
-# Add all wishes to same pool.
-
-# If participant have wish and that wish have someone he wished, add them to same pool, and support for even deeper nesting.
-#  e.g. [0, [1, 2]],[1, [0, 2, 5]] and [5, [7]] will be in the same pool (all_pools = [ [0,1,2,5,7], [pool2],... [poolN] ])
-
-# TODO: Specify mutual and non mutual wishes to different array.
 
 ####################################
 #           ScoreCalculation
