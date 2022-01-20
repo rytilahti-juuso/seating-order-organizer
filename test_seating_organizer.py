@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-import DataGenerator
+from DataGenerator import ParticipantFactory, Participant
 from dataclasses import FrozenInstanceError
 
 # This is simple test case template for writing the tests later when I have time
@@ -35,10 +35,10 @@ class TestParticipant(unittest.TestCase):
 
     
     def test_participate_creation_works(self):
-        factory = DataGenerator.ParticipantFactory()
+        factory = ParticipantFactory()
         participant_created_in_factory = factory.create_participant_from_given_name(['Matti Meikäläinen',
                 ['Mikki Hiiri', 'Minni Hiiri' , 'Hessu Hopo']], 10) 
-        participant_created_manually = DataGenerator.Participant(10, 'Matti Meikäläinen', 'Matti', 'Meikäläinen', 'mattimeikäläinen', False, ['Mikki Hiiri', 'Minni Hiiri' , 'Hessu Hopo'],['mikkihiiri', 'minnihiiri' , 'hessuhopo'])
+        participant_created_manually = Participant(10, 'Matti Meikäläinen', 'Matti', 'Meikäläinen', 'mattimeikäläinen', False, ['Mikki Hiiri', 'Minni Hiiri' , 'Hessu Hopo'],['mikkihiiri', 'minnihiiri' , 'hessuhopo'])
         #Check that all fields that matter match (is_man is not currently used)
         #Check that name is equal
         self.assertEqual(participant_created_in_factory.first_name, participant_created_manually.first_name)
@@ -57,7 +57,7 @@ class TestParticipant(unittest.TestCase):
     # never mutate the lists in Participant objects once Participant object is
     # created! It might cause huge problems later!
     def test_that_participant_object_cant_be_mutated(self):
-        factory = DataGenerator.ParticipantFactory()
+        factory = ParticipantFactory()
         participant_created_in_factory = factory.create_participant_from_given_name(['Matti Meikäläinen',
                 ['Mikki Hiiri', 'Minni Hiiri' , 'Hessu Hopo']], 0)
         with self.assertRaises(FrozenInstanceError):
@@ -72,7 +72,7 @@ class TestParticipant(unittest.TestCase):
             participant_created_in_factory.id = 2
     
     def test_get_name_without_extra_spaces(self):
-        factory = DataGenerator.ParticipantFactory()
+        factory = ParticipantFactory()
         self.assertEqual(factory.get_name_without_extra_spaces("    Matti    Meikäläinen   "), "Matti Meikäläinen")
         self.assertEqual(factory.get_name_without_extra_spaces(" Matti Meikäläinen   "), "Matti Meikäläinen")
         self.assertEqual(factory.get_name_without_extra_spaces("    Matti Matias Meikäläinen   "), "Matti Matias Meikäläinen")
@@ -80,7 +80,7 @@ class TestParticipant(unittest.TestCase):
         self.assertEqual(factory.get_name_without_extra_spaces("    Matti  Meikäläinen   "), "Matti Meikäläinen")
     
     def test_get_first_names(self):
-        factory = DataGenerator.ParticipantFactory()
+        factory = ParticipantFactory()
         self.assertEqual(factory.get_first_names("Matti Meikäläinen"), "Matti")
         self.assertEqual(factory.get_first_names("Matti Matias Meikäläinen"), "Matti Matias")
         self.assertEqual(factory.get_first_names("Niño Meikäläinen"), "Niño")
@@ -88,7 +88,7 @@ class TestParticipant(unittest.TestCase):
         self.assertEqual(factory.get_first_names("Matti"), "Matti")
     
     def test_get_surname(self):
-        factory = DataGenerator.ParticipantFactory()
+        factory = ParticipantFactory()
         self.assertEqual(factory.get_surname('Matti Matias Meikäläinen'), 'Meikäläinen')
         self.assertEqual(factory.get_surname('Matti Meikäläinen'), 'Meikäläinen')
         self.assertEqual(factory.get_surname('Matti Matias Ordoñez'), 'Ordoñez')
@@ -97,7 +97,7 @@ class TestParticipant(unittest.TestCase):
 
 
     def test_get_participant_name_without_spaces_and_capitals(self):
-        factory = DataGenerator.ParticipantFactory()
+        factory = ParticipantFactory()
         self.assertEqual(factory.get_name_without_spaces_and_caps("Matti Meikäläinen"), "mattimeikäläinen")
         self.assertEqual(factory.get_name_without_spaces_and_caps("Matti     Meikäläinen"), "mattimeikäläinen")
         self.assertEqual(factory.get_name_without_spaces_and_caps("MATTI MEIKÄLÄINEN"), "mattimeikäläinen")
@@ -105,7 +105,7 @@ class TestParticipant(unittest.TestCase):
         self.assertEqual(factory.get_name_without_spaces_and_caps("Matti     Matias        Meikäläinen"), "mattimatiasmeikäläinen")
     
     def test_get_wish_list_without_spaces_and_capitals(self):
-        factory = DataGenerator.ParticipantFactory()
+        factory = ParticipantFactory()
         self.assertEqual(factory.get_wish_list_without_spaces_and_caps(['Mikki Hiiri', 'Minni Hiiri']), ['mikkihiiri', 'minnihiiri'])
         self.assertEqual(factory.get_wish_list_without_spaces_and_caps(['MikkI Hiiri', 'Minni HIIri']), ['mikkihiiri', 'minnihiiri'])
         self.assertEqual(factory.get_wish_list_without_spaces_and_caps(['Mikki   Hiiri', 'Minni    Hiiri']), ['mikkihiiri', 'minnihiiri'])
