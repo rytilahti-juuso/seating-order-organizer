@@ -374,11 +374,12 @@ class PoolCreation(object):
         self.create_mutual_wishes_groups(self.wish_pools, anonymous_list)
         print('Pools have been created!')
     
-    #anonymous_list: [[0, [89, 75, 50, 23], True], [1, [71, 138, 81, 85], False],...]
-    # where [participant_id, [participant's_wishes], isMan]
-    #Note: the is_man is not used here, only things required are participant_id, [participant's_wishes]
-    # This adds all those who wished sit to next to each other to same group. The attribute where different groups are stored is "wish_pools".
-    #wish pools format: [[0,1,2] [group2], [group3]], numbers are participant id's.
+    # - anonymous_list: [[0, [89, 75, 50, 23], True], [1, [71, 138, 81, 85], False],...]
+    #   where [participant_id, [participant's_wishes], isMan]
+    # - Note: the is_man is not used here, only things required are participant_id, [participant's_wishes]
+    # -  This adds all those who wished sit to next to each other to same group. The attribute where different groups
+    #    are stored is "wish_pools".
+    # - wish pools format: [[0,1,2] [group2], [group3]], numbers are participant id's.
     def create_all_wishes_to_same_group(self, anonymous_list):
         print("Started creating all-wishes-to-same-group-pools")
         self.anonymous_list = anonymous_list
@@ -432,14 +433,20 @@ class PoolCreation(object):
                 self.wish_pools.append(new_pool)
         print("All wishes to same-group-pools-have-been-created!")
         
-    # Create mutual wishes subgroups. These will be added "all_mutual_wishes_pools"-list. 
-    # anonymous_list: [[0, [89, 75, 50, 23], True], [1, [71, 138, 81, 85], False],...] where [participant_id[participant's_wishes], isMan]
-    # wish_pools: Contains pools of participants where at least one participant has wished other as a seat wish. This parameter is a list and the list is created with create_all_wishes_to_same_group(anonymous_list).
-    #pools_of_mutual_wishes format: [ [[0,1,2] [3,4,58, 25], [9]], [[mutual_wish_list1],[mutual_wish_list2]... [mutual_wish_listN]], ... [wish_poolN]], numbers are participant id's.
-    # How this works: This breaks down wish_pools pools to even smaller pools (lists).
-    # So e.g. let's say that the anonymous_list is: [[0 [1,2]], [1, [0, 2]], [2, []], [3], []]. NOTE: empty list  means that that participant did not have any seat wishes.
-    # It will be converted in create_all_wishes_to_same_group(anonymous_list)-method to be the following: [[0,1,2], [3]]
-    # So after this method all_mutual_wishes_pools is: [[[0,1], [2]], [3]]
+    # - Create mutual wishes subgroups. These will be added "all_mutual_wishes_pools"-list. 
+    # - anonymous_list: [[0, [89, 75, 50, 23], True], [1, [71, 138, 81, 85], False],...] 
+    #    where [participant_id[participant's_wishes], isMan]
+    # - #Note: the is_man is not used here, only things required are participant_id, [participant's_wishes]
+    # - wish_pools: Contains pools of participants where at least one participant has wished other as a seat wish. This
+    #   parameter is a list and the list is created with create_all_wishes_to_same_group(anonymous_list).
+    # - pools_of_mutual_wishes format:
+    #    [ [[0,1,2] [3,4,58, 25], [9]], [[mutual_wish_list1],[mutual_wish_list2]... [mutual_wish_listN]],
+    #    ... [wish_poolN]],numbers are participant id's.
+    # - How this works: This breaks down wish_pools pools to even smaller pools (lists).
+    #   So e.g. let's say that the anonymous_list is: [[0 [1,2]], [1, [0, 2]], [2, []], [[3], []] ].
+    #   - NOTE: empty list means that that participant did not have any seat wishes.
+    #   It will be converted in create_all_wishes_to_same_group(anonymous_list)-method to be the following: [[0,1,2], [3]]
+    # - So after this method all_mutual_wishes_pools is: [[[0,1], [2]], [3]]
     def create_mutual_wishes_groups(self, wish_pools, anonymous_list):
         print('Started creating all mutual wishes pools')
         all_mutual_wishes_pools = []
