@@ -374,7 +374,9 @@ class PoolCreation(object):
         self.create_mutual_wishes_groups(self.wish_pools, anonymous_list)
         print('Pools have been created!')
     
-    #anonymous_list: [[0, [89, 75, 50, 23], True], [1, [71, 138, 81, 85], False],...] where [participant_id[participant's_wishes], isMan]
+    #anonymous_list: [[0, [89, 75, 50, 23], True], [1, [71, 138, 81, 85], False],...]
+    # where [participant_id, [participant's_wishes], isMan]
+    #Note: the is_man is not used here, only things required are participant_id, [participant's_wishes]
     # This adds all those who wished sit to next to each other to same group. The attribute where different groups are stored is "wish_pools".
     #wish pools format: [[0,1,2] [group2], [group3]], numbers are participant id's.
     def create_all_wishes_to_same_group(self, anonymous_list):
