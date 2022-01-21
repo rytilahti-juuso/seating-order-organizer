@@ -291,6 +291,12 @@ class TestPoolCreation(unittest.TestCase):
         # Specifies mutual and non mutual wishes to different array (e.g. example below: [[4, 5], [6, 7]]).
         self.assertEqual(mutual_wishes_pools, [[[0, 1, 2, 3]], [[4, 5], [6, 7]], [[8]]])
         
+    def test_what_happens_if_duplicates(self):
+        pass
+    
+    def test_id_does_not_exis(self):
+        pass
+        
 # Check that there are no duplicates in the pools.
 
 
