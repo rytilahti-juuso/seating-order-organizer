@@ -180,14 +180,11 @@ class NecessaryListsFactory(object):
         self.participants_ids_with_special_wishes = []
         self.generate_lists_from_name_and_wish_list()
         self.generate_anonymous_list()
-        pc = PoolCreation()
-        pc.create_pools(self.anonymous_list)
-        self.all_pools = pc.all_mutual_wishes_pools
+        self.pc = PoolCreation()
+        self.pc.create_pools(self.anonymous_list)
+        self.all_pools = self.pc.all_mutual_wishes_pools
         #self.seating_order_with_ids = [item for sublist in self.all_pools for item in sublist]
-        excel_style_formatting = ExcelStyleFormatting()
-        self.names_with_color_rules = excel_style_formatting.generate_color_rules(self.participant_list, self.participants_ids_with_special_wishes, self.all_pools)
-        self.seating_order = self.generate_final_seating_list(self.participant_list, pc.wish_pools) # Participant full names are in correct seating order
-        self.seating_order_with_excel_formatting = self.generate_final_seating_excel_format(self.participant_list, pc.wish_pools, excel_style_formatting.add_empty_cells_after_these_ids) # Participant full names are in correct seating order
+        self.seating_order = self.generate_final_seating_list(self.participant_list, self.pc.wish_pools) # Participant full names are in correct seating order
         #print(self.add_empty_cells_after_these_ids)
         #e = ExportData()
         #e.export_data_to_excel(self.seating_order, self.names_with_color_rules)
@@ -228,22 +225,6 @@ class NecessaryListsFactory(object):
         result = [] # format, [name1, name2,...nameN]
         for i in range(0, len(anonymous_flat_list)):
             result.append(participants[anonymous_flat_list[i]].full_name)
-        return result
-    
-    # Return: final seating list with empty cells for excel
-    def generate_final_seating_excel_format(self, participants, pools, add_empty_cells_after_these_ids):
-        anonymous_flat_list = [item for sublist in pools for item in sublist]
-        result = [] # format, [name1, name2,...nameN]
-        for i in range(0, len(anonymous_flat_list)):
-            result.append(participants[anonymous_flat_list[i]].full_name)
-            # If id is at the end of the subgroup of mutual and non_mutual wishes, append two empty spaces 
-            # (so you get a empty column in the excel) between the groups.
-            # #TODO This is for the excel export and when this is running on a server backend, please remove this feature or
-            # make it optional
-            if(anonymous_flat_list[i] in  add_empty_cells_after_these_ids):
-                number_of_empty_spaces = add_empty_cells_after_these_ids[anonymous_flat_list[i]]
-                for i in range(number_of_empty_spaces):    
-                    result.append("")
         return result
 
 class ExcelStyleFormatting(object):
@@ -513,9 +494,28 @@ class PoolCreation(object):
         print('all mutual wishes pools has been created')
 
 #Contains data export classes.                         
-class ExportData(object):
+class ExportData(object):  
     
-    
+    # Return: final seating list with empty cells for excel
+    # pools: pools that also contain mutual wishes in separate list e.g. [[1,2], [3]]
+    def generate_final_seating_excel_format(self, participants, participants_ids_with_special_wishes, mutual_pools, pools):
+        excel_style_formatting = ExcelStyleFormatting()
+        self.names_with_color_rules = excel_style_formatting.generate_color_rules(participants, participants_ids_with_special_wishes, mutual_pools)
+        self.add_empty_cells_after_these_ids = excel_style_formatting.add_empty_cells_after_these_ids
+        
+        anonymous_flat_list = [item for sublist in pools for item in sublist]
+        result = [] # format, [name1, name2,...nameN]
+        for i in range(0, len(anonymous_flat_list)):
+            result.append(participants[anonymous_flat_list[i]].full_name)
+            # If id is at the end of the subgroup of mutual and non_mutual wishes, append two empty spaces 
+            # (so you get a empty column in the excel) between the groups.
+            # #TODO This is for the excel export and when this is running on a server backend, please remove this feature or
+            # make it optional
+            if(anonymous_flat_list[i] in  self.add_empty_cells_after_these_ids):
+                number_of_empty_spaces = self.add_empty_cells_after_these_ids[anonymous_flat_list[i]]
+                for i in range(number_of_empty_spaces):    
+                    result.append("")
+        return result
     #data = dictionary which, contains all data, different data groups named e.g.
     #d = {}
     #d["final_seating_order"] = ["Matti Meikäläinen", "Sanni Meikäläinen", "Mikki Hiiri"], the only 1d group
@@ -686,7 +686,10 @@ if __name__:
     imp = ImportDataFromExcel()
     nlf = NecessaryListsFactory(imp.data)
     e = ExportData()
-    e.export_data_to_excel(nlf.seating_order_with_excel_formatting, nlf.names_with_color_rules)
+    #self.generate_final_seating_excel_format(self.participant_list, pc.wish_pools, excel_style_formatting.add_empty_cells_after_these_ids)
+    #participants, participants_ids_with_special_wishes, pools
+    final_seating_order_with_correct_excel_Formatting = e.generate_final_seating_excel_format(nlf.participant_list, nlf.participants_ids_with_special_wishes, nlf.all_pools, nlf.pc.wish_pools)
+    e.export_data_to_excel(final_seating_order_with_correct_excel_Formatting, e.names_with_color_rules)
     ###IMPORT DUMMY DATA FROM EXCEL AND CREATE POOLS FROM THAT DATA ENDS ###################################
     
     #print(poolcreation.wish_pools)
