@@ -687,10 +687,7 @@ if __name__:
     ###IMPORT DUMMY DATA FROM EXCEL AND CREATE POOLS FROM THAT DATA ###################################
     imp = ImportDataFromExcel()
     nlf = NecessaryListsFactory(imp.data)
-    e = ExportData()
-    #self.generate_final_seating_excel_format(self.participant_list, pc.wish_pools, excel_style_formatting.add_empty_cells_after_these_ids)
-    #participants, participants_ids_with_special_wishes, pools
-    
+    e = ExportData()   
     e.export_data_to_excel(nlf)
     ###IMPORT DUMMY DATA FROM EXCEL AND CREATE POOLS FROM THAT DATA ENDS ###################################
     
