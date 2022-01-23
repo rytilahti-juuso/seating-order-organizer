@@ -138,55 +138,17 @@ class TestNecessaryListsFactory(unittest.TestCase):
                                   ]
         self.nlf = NecessaryListsFactory(self.name_and_wish_list)
     
-    def test_will_detect_duplicates_and_stop_execution(self):
-        #Sofia Lehtonen is now Pekka Lehtonen, Sofia Lehtonen is still on peoples wishlist
-        name_and_wishlist_with_duplicates = [['Juha Korhonen', ['Helena Korhonen', 'Matti Korhonen', 'Johanna Korhonen'
-                                                                , 'Mikko Korhonen']]
-                                  , ['Helena Korhonen', ['Juha Korhonen', 'Matti Korhonen', 'Johanna Korhonen'
-                                                         , 'Mikko Korhonen']]
-                                  , ['Matti Korhonen', ['Juha Korhonen', 'Helena Korhonen', 'Johanna Korhonen'
-                                                        , 'Mikko Korhonen']]
-                                  , ['Johanna Korhonen', ['Juha Korhonen', 'Helena Korhonen', 'Matti Korhonen'
-                                                          , 'Mikko Korhonen']]
-                                  , ['Mikko Korhonen', ['Juha Korhonen', 'Helena Korhonen', 'Matti Korhonen'
-                                                        , 'Johanna Korhonen']]
-                                  , ['Marjatta Hämäläinen', ['Antti Hämäläinen', 'Kristiina Hämäläinen',
-                                                             'Mika Hämäläinen', 'Liisa Hämäläinen']]
-                                  , ['Antti Hämäläinen', ['Marjatta Hämäläinen', 'Kristiina Hämäläinen',
-                                                          'Mika Hämäläinen', 'Liisa Hämäläinen']]
-                                  , ['Kristiina Hämäläinen', ['Marjatta Hämäläinen', 'Antti Hämäläinen'
-                                                              , 'Mika Hämäläinen', 'Liisa Hämäläinen']]
-                                  , ['Mika Hämäläinen', ['Marjatta Hämäläinen', 'Antti Hämäläinen'
-                                                         , 'Kristiina Hämäläinen', 'Liisa Hämäläinen']]
-                                  , ['Liisa Hämäläinen', ['Marjatta Hämäläinen', 'Antti Hämäläinen'
-                                                          , 'Kristiina Hämäläinen', 'Mika Hämäläinen']]
-                                  , ['Pekka Lehtonen', ['Sofia Lehtonen', 'Heikki Lehtonen', 'Maarit Lehtonen'
-                                                        , 'Seppo Lehtonen']]
-                                  , ['Pekka Lehtonen', ['Pekka Lehtonen', 'Heikki Lehtonen', 'Maarit Lehtonen'
-                                                        , 'Seppo Lehtonen']]
-                                  , ['Heikki Lehtonen', ['Pekka Lehtonen', 'Sofia Lehtonen', 'Maarit Lehtonen'
-                                                         , 'Seppo Lehtonen']]
-                                  , ['Maarit Lehtonen', ['Pekka Lehtonen', 'Sofia Lehtonen', 'Heikki Lehtonen'
-                                                         , 'Seppo Lehtonen']]
-                                  , ['Seppo Lehtonen', ['Pekka Lehtonen', 'Sofia Lehtonen', 'Heikki Lehtonen'
-                                                        , 'Maarit Lehtonen']]
-                                  , ['Annikki Heikkilä', ['Sami Heikkilä', 'Katariina Heikkilä', 'Marko Heikkilä'
-                                                          , 'Marja Heikkilä']]
-                                  , ['Sami Heikkilä', ['Annikki Heikkilä', 'Katariina Heikkilä', 'Marko Heikkilä'
-                                                       , 'Marja Heikkilä']]
-                                  , ['Katariina Heikkilä', ['Annikki Heikkilä', 'Sami Heikkilä', 'Marko Heikkilä'
-                                                            , 'Marja Heikkilä']]
-                                  , ['Marko Heikkilä', ['Annikki Heikkilä', 'Sami Heikkilä', 'Katariina Heikkilä'
-                                                        , 'Marja Heikkilä']]
-                                  , ['Marja Heikkilä', ['Annikki Heikkilä', 'Sami Heikkilä', 'Katariina Heikkilä'
-                                                        , 'Marko Heikkilä']]
-                                  ]
+    def test_will_detect_duplicates_and_stop_execution(self):  
+        b = [['b', ['b', 'c']], ['b', ['b', 'c']]]
+        with self.assertRaises(DuplicatesInParticipantsError):
+            nlf_for_duplicates = NecessaryListsFactory(b)
+        
     
     def test_that_wishes_are_splitted_by_comma_semicolon_and_dot(self):
         pass
     
     def test_all_lists_are_in_sync(self):
-        print(self.nlf.dict_of_participants)
+        #print(self.nlf.dict_of_participants)
         self.assertEqual(self.nlf.all_pools,
                          [[[0, 1], [2, 3, 4]], [[5, 6, 7, 8, 9]], [[15]], [[10, 11, 12, 13, 14], [16], [17, 18, 19]
                             , [20]]])
