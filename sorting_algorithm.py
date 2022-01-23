@@ -82,7 +82,7 @@ class DuplicatesInParticipantsError(Exception):
         message -- explanation of the error, contains the list of the duplicate names.
     """
 
-    def __init__(self, message="There is atleast one duplicate pair."):
+    def __init__(self, message="There is at least one duplicate pair."):
         self.message = message
         super().__init__(self.message)
         
