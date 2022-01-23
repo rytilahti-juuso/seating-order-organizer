@@ -42,7 +42,7 @@ If you see only some of the prints, some important code line has been commented 
 - If participant has multiple first names (Matti Matias Meikäläinen), his first names are processed together ('Matti Matias'). He then may cause multiple person_has_special wishes flags (currently font color red in excel) to appear. This is because the compared names for the wishes are taken as what participant has signed as their name when signing up for the event in the form for that event. This is intended behaviour and should not be changed. If changed, this may backfire when this code is used on a backend together with seating planner UI. 
 - Most of the code handles anonymous list, which is indexes of the participants. There are at least two reason for that
   - Performance. It is a lot lighter to handle array of numbers instead of array of strings or data-objects.
-  - It negates some user input errors. in the code before the indexes are created from the lists, the comparing between names and wishes is done after preprocessing user input.    This preprosessing is all removing spaces and Capital letters.
+  - It negates some user input errors. in the code before the indexes are created from the lists, the comparing between names and wishes is done after preprocessing user input.    This preprosessing is removing all spaces and Capital letters.
   - The code returns always the name that the participant has inputted in the `names` column. So if someone has a wish were reads e.g. `matti meikäläinen` and Partipant has inputted his name on the event signup correctly `Matti Meikäläinen` you will see that in the excel the used name is `Matti Meikäläinen`.
 
 # Color and style formatting meaning:
