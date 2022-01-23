@@ -2,7 +2,7 @@
 
 import unittest
 import copy
-from data_generator import NecessaryListsFactory, ParticipantFactory, Participant, PoolCreation, DuplicatesInParticipantsError, HandleDuplicates
+from sorting_algorithm import NecessaryListsFactory, ParticipantFactory, Participant, PoolCreation, DuplicatesInParticipantsError, HandleDuplicates
 from dataclasses import FrozenInstanceError
 
 # This is simple test case template for writing the tests later when I have time

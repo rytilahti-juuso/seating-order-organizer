@@ -8,6 +8,7 @@ Created on Thu Jul  8 16:00:54 2021
 import pandas as pd
 import json
 from sorting_algorithm import NecessaryListsFactory
+from dummy_data_generation import DataGenerator
         
 class ImportDataFromExcel(object):
     def __init__(self):
