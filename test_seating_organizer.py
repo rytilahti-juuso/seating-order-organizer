@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from data_generator import NecessaryListsFactory, ParticipantFactory, Participant, PoolCreation
+import copy
+from data_generator import NecessaryListsFactory, ParticipantFactory, Participant, PoolCreation, DuplicatesInParticipantsError, HandleDuplicates
 from dataclasses import FrozenInstanceError
 
 # This is simple test case template for writing the tests later when I have time
@@ -15,16 +16,77 @@ from dataclasses import FrozenInstanceError
 # No first name duplicates in generating highest allowed amount of participants
 
 
-class TestHandleDuplicates(unittest.Testcase):
+class TestHandleDuplicates(unittest.TestCase):
+    
+    def setUp(self):
+        self.handle_duplicates = HandleDuplicates()
+        # Seppo Lehtonen and Helena Korhonen are duplicates
+        self.name_and_wish_list =[['Juha Korhonen', ['Helena Korhonen']]
+                                  , ['Helena Korhonen', ['Juha Korhonen']]
+                                  , ['Helena Korhonen', []]
+                                  , ['Helena Korhonen', []]
+                                  , ['Matti Korhonen', ['Juha Korhonen', 'Helena Korhonen', 'Johanna Korhonen'
+                                                        , 'Mikko Korhonen']]
+                                  , ['Johanna Korhonen', ['Juha Korhonen', 'Helena Korhonen', 'Matti Korhonen'
+                                                          , 'Mikko Korhonen']]
+                                  , ['Mikko Korhonen', ['Juha Korhonen', 'Helena Korhonen', 'Matti Korhonen'
+                                                    , 'Johanna Korhonen. I wish not to sit next to person named xx.']]
+                                  , ['Marjatta Hämäläinen', ['Antti Hämäläinen', 'Kristiina Hämäläinen'
+                                                             , 'Mika Hämäläinen', 'Liisa Hämäläinen']]
+                                  , ['Antti Hämäläinen', ['Marjatta Hämäläinen', 'Kristiina Hämäläinen'
+                                                          , 'Mika Hämäläinen', 'Liisa Hämäläinen']]
+                                  , ['Kristiina Hämäläinen', ['Marjatta Hämäläinen', 'Antti Hämäläinen'
+                                                              , 'Mika Hämäläinen', 'Liisa Hämäläinen']]
+                                  , ['Mika Hämäläinen', ['Marjatta Hämäläinen', 'Antti Hämäläinen'
+                                                         , 'Kristiina Hämäläinen', 'Liisa Hämäläinen']]
+                                  , ['Liisa Hämäläinen', ['Marjatta Hämäläinen', 'Antti Hämäläinen'
+                                                          , 'Kristiina Hämäläinen', 'Mika Hämäläinen']]
+                                  , ['Pekka Lehtonen', ['Sofia Lehtonen', 'Heikki Lehtonen', 'Maarit Lehtonen'
+                                                        , 'Seppo Lehtonen']]
+                                  , ['Sofia Lehtonen', ['Pekka Lehtonen', 'Heikki Lehtonen', 'Maarit Lehtonen'
+                                                        , 'Seppo Lehtonen']]
+                                  , ['Heikki Lehtonen', ['Pekka Lehtonen', 'Sofia Lehtonen', 'Maarit Lehtonen'
+                                                         , 'Seppo Lehtonen']]
+                                  , ['Maarit Lehtonen', ['Pekka Lehtonen', 'Sofia Lehtonen', 'Heikki Lehtonen'
+                                                         , 'Seppo Lehtonen']]
+                                  , ['Seppo Lehtonen', ['Pekka Lehtonen', 'Sofia Lehtonen', 'Heikki Lehtonen'
+                                                        , 'Maarit Lehtonen', 'Annikki Heikkilä']]
+                                  , ['Don Diego de la Vega', []]
+                                  , ['Annikki Heikkilä', ['Sami Heikkilä', 'Katariina Heikkilä', 'Marko Heikkilä'
+                                                          , 'Seppo Lehtonen']]
+                                  , ['Sami Heikkilä', ['Annikki Heikkilä', 'Katariina Heikkilä', 'Marko Heikkilä'
+                                                       , 'Marja Heikkilä']]
+                                  , ['Katariina Heikkilä', ['Annikki Heikkilä', 'Sami Heikkilä', 'Marko Heikkilä'
+                                                            , 'Marja Heikkilä']]
+                                  , ['Marko Heikkilä', ['Annikki Heikkilä', 'Sami Heikkilä', 'Katariina Heikkilä'
+                                                        , 'Marja Heikkilä']]
+                                  , ['Seppo Lehtonen', ['Pekka Lehtonen', 'Sofia Lehtonen', 'Heikki Lehtonen'
+                                                        , 'Maarit Lehtonen', 'Annikki Heikkilä']]
+                                  , ['Marja Heikkilä', ['Annikki Heikkilä', 'Sami Heikkilä', 'Katariina Heikkilä'
+                                                        , 'Marko Heikkilä']]
+                                  ]
     
     def test_that_names_and_wish_list_is_not_mutated(self):
-        pass
+        b = copy.deepcopy(self.name_and_wish_list)
+        self.handle_duplicates.has_participant_list_duplicates(self.name_and_wish_list)
+        self.assertEqual(self.name_and_wish_list, b)
+        self.handle_duplicates.get_duplicates_without_typos(self.name_and_wish_list)
+        self.assertEqual(self.name_and_wish_list, b)
+        
     
-    def test_that_duplicate_list_is_correct(self):
-        pass
+    def test_that_get_duplicates_without_typos_works(self):
+        self.assertEqual(self.handle_duplicates.get_duplicates_without_typos(self.name_and_wish_list),
+                         {'helenakorhonen': 'Helena Korhonen'
+                          , 'seppolehtonen': 'Seppo Lehtonen'})
     
     def test_that_duplicate_detection_works(self):
-        pass
+        self.assertEqual(self.handle_duplicates.has_participant_list_duplicates(self.name_and_wish_list)
+                         , True)
+        a = [['a', ['b', 'c']], ['a', ['b', 'c']]]
+        self.assertEqual(self.handle_duplicates.has_participant_list_duplicates(a), True)
+        # Wish list should not affect to if this is true or false
+        b = [['a', ['b', 'c']], ['b', ['b', 'c']]]
+        self.assertEqual(self.handle_duplicates.has_participant_list_duplicates(b), False)
 
 ####################################
 #           NecessaryListFactory
