@@ -500,6 +500,7 @@ class ExportData(object):
     # pools: pools that also contain mutual wishes in separate list e.g. [[1,2], [3]]
     def generate_final_seating_excel_format(self, participants, participants_ids_with_special_wishes, mutual_pools, pools):
         excel_style_formatting = ExcelStyleFormatting()
+        # names_that_have_special_wishes: participants names that have special wishes. key: name, value: style formatting settings
         self.names_with_color_rules = excel_style_formatting.generate_color_rules(participants, participants_ids_with_special_wishes, mutual_pools)
         self.add_empty_cells_after_these_ids = excel_style_formatting.add_empty_cells_after_these_ids
         
@@ -530,11 +531,10 @@ class ExportData(object):
         return json_string
     
     # participants_in_correct_order: ["name1","name2",... "nameN"]
-    # names_that_have_special_wishes: participants names that have special wishes. key: name, value: style formatting settings
+    
     def export_data_to_excel(self, nlf):
         final_seating_order_with_correct_excel_formatting = e.generate_final_seating_excel_format(nlf.participant_list, nlf.participants_ids_with_special_wishes, nlf.all_pools, nlf.pc.wish_pools)
         participants_in_correct_order = final_seating_order_with_correct_excel_formatting
-        self.names_that_have_special_wishes = self.names_with_color_rules
         #TODO At later date this could be made more efficient
         left_side = []
         right_side = []
@@ -562,10 +562,10 @@ class ExportData(object):
         #df1['right_side'] = np.where(self.lol, 'background-color: red', df1['left_side'])
         color = 'background-color: lightgreen; color: red'
         for i in range(0, len(df1)):
-            if(x.at[i, 'left_side'] in self.names_that_have_special_wishes):
-                df1.at[i,'left_side'] = self.names_that_have_special_wishes[x.at[i, 'left_side']]
-            if(x.at[i, 'right_side'] in self.names_that_have_special_wishes):
-                df1.at[i,'right_side'] = self.names_that_have_special_wishes[x.at[i, 'right_side']]
+            if(x.at[i, 'left_side'] in self.names_with_color_rules):
+                df1.at[i,'left_side'] = self.names_with_color_rules[x.at[i, 'left_side']]
+            if(x.at[i, 'right_side'] in self.names_with_color_rules):
+                df1.at[i,'right_side'] = self.names_with_color_rules[x.at[i, 'right_side']]
         return df1
 
 
