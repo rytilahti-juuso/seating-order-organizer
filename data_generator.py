@@ -531,8 +531,10 @@ class ExportData(object):
     
     # participants_in_correct_order: ["name1","name2",... "nameN"]
     # names_that_have_special_wishes: participants names that have special wishes. key: name, value: style formatting settings
-    def export_data_to_excel(self, participants_in_correct_order, names_that_have_special_wishes):
-        self.names_that_have_special_wishes = names_that_have_special_wishes
+    def export_data_to_excel(self, nlf):
+        final_seating_order_with_correct_excel_formatting = e.generate_final_seating_excel_format(nlf.participant_list, nlf.participants_ids_with_special_wishes, nlf.all_pools, nlf.pc.wish_pools)
+        participants_in_correct_order = final_seating_order_with_correct_excel_formatting
+        self.names_that_have_special_wishes = self.names_with_color_rules
         #TODO At later date this could be made more efficient
         left_side = []
         right_side = []
@@ -688,8 +690,8 @@ if __name__:
     e = ExportData()
     #self.generate_final_seating_excel_format(self.participant_list, pc.wish_pools, excel_style_formatting.add_empty_cells_after_these_ids)
     #participants, participants_ids_with_special_wishes, pools
-    final_seating_order_with_correct_excel_Formatting = e.generate_final_seating_excel_format(nlf.participant_list, nlf.participants_ids_with_special_wishes, nlf.all_pools, nlf.pc.wish_pools)
-    e.export_data_to_excel(final_seating_order_with_correct_excel_Formatting, e.names_with_color_rules)
+    
+    e.export_data_to_excel(nlf)
     ###IMPORT DUMMY DATA FROM EXCEL AND CREATE POOLS FROM THAT DATA ENDS ###################################
     
     #print(poolcreation.wish_pools)
