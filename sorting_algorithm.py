@@ -1,3 +1,4 @@
+#© 2021 Juuso Rytilahti.  All rights reserved.
 import re
 import random
 import pandas as pd
