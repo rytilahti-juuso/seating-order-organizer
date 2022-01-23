@@ -15,7 +15,7 @@ import json
 
 class DataGenerator(object):
     def __init__(self):
-        self.data_size= 100
+        self.data_size= 20
         self.max_data_size = 141 # Maximum data size with current parsing setting that can be used without firstname duplicates in men and women
         self.male_first_names = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\etunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Miehet ens')["Etunimi"]
         self.female_first_names  = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\etunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Naiset kaikki')["Etunimi"]
@@ -131,10 +131,10 @@ class HandleDuplicates(object):
     def get_duplicates_without_typos(self, name_and_wish_list): 
         duplicate_names = {} 
         for i, p_name_and_wishes in enumerate(name_and_wish_list): 
-            for j in range(0, len(name_and_wish_list)): 
+            for j, p_name_and_wishes_comparable in enumerate(name_and_wish_list): 
                 name1 = p_name_and_wishes[0].lower() 
                 tmp = re.sub("\s+", "", name1.strip()) 
-                name2 =  name_and_wish_list[j][0].lower() 
+                name2 =  p_name_and_wishes_comparable[0].lower() 
                 tmp2 = re.sub("\s+", "", name2.strip()) 
                 if(tmp == tmp2 and j > i): #Strings are the same       
                     name = p_name_and_wishes[0] 
