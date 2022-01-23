@@ -103,16 +103,71 @@ class ImportDataFromExcel(object):
         if(len(wishes) == 1 and wishes[0] == 'nan'): # If wish list cell in excel is empty when importing, it defaults to 'nan'.
             wishes = []
         return wishes
+
+    ##################################
+    #    Handle duplicates STARTS    #
+    ##################################
         
+class DuplicatesInParticipantsError(Exception):
+    """Exception raised when there are duplicates in the given participant list.
+
+    Attributes:
+        message -- explanation of the error, contains the list of the duplicate names.
+    """
+
+    def __init__(self, message="There is atleast one duplicate pair."):
+        self.message = message
+        super().__init__(self.message)
+        
+class HandleDuplicates(object):
+
+    #Note: This takes only account if participant names has duplicates, not if the wishes have duplicates
+    #Returns: True if there are duplicates in participant list, else returns False
+    def has_participant_list_duplicates(self, name_and_wish_list):
+        participant_names = [i[0] for i in name_and_wish_list]  
+        return len(participant_names) != len(set(participant_names))
+    
+    #returns: dictionary, key:name_without_typos, value:full_name_with_typos
+    def get_duplicates_without_typos(self, name_and_wish_list): 
+        duplicate_names = {} 
+        for i, p_name_and_wishes in enumerate(name_and_wish_list): 
+            for j in range(0, len(name_and_wish_list)): 
+                name1 = p_name_and_wishes[0].lower() 
+                tmp = re.sub("\s+", "", name1.strip()) 
+                name2 =  name_and_wish_list[j][0].lower() 
+                tmp2 = re.sub("\s+", "", name2.strip()) 
+                if(tmp == tmp2 and j > i): #Strings are the same       
+                    name = p_name_and_wishes[0] 
+                    duplicate_names[tmp] = name
+        return duplicate_names
+    
+    #duplicate_names_without_typos: dictionary, key:name_without_typos, value:full_name_with_typos
+    #Return: Error message with duplicate names listed
+    def get_duplicate_error_message(self, duplicate_names_without_typos):
+        error_message = 'There are some duplicates, deal with them first! The duplicate participants are: '
+        i = 0
+        for item in duplicate_names_without_typos:
+            if(i == 0): 
+                error_message += duplicate_names_without_typos[item]
+            else:    
+                error_message += ', ' + duplicate_names_without_typos[item]
+            i += 1
+        return(error_message)
+    
+    ##################################
+    #    Handle duplicates ENDS    #
+    ##################################
 
 class NecessaryListsFactory(object):
     
-    def __init__(self, name_and_wish_list):        
+    def __init__(self, name_and_wish_list):
+        #print(name_and_wish_list)        
         # If participant list has duplicates, return and print error message which contains list of duplicate participants
-        if(self.has_participant_list_duplicates(name_and_wish_list)):
-            duplicate_names_without_typos = self.get_duplicates_without_typos(name_and_wish_list)
-            print(self.get_duplicate_error_message(duplicate_names_without_typos))
-            return
+        handle_duplicates = HandleDuplicates()
+        if(handle_duplicates.has_participant_list_duplicates(name_and_wish_list)):
+            duplicate_names_without_typos = handle_duplicates.get_duplicates_without_typos(name_and_wish_list)
+            message = handle_duplicates.get_duplicate_error_message(duplicate_names_without_typos)
+            raise DuplicatesInParticipantsError(message)
         # Dp not add random shuffle back until seating generation is done fully automatically. Now user does bulk of the work and
         #shuffling between running the script multiple times just messes with the user flow
         #random.shuffle(name_and_wish_list) # This shuffle is done because without it the first and last who signed up for the event would always sit in at the end of the table! 
@@ -136,46 +191,7 @@ class NecessaryListsFactory(object):
         #e = ExportData()
         #e.export_data_to_excel(self.seating_order, self.names_with_color_rules)
     
-    ###########################################
-    #    Handle duplicates methods STARTS     #
-    ###########################################
-    
-    #Note: This takes only account if participant names has duplicates, not if the wishes have duplicates
-    #Returns: True if there are duplicates in participant list, else returns False
-    def has_participant_list_duplicates(self, name_and_wish_list):
-        participant_names = [i[0] for i in name_and_wish_list]  
-        return len(participant_names) != len(set(participant_names))
-    
-    #returns: dictionary, key:name_without_typos, value:full_name_with_typos
-    def get_duplicates_without_typos(self, name_and_wish_list): 
-        duplicate_names = {} 
-        for i in range(0, len(name_and_wish_list)): 
-            for j in range(0, len(name_and_wish_list)): 
-                name1 = name_and_wish_list[i][0].lower() 
-                tmp = re.sub("\s+", "", name1.strip()) 
-                name2 =  name_and_wish_list[j][0].lower() 
-                tmp2 = re.sub("\s+", "", name2.strip()) 
-                if(tmp == tmp2 and j > i): #Strings are the same       
-                    name = name_and_wish_list[i][0] 
-                    duplicate_names[tmp] = name
-        return duplicate_names
-    
-    #duplicate_names_without_typos: dictionary, key:name_without_typos, value:full_name_with_typos
-    #Return: Error message with duplicate names listed
-    def get_duplicate_error_message(self, duplicate_names_without_typos):
-        error_message = 'There are some duplicates, deal with them first! The duplicate participants are: '
-        i = 0
-        for item in duplicate_names_without_typos:
-            if(i == 0): 
-                error_message += duplicate_names_without_typos[item]
-            else:    
-                error_message += ', ' + duplicate_names_without_typos[item]
-            i += 1
-        return(error_message)
-    
-    ###########################################
-    #    Handle duplicates methods ENDS       #
-    ###########################################        
+            
     
     def generate_lists_from_name_and_wish_list(self):
         for i in range(0, len(self.name_and_wish_list)):
