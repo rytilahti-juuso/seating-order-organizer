@@ -1,4 +1,5 @@
 import re
+import random
 import pandas as pd
 from typing import List
 from dataclasses import dataclass
@@ -127,7 +128,7 @@ class HandleDuplicates(object):
 class ParticipantFactory(object):
        
     def load_men_names(self):
-        men_first_names = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\etunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Miehet ens')["Etunimi"] 
+        men_first_names = pd.read_excel ('etunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Miehet ens')["Etunimi"] 
         self.men_first_names = men_first_names.tolist()
        
     # Returns new Participant object with necessary information

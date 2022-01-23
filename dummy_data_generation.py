@@ -6,9 +6,9 @@ class DataGenerator(object):
     def __init__(self):
         self.data_size= 20
         self.max_data_size = 141 # Maximum data size with current parsing setting that can be used without firstname duplicates in men and women
-        self.male_first_names = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\etunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Miehet ens')["Etunimi"]
-        self.female_first_names  = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\etunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Naiset kaikki')["Etunimi"]
-        self.surnames = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\sukunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Nimet')["Sukunimi"]
+        self.male_first_names = pd.read_excel ('etunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Miehet ens')["Etunimi"]
+        self.female_first_names  = pd.read_excel ('etunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Naiset kaikki')["Etunimi"]
+        self.surnames = pd.read_excel ('sukunimitilasto-2021-02-05-dvv.xlsx', sheet_name='Nimet')["Sukunimi"]
         self.generated_names = []
         self.name_and_friend_list = []
         self.generate_unique_names()
@@ -61,4 +61,4 @@ class DataGenerator(object):
             wishes.append(all_one_person_wishes_as_string)
         dictionary = {'Name': name, 'Wishes': wishes}  
         dataframe = pd.DataFrame(dictionary) 
-        dataframe.to_excel(r'C:\Users\rytil\Documents\Github\seating-order-organizer\input-participant-and_wishing-list.xlsx', index = False)
+        dataframe.to_excel('input-participant-and_wishing-list.xlsx', index = False)

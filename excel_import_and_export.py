@@ -8,11 +8,12 @@ Created on Thu Jul  8 16:00:54 2021
 import pandas as pd
 import json
 from sorting_algorithm import NecessaryListsFactory
+from dummy_data_generation import DataGenerator
         
 class ImportDataFromExcel(object):
     def __init__(self):
         print("Importing data from excel")
-        self.df = pd.read_excel (r'C:\Users\rytil\Documents\Github\seating-order-organizer\input-participant-and_wishing-list.xlsx', header=None, names=('Name', 'Wishes'))
+        self.df = pd.read_excel ('input-participant-and_wishing-list.xlsx', header=None, names=('Name', 'Wishes'))
         self.data = [] #Format [['Juha Korhonen', ['Helena Korhonen', 'Matti Korhonen', 'Johanna Korhonen', 'Mikko Korhonen']], ...]
         names = self.df['Name'].values.tolist()
         wishes = self.df['Wishes']
@@ -173,7 +174,7 @@ class ExportData(object):
         df = pd.DataFrame(dictionary)
 
         self.df = df
-        df.style.apply(self.highlight_special_wishes, axis=None).to_excel(r'C:\Users\rytil\Documents\Github\seating-order-organizer\output-seating-order.xlsx', sheet_name='seating_order',index=False, engine='openpyxl')
+        df.style.apply(self.highlight_special_wishes, axis=None).to_excel('output-seating-order.xlsx', sheet_name='seating_order',index=False, engine='openpyxl')
         print('Data export succesfully completed!')
     
     def highlight_special_wishes(self, x):
