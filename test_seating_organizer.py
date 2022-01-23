@@ -15,6 +15,17 @@ from dataclasses import FrozenInstanceError
 # No first name duplicates in generating highest allowed amount of participants
 
 
+class TestHandleDuplicates(unittest.Testcase):
+    
+    def test_that_names_and_wish_list_is_not_mutated(self):
+        pass
+    
+    def test_that_duplicate_list_is_correct(self):
+        pass
+    
+    def test_that_duplicate_detection_works(self):
+        pass
+
 ####################################
 #           NecessaryListFactory
 ####################################
@@ -290,7 +301,9 @@ class TestPoolCreation(unittest.TestCase):
         mutual_wishes_pools = pool_creation.all_mutual_wishes_pools
         # Specifies mutual and non mutual wishes to different array (e.g. example below: [[4, 5], [6, 7]]).
         self.assertEqual(mutual_wishes_pools, [[[0, 1, 2, 3]], [[4, 5], [6, 7]], [[8]]])
+    
         
+   #TODO both of these need to be implemented before going to server side!
     def test_what_happens_if_duplicates(self):
         pass
     
