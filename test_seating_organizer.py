@@ -331,7 +331,14 @@ class TestPoolCreation(unittest.TestCase):
         self.assertEqual(mutual_wishes_pools, [[[0, 1, 2, 3]], [[4, 5], [6, 7]], [[8]]])
     
         
-        #TODO test non-mutual chaining, the current excel output case 
+        # Test non-mutual chaining
+        non_mutual_chaining_anom_list= [ [0, [1, 2]], [1, [0, 2]], [2, [0,1, 3]], [3, [4, 5]], [4, [3, 5]], [5, [3, 4]], [6, []] ]
+        pool_creation.create_all_wishes_to_same_group(non_mutual_chaining_anom_list)
+        all_wishes_in_same_group_pool = pool_creation.wish_pools
+        pool_creation.create_mutual_wishes_groups(pool_creation.wish_pools, non_mutual_chaining_anom_list)
+        mutual_wishes_pools = pool_creation.all_mutual_wishes_pools
+        self.assertEqual(mutual_wishes_pools, [[[0, 1, 2], [3, 4, 5]], [[6]]])
+        
         
         # Test partially mutual chaining
         anom_list = [[0, [1,2,3]], [1, [0,2,3, 7]], [2, [3]], [3, [2]], [4, [5,6]], [5, [4]]
