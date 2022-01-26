@@ -43,6 +43,7 @@ If you see only some of the prints, some important code line has been commented 
 - Most of the code handles anonymous list, which is indexes of the participants. There are at least two reason for that
   - Performance. It is a lot lighter to handle array of numbers instead of array of strings or data-objects.
   - It negates some user input errors. in the code before the indexes are created from the lists, the comparing between names and wishes is done after preprocessing user input.    This preprosessing is removing all spaces and Capital letters.
+    - **NOTE:** After the anonymous list of participants is created, it should **NEVER** be shuffled. It should **never** be **mutated** or **shuffled** after it has been      created. This will break the code! Anonymous list means the list that has been based upon participant data-object list ( anonymous_list: `[[0, [89, 75, 50, 23], True], [1, [71, 138, 81, 85], False],...]` where one element of the list is: `[participant_id, [participant's_wishes], isMan]` ). Please take this to consideration when writing unit tests also, it is super annoying if the tests for PoolCreation fail because manually created anonymous_list is out of sync.
   - The code returns always the name that the participant has inputted in the `names` column. So if someone has a wish were reads e.g. `matti meikäläinen` and Partipant has inputted his name on the event signup correctly `Matti Meikäläinen` you will see that in the excel the used name is `Matti Meikäläinen`.
 
 # Color and style formatting meaning:
