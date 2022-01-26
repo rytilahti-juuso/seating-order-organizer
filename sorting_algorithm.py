@@ -1,6 +1,7 @@
 #© 2021 Juuso Rytilahti.  All rights reserved.
 import re
 import random
+import copy
 import pandas as pd
 from typing import List
 from dataclasses import dataclass
@@ -331,11 +332,14 @@ class PoolCreation(object):
                                 if(changed_index):
                                     # Change participant to be on the edge of
                                     # already created mutual wishes list
-                                    tpm = item[changed_index]
-                                    item[changed_index] = item[len(item)-1]
-                                    item[len(item)-1] = tpm
+                                    #TODO change this to be less expensive copy method
+                                    item_copy = copy.deepcopy(item)
+                                    tpm = item_copy[changed_index]
+                                    item_copy[changed_index] = item_copy[len(item)-1]
+                                    item_copy[len(item_copy)-1] = tpm
+
                                 # Extend already created mutual group to contain the new addition
-                                mutual_wish_pool.extend(item)
+                                mutual_wish_pool.extend(item_copy)
                                 
                         mutual_wish_pool.append(checked_w_id)
                         already_added_ids.append(checked_w_id)
