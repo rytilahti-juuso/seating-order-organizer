@@ -2,6 +2,7 @@
 import re
 import random
 import copy
+from collections import OrderedDict
 import pandas as pd
 from typing import List
 from dataclasses import dataclass
@@ -343,12 +344,16 @@ class PoolCreation(object):
                                 
                         mutual_wish_pool.append(checked_w_id)
                         already_added_ids.append(checked_w_id)
-                if mutual_wish_pool:    
-                    sub_pool.append(mutual_wish_pool)
+                if mutual_wish_pool:
+                    mutual_wishes_without_duplicates = list(OrderedDict.fromkeys(mutual_wish_pool))
+                    sub_pool.append(mutual_wishes_without_duplicates)
             # Delete duplicate lists that have been added with extension to some other list item
             # This is done in this way because mutating a list that is currently looped is discouraged.
             for dele in to_be_removed_from_sub_pool:
-                sub_pool.remove(dele)
+                # If wishes is looped through, there might be a situation where to_be_removed_sub_pool is
+                # appended first e.g. [1,2] and after that [1,2,3] before appending that list to sub pool
+                if(dele in sub_pool):
+                    sub_pool.remove(dele)
             all_mutual_wishes_pools.append(sub_pool)
         self.all_mutual_wishes_pools = all_mutual_wishes_pools
         print('all mutual wishes pools has been created')

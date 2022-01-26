@@ -155,8 +155,7 @@ class TestNecessaryListsFactory(unittest.TestCase):
     def test_all_lists_are_in_sync(self):
         #print(self.nlf.dict_of_participants)
         self.assertEqual(self.nlf.all_pools,
-                         [[[0, 1], [2, 3, 4]], [[5, 6, 7, 8, 9]], [[15]], [[10, 11, 12, 13, 14], [16], [17, 18, 19]
-                            , [20]]])
+                         [[[0, 1], [2, 3, 4]], [[5, 6, 7, 8, 9]], [[15]], [[10, 11, 12, 13, 14, 16, 19, 18, 17, 20]]])
         self.assertEqual(self.nlf.anonymous_list, [[0, [1], False], [1, [0], False], [2, [3, 4], False]
                                                    , [3, [0, 1, 2, 4], False], [4, [0, 1, 2], False]
                                                    , [5, [6, 7, 8, 9], False], [6, [5, 7, 8, 9], False]
