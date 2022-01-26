@@ -295,6 +295,7 @@ class PoolCreation(object):
         all_mutual_wishes_pools = []
         for pool in wish_pools:
             sub_pool = []
+            to_be_removed_from_sub_pool = []
             # If Id is already added to some small_pool, don't add it again
             already_added_ids = []
             #Iterate through the pool
@@ -306,18 +307,44 @@ class PoolCreation(object):
                 mutual_wish_pool = [] 
                 
                 if(checked_p_id not in already_added_ids):
-                    mutual_wish_pool.append(checked_p_id) 
-                
+                    mutual_wish_pool.append(checked_p_id)
+                    
                 already_added_ids.append(checked_p_id)
                 for wish in checked_p_wish_list:
                     checked_w = anonymous_list[wish] #checked wish
                     checked_w_id = checked_w[0]
                     checked_w_wish_list = checked_w[1]
                     if(checked_p_id in checked_w_wish_list and  checked_w_id not in already_added_ids):
+                        # Go through all sub lists in sub_pool
+                        for item in sub_pool:
+                            # If checked p is already added in some pool, add those id's to mutual wish pool
+                            if checked_p_id in item:
+                                to_be_removed_from_sub_pool.append(item)
+                                # If e.g. participants 1 and 7 has mutually wished to sit next to each other,
+                                # and 7 does not share any other 1's mutual wishes, 
+                                # 7 and 1 should be set to sit next to each other. 
+                                # Look from tests a example of this!
+                                for c_index, id_in_item in enumerate(item):
+                                    if id_in_item == checked_p_id:
+                                        changed_index = c_index
+                                        break
+                                if(changed_index):
+                                    # Change participant to be on the edge of
+                                    # already created mutual wishes list
+                                    tpm = item[changed_index]
+                                    item[changed_index] = item[len(item)-1]
+                                    item[len(item)-1] = tpm
+                                # Extend already created mutual group to contain the new addition
+                                mutual_wish_pool.extend(item)
+                                
                         mutual_wish_pool.append(checked_w_id)
                         already_added_ids.append(checked_w_id)
                 if mutual_wish_pool:    
                     sub_pool.append(mutual_wish_pool)
+            # Delete duplicate lists that have been added with extension to some other list item
+            # This is done in this way because mutating a list that is currently looped is discouraged.
+            for dele in to_be_removed_from_sub_pool:
+                sub_pool.remove(dele)
             all_mutual_wishes_pools.append(sub_pool)
         self.all_mutual_wishes_pools = all_mutual_wishes_pools
         print('all mutual wishes pools has been created')
