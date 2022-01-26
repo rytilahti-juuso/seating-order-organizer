@@ -383,7 +383,7 @@ class TestPoolCreation(unittest.TestCase):
     
 if __name__ == '__main__':
     #Will run all tests
-    #unittest.main()
+    unittest.main()
     
     #suite = unittest.TestSuite()
     #suite.addTest(TestPoolCreation("test_create_mutual_wishes_groups"))
