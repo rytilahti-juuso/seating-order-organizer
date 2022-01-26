@@ -331,7 +331,9 @@ class TestPoolCreation(unittest.TestCase):
         self.assertEqual(mutual_wishes_pools, [[[0, 1, 2, 3]], [[4, 5], [6, 7]], [[8]]])
     
         
+        #TODO test non-mutual chaining, the current excel output case 
         
+        # Test partially mutual chaining
         anom_list = [[0, [1,2,3]], [1, [0,2,3, 7]], [2, [3]], [3, [2]], [4, [5,6]], [5, [4]]
                               , [6, [5]], [7, [1]], [8, []]]
         #all_wishes_in_same_group_pool = [[0, 1, 2, 3], [4, 5, 6, 7], [8]]
@@ -341,10 +343,9 @@ class TestPoolCreation(unittest.TestCase):
         mutual_wishes_pools = pool_creation.all_mutual_wishes_pools
         self.assertEqual(mutual_wishes_pools, [[[4, 5], [6]], [[0, 1, 7], [2, 3]], [[8]]])
         
-       
+        # Test mutual chaining
         anom_list2 = [[0, [1,2,3]], [1, [0,2,3, 7]], [2, [0,1,3]], [3, [0,1,2]], [4, [5,6]], [5, [4]]
                               , [6, [5]], [7, [1]], [8, []]]
-        #all_wishes_in_same_group_pool = [[0, 1, 2, 3], [4, 5, 6, 7], [8]]
         pool_creation.create_all_wishes_to_same_group(anom_list2)
         all_wishes_in_same_group_pool = pool_creation.wish_pools
         pool_creation.create_mutual_wishes_groups(pool_creation.wish_pools, anom_list2)
@@ -354,7 +355,6 @@ class TestPoolCreation(unittest.TestCase):
          # 7 and 1 should be set to sit next to each other.
         self.assertEqual(mutual_wishes_pools, [[[4, 5], [6]], [[0, 3, 2, 1, 7]], [[8]]])
     
-        
    #TODO both of these need to be implemented before going to server side!
     def test_what_happens_if_duplicates(self):
         pass
