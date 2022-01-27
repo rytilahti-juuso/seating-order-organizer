@@ -4,12 +4,14 @@
 A way to generate seating order automatically for sitz or some other event. The main idea of the current version is to ease the work of the one doing the seating planning for sitz and other such events.
 
 
-# First time setup:
-1. Currently there is no `requirements.txt`. It will be added at a later date. Currently code runs fine on Spyder version 4.2.5, which was installed with Anaconda version 2.0.3.
-2.  Open the file DataGenerator.py
-3. In the file replace all the used absolute pathing ctrl + f e.g. `C:\Users\`. These are probably changed to dynamic add some point when I have time.
-4. All excel files should pre-exist before running the code.
-5. You should see multiple prints. 
+# First Time Setup:
+1. If virtualenv is not yet installed, run pip install `pip install virtualenv` .
+2. Open command line. Navigate to this repository's folder with command line (e.g. `C:\Users\rytil\Documents\Github\seating-order-organizer`).
+3. Run `python -m virtualenv venv`
+4. Activate the virtual enviroment, if you're on windows the command is `.\venv\Scripts\activate.bat`, if youre using some other os google how to activate the virtualenv enviroment.  
+5. Install requirements using `pip install -r requirements.txt`
+6. You can run the actual code now using `python excel_import_and_export.py`
+7. You should see multiple prints. 
 ```
 Code is run trough namespace
 Importing data from excel
@@ -22,9 +24,22 @@ all mutual wishes pools has been created
 Pools have been created!
 Data export succesfully completed!
 ```
-If you see only some of the prints, some important code line has been commented out either at the bottom of the file under `if __name__:` clause or in the `NecessaryListsFactory` -class.
+If you see only some of the prints, some important code line has been commented out at the bottom of the `excel_import_and_export.py` -file under the `if __name__:` if clause.
+Inside there should be the following lines uncommented:
+``` python
+if __name__:
+    print('Code is run trough namespace')
+    imp = ImportDataFromExcel()
+    nlf = NecessaryListsFactory(imp.data)
+    e = ExportData()   
+    e.export_data_to_excel(nlf)
+```
+8. If you see all of the above prints and no errors raise, you are probably fine and you can proceed to start using the script. The most optimal workflow how this script can be utilized is currently described below in the # Workflow section 
 
-6. If you see all of the above prints and no errors raise, you are probably fine and can start coding. 
+Notes about first time setup:
+- All excel files should pre-exist before running the code.
+- Tests can be run with following command `python test_seating_organizer.py`. Currently the unit tests do not cover the excel import and export classes, score calculation or data generation. They cover the classes found in the `sorting_algorithm.py` -file 
+- You can deactivate the virtualenviroment by typing `deactivate`.
 
 # Workflow:
 1. See that the code is running properly using above steps
