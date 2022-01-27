@@ -89,6 +89,6 @@ anom_list2 = [[0, [1,2,3]], [1, [0,2,3, 7]], [2, [0,1,3]], [3, [0,1,2]], [4, [5,
  
   #### Explanation:
   If 1 and 7 has mutually wished to sit next to each other, and 7 does not share any other 1's mutual wishes , 7 and 1 should be set to sit next to each other. 
-  - In the `test_seating_organizer.py` file there are more edge cases described and how they are currently handled. Most notably method `test_create_mutual_wishes_groups(self)` of the class `TestPoolCreation`
+  - In the `test_seating_organizer.py` file there are more edge cases described and how they are currently handled. Most notably method `test_create_mutual_wishes_groups(self)` of the class `TestPoolCreation`.
 
 
