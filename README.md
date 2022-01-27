@@ -43,14 +43,16 @@ Notes about first time setup:
 
 # Workflow:
 1. See that the code is running properly using above steps
-2. Copy participants and their wishes to the columns in the file named `input-participant-and_wishing-list.xlsx`.
-3. Run all the code in the namespace
-4. Check the created `output-seating-order.xlsx` file. Look for are cells where the font is **red**. This means that the participant has special wishes (e.g. "I would like to sit next to the other old students") or they have typos in their wishes. Look in the `input-participant-and_wishing-list.xlsx` and correct the wishes so that they match the names of the participants. If there is someone who has a special wish "I don't want to sit next to person xx" you can leave that wish unaltered. It will not affect functionality of the code.
-5. Run code again with the altered input file.
-6. Now open the output and open a **new** empty excel file next to it.
-7. Now you can copy names to that new excel file which you just created either one name at a time or in groups using cut and paste (`ctrl + x` and `ctrl +v`). Cut is better than copy because then you avoid duplicates
-8. Finally set the background on names to white and keep the grey borders in that new excel you created. Save the excel as my-event-name-year.xslx. 
-9. You're done! Congratz!
+2. Activate the created virtual enviroment `python -m virtualenv venv`
+3. Copy participants and their wishes to the columns in the file named `input-participant-and_wishing-list.xlsx`.
+4. Run `python excel_import_and_export.py`
+5. Check the created `output-seating-order.xlsx` file. Look for are cells where the font is **red**. This means that the participant has special wishes (e.g. "I would like to sit next to the other old students") or they have typos in their wishes. Look in the `input-participant-and_wishing-list.xlsx` and correct the wishes so that they match the names of the participants. If there is someone who has a special wish "I don't want to sit next to person xx" you can leave that wish unaltered. It will not affect functionality of the code, only the font color of the said participants name will be red in the output excel.
+6. Run code again with the altered input file using the same command (`python excel_import_and_export.py`).
+7. Now open the output and open a **new** empty excel file next to it.
+8. Now you can copy names to that new excel file which you just created either one name at a time or in groups using cut and paste (`ctrl + x` and `ctrl +v`). Cut is better than copy because then you avoid accidently placing someone twice to actual the seating chart.
+9. Finally set the background on names to white and keep the grey borders in that new excel you created. Save the excel as my-event-name-year.xslx.
+10. Close the terminal or deactive the enviroment using `deactivate` command. 
+11. You're done! Congratz!
 
 # General Notes:
 - The names that end up in `output-seating-order.xlsx` file are the ones under the `name`-column in the input excel file.
