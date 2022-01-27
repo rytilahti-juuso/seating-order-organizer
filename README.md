@@ -42,8 +42,8 @@ Notes about first time setup:
 - You can deactivate the virtualenv-enviroment by typing `deactivate` and pressing enter in the command line.
 
 # Workflow:
-1. See that the code is running properly using above steps
-2. Open command line. Navigate to this repository's folder with command line (e.g. C:\Users\rytil\Documents\Github\seating-order-organizer).
+1. See that the code is running properly using above steps.
+2. Open command line. Navigate to this repository's folder with command line (e.g. `C:\Users\rytil\Documents\Github\seating-order-organizer`).
 3. Activate the created virtual enviroment by typing `python -m virtualenv venv` into the command line.
 4. Copy participants and their wishes to the columns in the file named `input-participant-and_wishing-list.xlsx`.
 5. In the command line, run `python excel_import_and_export.py`
