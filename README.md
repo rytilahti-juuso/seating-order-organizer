@@ -3,6 +3,8 @@
 # seating-order-organizer
 A way to generate seating order automatically for sitz or some other event. The main idea of the current version is to ease the work of the one doing the seating planning for sitz and other such events.
 
+Executable version with simpler instructions and less steps to take to use can be found in the file `dist.zip`.
+
 
 # First Time Setup:
 1. If virtualenv is not yet installed, run pip install `pip install virtualenv` .
