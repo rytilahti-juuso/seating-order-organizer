@@ -39,7 +39,7 @@ if __name__:
 Notes about first time setup:
 - All excel files should pre-exist before running the code.
 - Tests can be run with following command `python test_seating_organizer.py`. Currently the unit tests do not cover the excel import and export classes, score calculation or data generation. They cover the classes found in the `sorting_algorithm.py` -file 
-- You can deactivate the virtualenviroment by typing `deactivate`.
+- You can deactivate the virtualenv-enviroment by typing `deactivate` and pressing enter in the command line.
 
 # Workflow:
 1. See that the code is running properly using above steps
