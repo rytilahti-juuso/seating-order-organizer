@@ -66,7 +66,6 @@ Notes about first time setup:
 
 # Color and style formatting meaning:
 - If font is red it  means that the participant has special wishes (e.g. "I would like to sit next to the other old students") or they have typos in their wishes.
-- You may notice that between some groups there are an empty column while others do not. This is intentional. The reason is that if you have names with different background color withing two empty columns, it means that there are people who have non-mutual ( basically chained) wishes.
 - The background color rotates between five different colors. This is so that there can't be a mixup of two persons belonging the same group. Consider example below:
 ```
 0 1
@@ -74,5 +73,22 @@ Notes about first time setup:
 4 5
 ```
 The numbers represent final seating order, where zero is left side and 1 is on the right side of the table. Do you notice how next to partipant indexed as number `2` can only be a maximum of five different participants?
+
+## How participants are grouped and how this affects to excel style formatting
+- You may notice that between some groups there are an empty column while others do not. This is intentional. The reason is that if you have names with different background color withing two empty columns, it means that there are people who have non-mutual ( basically chained) wishes.
+- Participants who have mutual chaining in their wishes will have the same background color. This is limitation of currently used excel output style formatting and is likely at some later point changed to be a little bit different.
+#### Current behavior:
+ ``` python
+anom_list2 = [[0, [1,2,3]], [1, [0,2,3, 7]], [2, [0,1,3]], [3, [0,1,2]], [4, [5,6]], [5, [4]]
+                              , [6, [5]], [7, [1]], [8, []]]
+ ```
+ Provides following mutual wish pools:
+``` python
+ [[[4, 5], [6]], [[0, 3, 2, 1, 7]], [[8]]])
+ ```
+ 
+  #### Explanation:
+  If 1 and 7 has mutually wished to sit next to each other, and 7 does not share any other 1's mutual wishes , 7 and 1 should be set to sit next to each other. 
+  - In the `test_seating_organizer.py` file there are more edge cases described and how they are currently handled. Most notably method `test_create_mutual_wishes_groups(self)` of the class `TestPoolCreation`
 
 
