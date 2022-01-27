@@ -8,7 +8,7 @@ A way to generate seating order automatically for sitz or some other event. The 
 1. If virtualenv is not yet installed, run pip install `pip install virtualenv` .
 2. Open command line. Navigate to this repository's folder with command line (e.g. `C:\Users\rytil\Documents\Github\seating-order-organizer`).
 3. Run `python -m virtualenv venv`
-4. Activate the virtual enviroment, if you're on windows the command is `.\venv\Scripts\activate.bat`, if youre using some other os google how to activate the virtualenv enviroment.  
+4. Activate the virtual enviroment, if you're on windows the command is `.\venv\Scripts\activate.bat`, if youre using some other OS (e.g. Mac or Linux) google how to activate the virtualenv enviroment.  
 5. Install requirements using `pip install -r requirements.txt`
 6. You can run the actual code now using `python excel_import_and_export.py`
 7. You should see multiple prints. 
