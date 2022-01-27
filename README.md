@@ -34,7 +34,7 @@ if __name__:
     e = ExportData()   
     e.export_data_to_excel(nlf)
 ```
-8. If you see all of the above prints and no errors raise, you are probably fine and you can proceed to start using the script. The most optimal workflow how this script can be utilized is currently described below in the # Workflow section 
+8. If you see all of the above prints and no errors raise, you are probably fine and you can proceed to start using the script. The most optimal workflow how this script can be utilized is currently described below in the #Workflow section 
 
 Notes about first time setup:
 - All excel files should pre-exist before running the code.
