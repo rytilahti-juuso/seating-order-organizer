@@ -127,9 +127,14 @@ class ExportData(object):
         # names_that_have_special_wishes: participants names that have special wishes. key: name, value: style formatting settings
         self.names_with_color_rules = excel_style_formatting.generate_color_rules(participants, participants_ids_with_special_wishes, mutual_pools)
         self.add_empty_cells_after_these_ids = excel_style_formatting.add_empty_cells_after_these_ids
-        
-        anonymous_flat_list = [item for sublist in pools for item in sublist]
+        anonymous_flat_list = []
+        for big_pool in mutual_pools:
+            for pool in big_pool:
+                for p_id in pool:
+                    anonymous_flat_list.append(p_id)
+                
         result = [] # format, [name1, name2,...nameN]
+        #print(anonymous_flat_list)
         for i in range(0, len(anonymous_flat_list)):
             result.append(participants[anonymous_flat_list[i]].full_name)
             # If id is at the end of the subgroup of mutual and non_mutual wishes, append two empty spaces 
