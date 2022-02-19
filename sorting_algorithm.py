@@ -276,7 +276,15 @@ class PoolCreation(object):
                     for p_and_wishes in participant_wishing_list:
                         new_pool.append(p_and_wishes)
                 self.wish_pools.append(new_pool)
+        self.remove_duplicates_from_wish_pools(self.wish_pools)
         print("All wishes to same-group-pools-have-been-created!")
+    
+    #Remove duplicate items from wish pools created in create_all_wishes_to_same_group
+    def remove_duplicates_from_wish_pools(self, wish_pools):
+        for i, pool in enumerate(wish_pools):
+            pool_without_duplicates = list(dict.fromkeys(pool))
+            wish_pools[i] = pool_without_duplicates
+        
         
     def create_mutual_wishes_groups(self, wish_pools, anonymous_list):
         all_mutual_wishes_pools = []

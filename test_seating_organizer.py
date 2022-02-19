@@ -389,6 +389,11 @@ class TestPoolCreation(unittest.TestCase):
         b = pool_creation.is_mutual_wish_pool_already_added_in_sub_pool(sub_pool, [5])
         self.assertEqual(b, False)
         
+    def test_remove_duplicates_from_wish_pools(self):
+        pool_creation = PoolCreation()
+        wish_pools = [[1,2,1], [0, 4]]
+        pool_creation.remove_duplicates_from_wish_pools(wish_pools)
+        self.assertEqual(wish_pools, [[1, 2], [0, 4]])
         
         
     def test_create_mutual_wishes_groups(self):
