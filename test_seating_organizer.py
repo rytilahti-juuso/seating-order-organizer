@@ -319,6 +319,75 @@ class TestPoolCreation(unittest.TestCase):
         deeply_nested_pool_creation.create_all_wishes_to_same_group(self.anonymous_deeply_nested)
         deeply_nested_all_wishes = deeply_nested_pool_creation.wish_pools
         self.assertEqual(deeply_nested_all_wishes, [[0, 1, 2, 3, 4, 5], [6]])
+    
+    def test_remove_not_fully_mutual_wishes(self):
+        pool_creation = PoolCreation()
+        mutual_wish_pool = [0, 1, 2, 3]
+        anonymous_list = [[0, [1]], [1, [0, 2]], [2, [1]], [3, [1]]]
+        pool_creation.remove_not_fully_mutual_wishes(mutual_wish_pool, anonymous_list)
+        self.assertEqual(mutual_wish_pool, [0,1])
+        
+        pool_creation = PoolCreation()
+        mutual_wish_pool = [0, 1, 2, 3]
+        anonymous_list = [[0, []], [1, [0, 2]], [2, [1]], [3, [1]]]
+        pool_creation.remove_not_fully_mutual_wishes(mutual_wish_pool, anonymous_list)
+        self.assertEqual(mutual_wish_pool, [0])
+        
+        pool_creation = PoolCreation()
+        mutual_wish_pool = [0, 1, 2, 3]
+        anonymous_list = [[0, [2]], [1, [0, 2]], [2, [1]], [3, [1]]]
+        pool_creation.remove_not_fully_mutual_wishes(mutual_wish_pool, anonymous_list)
+        self.assertEqual(mutual_wish_pool, [0])
+    
+    def test_are_wishes_mutual(self):
+        pool_creation = PoolCreation()
+        p_id = 0
+        p_wish_list = [1,2,3]
+        w_id = 1
+        w_wish_list = [0,2,3]
+        b = pool_creation.are_wishes_mutual(p_id, w_id, p_wish_list, w_wish_list)
+        self.assertEqual(b, True)
+        
+        p_id = 2
+        p_wish_list = [1,0,3]
+        w_id = 1
+        w_wish_list = [3,2,0]
+        b = pool_creation.are_wishes_mutual(p_id, w_id, p_wish_list, w_wish_list)
+        self.assertEqual(b, True)
+    
+    def test_asd(self):
+        pool_creation = PoolCreation()
+        wish_pools = [0, 1, 2, 3], [4,5]
+        anonymous_list = [[0, [1]], [1, [0, 2]], [2, [3]], [3, [1]], [4, [5]], [5, [4]]]
+        #pool_creation.create_all_wishes_to_same_group(anonymous_list)
+        #print(pool_creation.wish_pools)
+        self.assertEqual(pool_creation.asd(wish_pools, anonymous_list), [[[0, 1], [2], [3]], [[4, 5]]])
+        print(pool_creation.asd(wish_pools, anonymous_list))
+        
+        
+        pool_creation = PoolCreation()
+        wish_pools = [0, 1, 2, 3], [4,5]
+        anonymous_list = [[0, [1]], [1, [0, 2]], [2, [1, 3]], [3, [2]], [4, [5]], [5, [4]]]
+        self.assertEqual(pool_creation.asd(wish_pools, anonymous_list), [[[0, 1], [3, 2]], [[4, 5]]])
+    
+    def test_is_mutual_wish_pool_already_added_in_sub_pool(self):
+        pool_creation = PoolCreation()
+        sub_pool = [[0, 1]]
+        mutual_wish_pool = [1, 0]
+        b = pool_creation.is_mutual_wish_pool_already_added_in_sub_pool(sub_pool, mutual_wish_pool)
+        self.assertEqual(b, True)
+        
+        sub_pool = [[0,1,2], [2,3,4]]
+        b = pool_creation.is_mutual_wish_pool_already_added_in_sub_pool(sub_pool, [2,3,4])
+        self.assertEqual(b, True)
+        
+        sub_pool = [[0,1,2], [4,3,2]]
+        b = pool_creation.is_mutual_wish_pool_already_added_in_sub_pool(sub_pool, [2,3,4])
+        self.assertEqual(b, True)
+        
+        sub_pool = [[0,1,2], [4,3,2]]
+        b = pool_creation.is_mutual_wish_pool_already_added_in_sub_pool(sub_pool, [5])
+        self.assertEqual(b, False)
         
         
         

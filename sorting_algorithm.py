@@ -216,7 +216,7 @@ class PoolCreation(object):
     def create_pools(self, anonymous_list):
         print("pool creation has started")
         self.create_all_wishes_to_same_group(anonymous_list)
-        self.create_mutual_wishes_groups(self.wish_pools, anonymous_list)
+        self.all_mutual_wishes_pools = self.create_mutual_wishes_groups(self.wish_pools, anonymous_list)
         print('Pools have been created!')
     
     # - anonymous_list: [[0, [89, 75, 50, 23], True], [1, [71, 138, 81, 85], False],...]
@@ -278,6 +278,79 @@ class PoolCreation(object):
                 self.wish_pools.append(new_pool)
         print("All wishes to same-group-pools-have-been-created!")
         
+    def create_mutual_wishes_groups(self, wish_pools, anonymous_list):
+        all_mutual_wishes_pools = []
+        for pool in wish_pools:
+            sub_pool = []
+            # Loop through the pool twice
+            for p_id in pool:
+                mutual_wish_pool = []
+                mutual_wish_pool.append(p_id)
+                p = anonymous_list[p_id] #checked participant
+                #checked_p_id = checked_p[0]
+                p_wish_list = p[1]
+                for w_id in pool:
+                    w = anonymous_list[w_id]
+                    w_wish_list = w[1]
+                    if p_id is not w_id:
+                       if self.are_wishes_mutual(p_id, w_id, p_wish_list, w_wish_list):
+                           #if p_id not in mutual_wish_pool:    
+                            #   mutual_wish_pool.append(p_id)
+                           if w_id not in mutual_wish_pool:
+                               mutual_wish_pool.append(w_id)
+                # Go through mutual_wish_pool and remove all wishes that are not fully mutual
+                self.remove_not_fully_mutual_wishes(mutual_wish_pool, anonymous_list)
+                # Go through sub pool and make sure that this current pool is not yet added
+                if not self.is_mutual_wish_pool_already_added_in_sub_pool(sub_pool, mutual_wish_pool):
+                    if mutual_wish_pool:                    
+                        sub_pool.append(mutual_wish_pool)
+            if sub_pool:
+                all_mutual_wishes_pools.append(sub_pool)
+        return all_mutual_wishes_pools
+                
+    # mutual_wish_pool: pool that is mutated and that where the not fully mutual wishes are removed.
+    # Checks the first element and it's fully mutual wishes                       
+    def remove_not_fully_mutual_wishes(self, mutual_wish_pool, anonymous_list):
+        to_be_removed = []
+        ids_already_checked = []
+        for p_id in mutual_wish_pool:
+            ids_already_checked.append(p_id)
+            for w_id in mutual_wish_pool:
+                if p_id is not w_id:
+                    p = anonymous_list[p_id]
+                    p_wish_list = p[1]
+                    w = anonymous_list[w_id]
+                    w_wish_list = w[1]
+                    if(w_id not in ids_already_checked):
+                        if not self.are_wishes_mutual(p_id, w_id, p_wish_list, w_wish_list):
+                            to_be_removed.append(w_id)
+                        ids_already_checked.append(w_id)
+        for item in to_be_removed:
+            if item in mutual_wish_pool:    
+                mutual_wish_pool.remove(item)
+    
+    # returns: true if is already added. Currently this does not handle any edge cases
+    def is_mutual_wish_pool_already_added_in_sub_pool(self, sub_pool, mutual_wish_pool):
+        is_already_added = False
+        for pool in sub_pool:
+            for p_id in mutual_wish_pool:
+                if p_id in pool:
+                    is_already_added = True
+                    break
+        return is_already_added
+                    
+                    
+                                    
+                    
+                    
+            
+    def are_wishes_mutual(self, p_id, w_id, p_wish_list, w_wish_list):
+        return p_id in w_wish_list and w_id in p_wish_list       
+        
+    def is_id_in_pool(self, p_id, pool):
+        return p_id in pool
+        
+        
     # - Create mutual wishes subgroups. These will be added "all_mutual_wishes_pools"-list. 
     # - anonymous_list: [[0, [89, 75, 50, 23], True], [1, [71, 138, 81, 85], False],...] 
     #    where [participant_id[participant's_wishes], isMan]
@@ -292,7 +365,7 @@ class PoolCreation(object):
     #   - NOTE: empty list means that that participant did not have any seat wishes.
     #   It will be converted in create_all_wishes_to_same_group(anonymous_list)-method to be the following: [[0,1,2], [3]]
     # - So after this method all_mutual_wishes_pools is: [[[0,1], [2]], [3]]
-    def create_mutual_wishes_groups(self, wish_pools, anonymous_list):
+    def deprecated_create_mutual_wishes_groups(self, wish_pools, anonymous_list):
         print('Started creating all mutual wishes pools')
         all_mutual_wishes_pools = []
         for pool in wish_pools:
