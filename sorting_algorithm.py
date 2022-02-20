@@ -313,7 +313,8 @@ class PoolCreation(object):
             if item:
                 wish_pools.append(item)
         for dele in to_be_removed:
-            wish_pools.remove(dele)
+            if dele in wish_pools:
+                wish_pools.remove(dele)
             
                             
         
