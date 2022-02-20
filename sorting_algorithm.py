@@ -307,9 +307,9 @@ class PoolCreation(object):
                 # Go through mutual_wish_pool and remove all wishes that are not fully mutual
                 self.remove_not_fully_mutual_wishes(mutual_wish_pool, anonymous_list)
                 # Go through sub pool and make sure that this current pool is not yet added
-                if not self.is_mutual_wish_pool_already_added_in_sub_pool(sub_pool, mutual_wish_pool):
-                    if mutual_wish_pool:                    
-                        sub_pool.append(mutual_wish_pool)
+                self.remove_items_already_in_some_sub_pool_from_current_wish_pool(sub_pool, mutual_wish_pool, anonymous_list)
+                if mutual_wish_pool:                    
+                    sub_pool.append(mutual_wish_pool)
             if sub_pool:
                 all_mutual_wishes_pools.append(sub_pool)
         return all_mutual_wishes_pools
@@ -340,14 +340,15 @@ class PoolCreation(object):
     
     # returns: true if is already added. Currently this does not handle any edge cases 
     # and assumes that mutual wish pool has same items if atleast one of the said items is the same
-    def is_mutual_wish_pool_already_added_in_sub_pool(self, sub_pool, mutual_wish_pool):
-        is_already_added = False
+    def remove_items_already_in_some_sub_pool_from_current_wish_pool(self, sub_pool, mutual_wish_pool, anonymous_list):
+        to_be_removed = []
         for pool in sub_pool:
             for p_id in mutual_wish_pool:
                 if p_id in pool:
-                    is_already_added = True
-                    break
-        return is_already_added
+                    to_be_removed.append(p_id)
+        for item in to_be_removed:
+            if item in mutual_wish_pool:
+                mutual_wish_pool.remove(item)
                     
                     
                                     
