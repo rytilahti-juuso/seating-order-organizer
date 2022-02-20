@@ -315,6 +315,8 @@ class PoolCreation(object):
                 all_mutual_wishes_pools.append(sub_pool)
         return all_mutual_wishes_pools
     
+    # If mutual wish pool can be appended, this returns empty mutual wish pool
+    # and appends all elements of the current wish pool to correct already existing pool in sub_pool array
     def append_current_mutual_wish_pool_to_existing_sub_pool_if_possible(self, mutual_wish_pool, sub_pool, anonymous_list):
         for pool in sub_pool:
             can_be_appended = True
