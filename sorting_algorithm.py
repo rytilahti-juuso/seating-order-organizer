@@ -256,6 +256,7 @@ class PoolCreation(object):
                                     if c_id not in mutual_wish_pool:    
                                         mutual_wish_pool.append(c_id)
                             self.remove_items_already_in_some_sub_pool_from_current_wish_pool(sub_pool, mutual_wish_pool, anonymous_list)
+                            mutual_wish_pool = self.append_current_mutual_wish_pool_to_existing_sub_pool_if_possible(mutual_wish_pool, sub_pool, anonymous_list)
                             if mutual_wish_pool:
                                 sub_pool.append(mutual_wish_pool)
             if sub_pool:    
