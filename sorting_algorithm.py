@@ -35,12 +35,27 @@ class NecessaryListsFactory(object):
         self.pc.create_pools(self.anonymous_list)
         self.all_pools = self.pc.all_mutual_wishes_pools
         #self.seating_order_with_ids = [item for sublist in self.all_pools for item in sublist]
+        self.names_of_mutuals_outside_own_mutual_pool = self.get_mutuals_outside_own_pool_names(self.pc.mutuals_outside_own_mutual_pool, self.participant_list)
         self.seating_order = self.generate_final_seating_list(self.participant_list, self.pc.wish_pools) # Participant full names are in correct seating order
         #print(self.add_empty_cells_after_these_ids)
         #e = ExportData()
         #e.export_data_to_excel(self.seating_order, self.names_with_color_rules)
     
+    def get_mutuals_outside_own_pool_names(self, mutuals, p_list):
+        names = []
+        for sub_pool in mutuals:
+            new_sub_pool = []
+            for pool in sub_pool:
+                new_pool = []
+                for id in pool:
+                    new_pool.append(p_list[id].full_name)
+                if new_pool:
+                    new_sub_pool.append(new_pool)
+            if new_sub_pool:
+                names.append(new_sub_pool)
+        return names
             
+                
     
     def generate_lists_from_name_and_wish_list(self):
         for i in range(0, len(self.name_and_wish_list)):
