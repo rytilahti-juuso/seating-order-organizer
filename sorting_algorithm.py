@@ -284,6 +284,7 @@ class PoolCreation(object):
                         pool.append(p_id)
                         already_added_ids.append(p_id)
                         is_not_added_yet = False
+            self.merge_non_mutual_wish_pools(anonymous_list, wish_pools)
             if is_not_added_yet:
                 pool = self.create_new_pool_and_append_the_element_to_it(p_id, already_added_ids)
                 if pool:    
