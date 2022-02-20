@@ -331,7 +331,7 @@ class PoolCreation(object):
                     w_wish_list = w[1]
                     if(w_id not in ids_already_checked):
                         for item in ids_already_checked:
-                            if not self.are_wishes_mutual(item, w_id, anonymous_list[item][1], w_wish_list):
+                            if not self.are_wishes_mutual(item, w_id, anonymous_list[item][1], w_wish_list) and item not in to_be_removed:
                                 to_be_removed.append(item)
                         if not self.are_wishes_mutual(p_id, w_id, p_wish_list, w_wish_list):
                             to_be_removed.append(w_id)

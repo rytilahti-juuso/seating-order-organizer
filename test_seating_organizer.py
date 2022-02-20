@@ -355,20 +355,26 @@ class TestPoolCreation(unittest.TestCase):
         b = pool_creation.are_wishes_mutual(p_id, w_id, p_wish_list, w_wish_list)
         self.assertEqual(b, True)
     
-    def test_asd(self):
+    def test_create_mutual_wishes_groups(self):
         pool_creation = PoolCreation()
         wish_pools = [0, 1, 2, 3], [4,5]
         anonymous_list = [[0, [1]], [1, [0, 2]], [2, [3]], [3, [1]], [4, [5]], [5, [4]]]
         #pool_creation.create_all_wishes_to_same_group(anonymous_list)
         #print(pool_creation.wish_pools)
-        self.assertEqual(pool_creation.asd(wish_pools, anonymous_list), [[[0, 1], [2], [3]], [[4, 5]]])
-        print(pool_creation.asd(wish_pools, anonymous_list))
+        self.assertEqual(pool_creation.create_mutual_wishes_groups(wish_pools, anonymous_list), [[[0, 1], [2], [3]], [[4, 5]]])
+        
+        
+        pool_creation = PoolCreation()
+        wish_pools = [0, 1, 2, 3], [4,5]
+        anonymous_list = [[0, [1]], [1, [0, 2]], [2, [3, 1]], [3, [1, 2]], [4, [5]], [5, [4]]]
+        self.assertEqual(pool_creation.create_mutual_wishes_groups(wish_pools, anonymous_list), [[[0, 1], [2, 3]], [[4, 5]]])
+        print(pool_creation.create_mutual_wishes_groups(wish_pools, anonymous_list))
         
         
         pool_creation = PoolCreation()
         wish_pools = [0, 1, 2, 3], [4,5]
         anonymous_list = [[0, [1]], [1, [0, 2]], [2, [1, 3]], [3, [2]], [4, [5]], [5, [4]]]
-        self.assertEqual(pool_creation.asd(wish_pools, anonymous_list), [[[0, 1], [3, 2]], [[4, 5]]])
+        self.assertEqual(pool_creation.create_mutual_wishes_groups(wish_pools, anonymous_list), [[[0, 1], [2, 3]], [[4, 5]]])
     
     def test_is_mutual_wish_pool_already_added_in_sub_pool(self):
         pool_creation = PoolCreation()
@@ -396,7 +402,7 @@ class TestPoolCreation(unittest.TestCase):
         self.assertEqual(wish_pools, [[1, 2], [0, 4]])
         
         
-    def test_create_mutual_wishes_groups(self):
+    def test_deprecated_create_mutual_wishes_groups(self):
         pool_creation = PoolCreation()
         all_wishes_in_same_group_pool = [[0, 1, 2, 3], [4, 5, 6, 7], [8]]
         pool_creation.create_mutual_wishes_groups(all_wishes_in_same_group_pool, self.anonymous_list)
