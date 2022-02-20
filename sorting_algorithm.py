@@ -302,8 +302,6 @@ class PoolCreation(object):
                     w_wish_list = w[1]
                     if p_id is not w_id:
                        if self.are_wishes_mutual(p_id, w_id, p_wish_list, w_wish_list):
-                           #if p_id not in mutual_wish_pool:    
-                            #   mutual_wish_pool.append(p_id)
                            if w_id not in mutual_wish_pool:
                                mutual_wish_pool.append(w_id)
                 # Go through mutual_wish_pool and remove all wishes that are not fully mutual
@@ -340,7 +338,8 @@ class PoolCreation(object):
             if item in mutual_wish_pool:    
                 mutual_wish_pool.remove(item)
     
-    # returns: true if is already added. Currently this does not handle any edge cases
+    # returns: true if is already added. Currently this does not handle any edge cases 
+    # and assumes that mutual wish pool has same items if atleast one of the said items is the same
     def is_mutual_wish_pool_already_added_in_sub_pool(self, sub_pool, mutual_wish_pool):
         is_already_added = False
         for pool in sub_pool:
