@@ -217,8 +217,11 @@ class PoolCreation(object):
         print("pool creation has started")
         self.wish_pools = self.create_non_mutual_wish_pools(anonymous_list)
         self.all_mutual_wishes_pools = self.create_mutual_wishes_groups(self.wish_pools, anonymous_list)
+        self.mutuals_outside_own_mutual_pool = self.mutual_wishes_outside_own_mutual_wishes_pool(self.all_mutual_wishes_pools, anonymous_list)
         print('Pools have been created!')
     
+    # If person has mutual wishes outside their own mutual wish pool, they will added together on separate pool created here
+    # (This is for changing the font colors to inform the seating planner about this "dependency")
     def mutual_wishes_outside_own_mutual_wishes_pool(self, m_pools, anonymous_list):
         all_pools_of_wishes_outside_of_mutual_pools = []
         #All wishes pool
@@ -227,19 +230,19 @@ class PoolCreation(object):
             #Mutual wish pool
             for m_pool in pool_of_pools:
                 for m2_pool in pool_of_pools:
-                    mutual_wish_pool = []
                     if m_pool is not m2_pool:
                         #time to cross reference the pools
                         for p_id in m_pool:
+                            mutual_wish_pool = []
                             for c_id in m2_pool:
                                 if self.are_wishes_mutual(p_id, c_id, anonymous_list[p_id][1], anonymous_list[c_id][1]):
                                     if p_id not in mutual_wish_pool:    
                                         mutual_wish_pool.append(p_id)
                                     if c_id not in mutual_wish_pool:    
                                         mutual_wish_pool.append(c_id)
-                    self.remove_items_already_in_some_sub_pool_from_current_wish_pool(sub_pool, mutual_wish_pool, anonymous_list)
-                    if mutual_wish_pool:
-                        sub_pool.append(mutual_wish_pool)
+                            self.remove_items_already_in_some_sub_pool_from_current_wish_pool(sub_pool, mutual_wish_pool, anonymous_list)
+                            if mutual_wish_pool:
+                                sub_pool.append(mutual_wish_pool)
             if sub_pool:    
                 all_pools_of_wishes_outside_of_mutual_pools.append(sub_pool)
         return all_pools_of_wishes_outside_of_mutual_pools
