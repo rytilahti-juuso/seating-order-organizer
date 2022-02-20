@@ -67,7 +67,9 @@ Notes about first time setup:
   - The code returns always the name that the participant has inputted in the `names` column. So if someone has a wish were reads e.g. `matti meikäläinen` and Partipant has inputted his name on the event signup correctly `Matti Meikäläinen` you will see that in the excel the used name is `Matti Meikäläinen`.
 
 # Color and style formatting meaning:
-- If font is red it  means that the participant has special wishes (e.g. "I would like to sit next to the other old students") or they have typos in their wishes.
+- If font is red it  means that the participant has special wishes (e.g. "I would like to sit next to the other old students") or they have typos in their wishes. Red font color overrides all other font colors!
+- If font color is not black or red, it means that that person have mutual wish with someone outside their own "mutual wish pool". That mutual wish is still inside the non-mutual seating order (inside the group separated by empty cells). If you do not see any other cell with same font color in that same group and there is a red font color cell, the pair is that red font color cell name because special wishes override mutual wish font color! 
+- Default font color is black.
 - The background color rotates between five different colors. This is so that there can't be a mixup of two persons belonging the same group. Consider example below:
 ```
 0 1
