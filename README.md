@@ -79,7 +79,7 @@ Notes about first time setup:
 The numbers represent final seating order, where zero is left side and 1 is on the right side of the table. Do you notice how next to partipant indexed as number `2` can only be a maximum of five different participants?
 
 ## How participants are grouped and how this affects to excel style formatting
-- You may notice that between some groups there are an empty column while others do not. This is intentional. The reason is that if you have names with different background color withing two empty columns, it means that there are people who have non-mutual ( basically chained) wishes.
+- You may notice that between some groups there are an empty column while others do not. This is intentional. The reason is that if you have names with different background color withing two empty columns, it means that there are people who have non-mutual ( basically chained) wishes or they have mutual wish outside their own mutual wish group.
 - Participants who have mutual chaining in their wishes will have the same background color. This is limitation of currently used excel output style formatting and is likely at some later point changed to be a little bit different.
 #### Current behavior:
 This input to `PoolCreation` class `create_mutual_wishes_groups()`-method
