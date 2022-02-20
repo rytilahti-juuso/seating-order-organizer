@@ -308,12 +308,31 @@ class PoolCreation(object):
                 self.remove_not_fully_mutual_wishes(mutual_wish_pool, anonymous_list)
                 # Go through sub pool and make sure that this current pool is not yet added
                 self.remove_items_already_in_some_sub_pool_from_current_wish_pool(sub_pool, mutual_wish_pool, anonymous_list)
+                mutual_wish_pool = self.append_current_mutual_wish_pool_to_existing_sub_pool_if_possible(mutual_wish_pool, sub_pool, anonymous_list)
                 if mutual_wish_pool:                    
                     sub_pool.append(mutual_wish_pool)
             if sub_pool:
                 all_mutual_wishes_pools.append(sub_pool)
         return all_mutual_wishes_pools
-                
+    
+    def append_current_mutual_wish_pool_to_existing_sub_pool_if_possible(self, mutual_wish_pool, sub_pool, anonymous_list):
+        for pool in sub_pool:
+            can_be_appended = True
+            for p_id in pool:
+                p_wishes = anonymous_list[p_id][1]
+                for m_id in mutual_wish_pool:
+                    m_wishes = anonymous_list[m_id][1]
+                    if p_id not in m_wishes or m_id not in p_wishes:
+                        can_be_appended = False
+            if can_be_appended:
+                for a in mutual_wish_pool:
+                    pool.append(a)
+                mutual_wish_pool = []
+        return mutual_wish_pool
+            
+                     
+                    
+            
     # mutual_wish_pool: pool that is mutated and that where the not fully mutual wishes are removed.
     # Checks the first element and it's fully mutual wishes                       
     def remove_not_fully_mutual_wishes(self, mutual_wish_pool, anonymous_list):
