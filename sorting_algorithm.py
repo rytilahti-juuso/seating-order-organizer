@@ -334,9 +334,12 @@ class PoolCreation(object):
                         if not self.are_wishes_mutual(p_id, w_id, p_wish_list, w_wish_list):
                             to_be_removed.append(w_id)
                         ids_already_checked.append(w_id)
+        self.remove_items_from_pool(to_be_removed, mutual_wish_pool)
+    
+    def remove_items_from_pool(self, to_be_removed, mutated_list):
         for item in to_be_removed:
-            if item in mutual_wish_pool:    
-                mutual_wish_pool.remove(item)
+            if item in mutated_list:
+                mutated_list.remove(item)
     
     # returns: true if is already added. Currently this does not handle any edge cases 
     # and assumes that mutual wish pool has same items if atleast one of the said items is the same
