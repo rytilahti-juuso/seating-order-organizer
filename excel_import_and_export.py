@@ -59,10 +59,32 @@ class ExcelStyleFormatting(object):
     
     #Generate color rules for each participant. When this is called all lists must be in sync already.
     # Each subgroup will have rotating background color. People with special wishes will have their cell's font color changed to red.
-    def generate_color_rules(self, participants, participant_ids_with_special_wishes, all_pools):
+    def generate_color_rules(self, participants, participant_ids_with_special_wishes, all_pools, names_of_mutuals_outside_own_mutual_pool):
         dict_of_participants_colors = {} # key: participants full name, value: style formatting settings
+        dict_of_participants_colors = self.set_different_font_color_if_has_mutual_wish_outside_own_group(participants, dict_of_participants_colors, names_of_mutuals_outside_own_mutual_pool)
         dict_of_participants_colors = self.set_special_font_color_if_participant_has_special_wishes(participants, participant_ids_with_special_wishes, dict_of_participants_colors)    
         dict_of_participants_colors = self.set_background_color_by_sub_group(participants, all_pools, dict_of_participants_colors)
+        return dict_of_participants_colors
+    
+    def set_different_font_color_if_has_mutual_wish_outside_own_group(self, participants, dict_of_participants_colors, names_of_mutuals_outside_own_mutual_pool):
+        for sub_pool in names_of_mutuals_outside_own_mutual_pool:
+            for i, pool in enumerate(sub_pool):
+                color = ''
+                if(i % 5 == 0):
+                    color = 'color: blue;'
+                elif(i % 5 == 1):
+                    color = 'color: orange;'
+                elif(i % 5 == 2):
+                    color = 'color: yellow;'
+                elif(i % 5 == 3):
+                    color = 'color: green;'
+                elif(i % 5 == 4):
+                    color = 'color: purple;'
+                for name in pool:
+                    if name in dict_of_participants_colors:
+                        dict_of_participants_colors += color
+                    else:    
+                        dict_of_participants_colors[name] = color
         return dict_of_participants_colors
     
     #When this is called all lists must be in sync already. Font is changed to red, the default font color is black.
@@ -122,10 +144,10 @@ class ExportData(object):
     
     # Return: final seating list with empty cells for excel
     # pools: pools that also contain mutual wishes in separate list e.g. [[1,2], [3]]
-    def generate_final_seating_excel_format(self, participants, participants_ids_with_special_wishes, mutual_pools, pools):
+    def generate_final_seating_excel_format(self, participants, participants_ids_with_special_wishes, mutual_pools, pools, names_of_mutuals_outside_own_mutual_pool):
         excel_style_formatting = ExcelStyleFormatting()
         # names_that_have_special_wishes: participants names that have special wishes. key: name, value: style formatting settings
-        self.names_with_color_rules = excel_style_formatting.generate_color_rules(participants, participants_ids_with_special_wishes, mutual_pools)
+        self.names_with_color_rules = excel_style_formatting.generate_color_rules(participants, participants_ids_with_special_wishes, mutual_pools, names_of_mutuals_outside_own_mutual_pool)
         self.add_empty_cells_after_these_ids = excel_style_formatting.add_empty_cells_after_these_ids
         anonymous_flat_list = self.flat_mutual_wishes_list(mutual_pools)
                 
@@ -168,7 +190,7 @@ class ExportData(object):
     # participants_in_correct_order: ["name1","name2",... "nameN"]
     
     def export_data_to_excel(self, nlf):
-        final_seating_order_with_correct_excel_formatting = e.generate_final_seating_excel_format(nlf.participant_list, nlf.participants_ids_with_special_wishes, nlf.all_pools, nlf.pc.wish_pools)
+        final_seating_order_with_correct_excel_formatting = e.generate_final_seating_excel_format(nlf.participant_list, nlf.participants_ids_with_special_wishes, nlf.all_pools, nlf.pc.wish_pools, nlf.names_of_mutuals_outside_own_mutual_pool)
         participants_in_correct_order = final_seating_order_with_correct_excel_formatting
         #TODO At later date this could be made more efficient
         left_side = []

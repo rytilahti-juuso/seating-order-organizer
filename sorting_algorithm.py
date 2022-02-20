@@ -35,12 +35,27 @@ class NecessaryListsFactory(object):
         self.pc.create_pools(self.anonymous_list)
         self.all_pools = self.pc.all_mutual_wishes_pools
         #self.seating_order_with_ids = [item for sublist in self.all_pools for item in sublist]
+        self.names_of_mutuals_outside_own_mutual_pool = self.get_mutuals_outside_own_pool_names(self.pc.mutuals_outside_own_mutual_pool, self.participant_list)
         self.seating_order = self.generate_final_seating_list(self.participant_list, self.pc.wish_pools) # Participant full names are in correct seating order
         #print(self.add_empty_cells_after_these_ids)
         #e = ExportData()
         #e.export_data_to_excel(self.seating_order, self.names_with_color_rules)
     
+    def get_mutuals_outside_own_pool_names(self, mutuals, p_list):
+        names = []
+        for sub_pool in mutuals:
+            new_sub_pool = []
+            for pool in sub_pool:
+                new_pool = []
+                for id in pool:
+                    new_pool.append(p_list[id].full_name)
+                if new_pool:
+                    new_sub_pool.append(new_pool)
+            if new_sub_pool:
+                names.append(new_sub_pool)
+        return names
             
+                
     
     def generate_lists_from_name_and_wish_list(self):
         for i in range(0, len(self.name_and_wish_list)):
@@ -217,8 +232,11 @@ class PoolCreation(object):
         print("pool creation has started")
         self.wish_pools = self.create_non_mutual_wish_pools(anonymous_list)
         self.all_mutual_wishes_pools = self.create_mutual_wishes_groups(self.wish_pools, anonymous_list)
+        self.mutuals_outside_own_mutual_pool = self.mutual_wishes_outside_own_mutual_wishes_pool(self.all_mutual_wishes_pools, anonymous_list)
         print('Pools have been created!')
     
+    # If person has mutual wishes outside their own mutual wish pool, they will added together on separate pool created here
+    # (This is for changing the font colors to inform the seating planner about this "dependency")
     def mutual_wishes_outside_own_mutual_wishes_pool(self, m_pools, anonymous_list):
         all_pools_of_wishes_outside_of_mutual_pools = []
         #All wishes pool
@@ -227,19 +245,19 @@ class PoolCreation(object):
             #Mutual wish pool
             for m_pool in pool_of_pools:
                 for m2_pool in pool_of_pools:
-                    mutual_wish_pool = []
                     if m_pool is not m2_pool:
                         #time to cross reference the pools
                         for p_id in m_pool:
+                            mutual_wish_pool = []
                             for c_id in m2_pool:
                                 if self.are_wishes_mutual(p_id, c_id, anonymous_list[p_id][1], anonymous_list[c_id][1]):
                                     if p_id not in mutual_wish_pool:    
                                         mutual_wish_pool.append(p_id)
                                     if c_id not in mutual_wish_pool:    
                                         mutual_wish_pool.append(c_id)
-                    self.remove_items_already_in_some_sub_pool_from_current_wish_pool(sub_pool, mutual_wish_pool, anonymous_list)
-                    if mutual_wish_pool:
-                        sub_pool.append(mutual_wish_pool)
+                            self.remove_items_already_in_some_sub_pool_from_current_wish_pool(sub_pool, mutual_wish_pool, anonymous_list)
+                            if mutual_wish_pool:
+                                sub_pool.append(mutual_wish_pool)
             if sub_pool:    
                 all_pools_of_wishes_outside_of_mutual_pools.append(sub_pool)
         return all_pools_of_wishes_outside_of_mutual_pools
@@ -295,7 +313,8 @@ class PoolCreation(object):
             if item:
                 wish_pools.append(item)
         for dele in to_be_removed:
-            wish_pools.remove(dele)
+            if dele in wish_pools:
+                wish_pools.remove(dele)
             
                             
         
