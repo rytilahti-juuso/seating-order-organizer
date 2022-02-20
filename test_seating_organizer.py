@@ -138,6 +138,10 @@ class TestNecessaryListsFactory(unittest.TestCase):
                                   ]
         self.nlf = NecessaryListsFactory(self.name_and_wish_list)
     
+    #TODO
+    def test_get_mutuals_outside_own_pool_names(self):
+        pass
+    
     def test_will_detect_duplicates_and_stop_execution(self):  
         b = [['b', ['b', 'c']], ['b', ['b', 'c']]]
         with self.assertRaises(DuplicatesInParticipantsError):
