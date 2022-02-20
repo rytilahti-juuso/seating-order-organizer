@@ -215,17 +215,118 @@ class PoolCreation(object):
     # Creates both pools in correct order.
     def create_pools(self, anonymous_list):
         print("pool creation has started")
-        self.create_all_wishes_to_same_group(anonymous_list)
+        self.wish_pools = self.create_non_mutual_wish_pools(anonymous_list)
         self.all_mutual_wishes_pools = self.create_mutual_wishes_groups(self.wish_pools, anonymous_list)
         print('Pools have been created!')
     
+    def mutual_wishes_outside_own_mutual_wishes_pool(self, m_pools, anonymous_list):
+        all_pools_of_wishes_outside_of_mutual_pools = []
+        #All wishes pool
+        for pool_of_pools in m_pools:
+            sub_pool = []
+            #Mutual wish pool
+            for m_pool in pool_of_pools:
+                for m2_pool in pool_of_pools:
+                    mutual_wish_pool = []
+                    if m_pool is not m2_pool:
+                        #time to cross reference the pools
+                        for p_id in m_pool:
+                            for c_id in m2_pool:
+                                if self.are_wishes_mutual(p_id, c_id, anonymous_list[p_id][1], anonymous_list[c_id][1]):
+                                    if p_id not in mutual_wish_pool:    
+                                        mutual_wish_pool.append(p_id)
+                                    if c_id not in mutual_wish_pool:    
+                                        mutual_wish_pool.append(c_id)
+                    self.remove_items_already_in_some_sub_pool_from_current_wish_pool(sub_pool, mutual_wish_pool, anonymous_list)
+                    if mutual_wish_pool:
+                        sub_pool.append(mutual_wish_pool)
+            if sub_pool:    
+                all_pools_of_wishes_outside_of_mutual_pools.append(sub_pool)
+        return all_pools_of_wishes_outside_of_mutual_pools
+                    
+    def create_non_mutual_wish_pools(self, anonymous_list):
+        wish_pools = []
+        already_added_ids = []
+        for p in anonymous_list:
+            p_id = p[0]
+            p_wishes = p[1]
+            # First time setup
+            if not wish_pools:
+                init_pool = self.create_new_pool_and_append_the_element_to_it(p_id, already_added_ids)
+                for a in p_wishes:
+                    init_pool.append(a)
+                    already_added_ids.append(a)
+                wish_pools.append(init_pool)
+            # Add to existing pool
+            is_not_added_yet = True
+            for pool in wish_pools:
+                for id in pool:
+                    if id in p_wishes and p_id not in pool and p_id not in already_added_ids:
+                        pool.append(p_id)
+                        already_added_ids.append(p_id)
+                        is_not_added_yet = False
+            if is_not_added_yet:
+                pool = self.create_new_pool_and_append_the_element_to_it(p_id, already_added_ids)
+                if pool:    
+                    wish_pools.append(pool)
+        self.merge_non_mutual_wish_pools(anonymous_list, wish_pools)
+        return wish_pools
+    
+    def merge_non_mutual_wish_pools(self, anonymous_list, wish_pools):
+        to_be_removed = []
+        ids = []
+        new_pools = []
+        for pool in wish_pools:
+            new_pool = []
+            for pool2 in wish_pools:
+                if pool is not pool2:
+                    for id in pool:
+                        if id not in ids:
+                            ids.append(id)
+                        wishes = anonymous_list[id][1]
+                        for w in wishes:
+                            if w in pool2:
+                                if pool not in to_be_removed:
+                                    new_pool = self.add_ids_to_new_pool(pool, pool2)
+                                    to_be_removed.append(pool)
+                                    to_be_removed.append(pool2)
+            new_pools.append(new_pool)
+        for item in new_pools:
+            if item:
+                wish_pools.append(item)
+        for dele in to_be_removed:
+            wish_pools.remove(dele)
+            
+                            
+        
+                        
+    def add_ids_to_new_pool(self, pool, pool2):
+        new_pool = []
+        for item in pool:
+            new_pool.append(item)
+        for item2 in pool2:
+            new_pool.append(item2)
+        return new_pool
+           
+    
+    def create_new_pool_and_append_the_element_to_it(self, p_id, already_added_ids):
+        new_pool = []
+        if p_id not in already_added_ids:    
+            new_pool.append(p_id)
+            already_added_ids.append(p_id)
+        return new_pool
+            
+            
+            
+                        
+    #TODO remove
     # - anonymous_list: [[0, [89, 75, 50, 23], True], [1, [71, 138, 81, 85], False],...]
     #   where [participant_id, [participant's_wishes], isMan]
     # - Note: the is_man is not used here, only things required are participant_id, [participant's_wishes]
     # -  This adds all those who wished sit to next to each other to same group. The attribute where different groups
     #    are stored is "wish_pools".
     # - wish pools format: [[0,1,2] [group2], [group3]], numbers are participant id's.
-    def create_all_wishes_to_same_group(self, anonymous_list):
+    def deprecated_create_all_wishes_to_same_group(self, anonymous_list):
         print("Started creating all-wishes-to-same-group-pools")
         self.anonymous_list = anonymous_list
         self.wish_pools = [] #contains all different pools
@@ -385,7 +486,7 @@ class PoolCreation(object):
     def is_id_in_pool(self, p_id, pool):
         return p_id in pool
         
-        
+    #TODO remove    
     # - Create mutual wishes subgroups. These will be added "all_mutual_wishes_pools"-list. 
     # - anonymous_list: [[0, [89, 75, 50, 23], True], [1, [71, 138, 81, 85], False],...] 
     #    where [participant_id[participant's_wishes], isMan]
