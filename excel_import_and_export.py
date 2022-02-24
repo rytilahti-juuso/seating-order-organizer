@@ -119,6 +119,10 @@ class ExcelStyleFormatting(object):
                 self.add_empty_cells_after_these_ids[p_id_after_append_spaces] = 3
         return dict_of_participants_colors
     
+    # participants = list of participant obkects in order
+    # p_id = the id of the participants which has the background change set
+    # dict_of_participants_colors: Dictionary of color settings of participants, key:full_name_of_participant, value: style formatting settings
+    # background_color: background color added to the styles, is a string in format: 'background-color: #ECDDD0;'
     def add_background_to_participant(self, participants, dict_of_participants_colors, p_id, background_color):
         name = participants[p_id].full_name
         if(name in dict_of_participants_colors):
