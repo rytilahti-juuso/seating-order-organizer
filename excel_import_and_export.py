@@ -75,11 +75,11 @@ class ExcelStyleFormatting(object):
                 elif(i % 5 == 1):
                     color = 'color: blue;'
                 elif(i % 5 == 2):
-                    color = 'color: purple;'
-                elif(i % 5 == 3):
                     color = 'color: yellow;'
+                elif(i % 5 == 3):
+                    color = 'color: purple;'
                 elif(i % 5 == 4):
-                    color = 'color: brown;'
+                    color = 'color: #996515;'
                 for name in pool:
                     if name in dict_of_participants_colors:
                         dict_of_participants_colors += color
