@@ -228,7 +228,6 @@ class ExportData(object):
         #rewrite values by boolean masks
         #df1['left_side'] = np.where(m1, 'background-color: {}'.format(r), df1['left_side'])
         #df1['right_side'] = np.where(self.lol, 'background-color: red', df1['left_side'])
-        color = 'background-color: lightgreen; color: red'
         for i in range(0, len(df1)):
             if(x.at[i, 'left_side'] in self.names_with_color_rules):
                 df1.at[i,'left_side'] = self.names_with_color_rules[x.at[i, 'left_side']]
