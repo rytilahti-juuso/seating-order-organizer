@@ -109,11 +109,7 @@ class ExcelStyleFormatting(object):
                 # Loop participants in the mutual wishes list and
                 # add for them correct background color
                 for p_id in pool[i]: # p_id = id of participant
-                    name = participants[p_id].full_name
-                    if(name in dict_of_participants_colors):
-                        dict_of_participants_colors[name] += background_color
-                    else:    
-                        dict_of_participants_colors[name] = background_color
+                   self.add_background_to_participant(participants, dict_of_participants_colors, p_id, background_color)
 
             final_mutual_list_pool = pool[(len(pool)-1)]
             p_id_after_append_spaces = final_mutual_list_pool[(len(final_mutual_list_pool)-1)]
@@ -122,6 +118,13 @@ class ExcelStyleFormatting(object):
             else:
                 self.add_empty_cells_after_these_ids[p_id_after_append_spaces] = 3
         return dict_of_participants_colors
+    
+    def add_background_to_participant(self, participants, dict_of_participants_colors, p_id, background_color):
+        name = participants[p_id].full_name
+        if(name in dict_of_participants_colors):
+            dict_of_participants_colors[name] += background_color
+        else:    
+            dict_of_participants_colors[name] = background_color
     
     def get_background_color_by_index(self, i):
         background_color= ''
