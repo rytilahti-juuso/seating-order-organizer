@@ -63,7 +63,6 @@ class ExcelStyleFormatting(object):
         dict_of_participants_colors = {} # key: participants full name, value: style formatting settings
         dict_of_participants_colors = self.set_different_font_color_if_has_mutual_wish_outside_own_group(participants, dict_of_participants_colors, names_of_mutuals_outside_own_mutual_pool)
         dict_of_participants_colors = self.set_special_font_color_if_participant_has_special_wishes(participants, participant_ids_with_special_wishes, dict_of_participants_colors)    
-        #dict_of_participants_colors = self.set_background_color_by_sub_group(participants, all_pools, dict_of_participants_colors)
         self.set_background_color_and_append_empty_cells_after_necessary_ids(participants, all_pools, dict_of_participants_colors)
         return dict_of_participants_colors
     
@@ -88,40 +87,18 @@ class ExcelStyleFormatting(object):
                         dict_of_participants_colors[name] = color
         return dict_of_participants_colors
     
-    #When this is called all lists must be in sync already. Font is changed to red, the default font color is black.
+    # When this is called all lists must be in sync already. Font is changed to red, the default font color is black.
     def set_special_font_color_if_participant_has_special_wishes(self,participants, participant_ids_with_special_wishes, dict_of_participants_colors):
         for i in range(0, len(participant_ids_with_special_wishes)):
             name = participants[participant_ids_with_special_wishes[i]].full_name
             dict_of_participants_colors[name] = 'color: red;' #TODO change that this changes border instead of font color
         return dict_of_participants_colors
-    
-    #set background color by subgroup. When this is called all lists must be in sync already
-    def set_background_color_by_sub_group(self, participants, all_pools, dict_of_participants_colors):
-        # This is pool which contain pool of participants who has mutual and non-mutual wishes
-        j = -1
-        for pool in all_pools:
-            pool_length = len(pool)
-            j += 1
-            # Loop through mutual wishes pools inside the bigger pool
-            for i in range(pool_length):
-                j += i
-                background_color = self.get_background_color_by_index(j)
-                #More colors if needed, #f1c5ae, #35455d, #D3D3D3
-                # Loop participants in the mutual wishes list and
-                # add for them correct background color
-                for p_id in pool[i]: # p_id = id of participant
-                   self.add_background_to_participant(participants, dict_of_participants_colors, p_id, background_color)
 
-            final_mutual_list_pool = pool[(len(pool)-1)]
-            p_id_after_append_spaces = final_mutual_list_pool[(len(final_mutual_list_pool)-1)]
-            if (len (final_mutual_list_pool) % 2 == 0):
-                self.add_empty_cells_after_these_ids[p_id_after_append_spaces] = 2
-            else:
-                self.add_empty_cells_after_these_ids[p_id_after_append_spaces] = 3
-        return dict_of_participants_colors
-    
+    # Set background color by subgroup. When this is called all lists must be in sync already
     def set_background_color_and_append_empty_cells_after_necessary_ids(self, participants, mutual_pools, dict_of_participants_colors):
         rotating_background_color_index = -1
+        # Count of currently used cells. 
+        # Is used to append a correct amount of empty cells after a non-mutual wish group is looped through.
         count_of_cells = 0
         for i, sub_pool in enumerate(mutual_pools):
             rotating_background_color_index += 1
