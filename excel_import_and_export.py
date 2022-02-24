@@ -63,8 +63,8 @@ class ExcelStyleFormatting(object):
         dict_of_participants_colors = {} # key: participants full name, value: style formatting settings
         dict_of_participants_colors = self.set_different_font_color_if_has_mutual_wish_outside_own_group(participants, dict_of_participants_colors, names_of_mutuals_outside_own_mutual_pool)
         dict_of_participants_colors = self.set_special_font_color_if_participant_has_special_wishes(participants, participant_ids_with_special_wishes, dict_of_participants_colors)    
-        dict_of_participants_colors = self.set_background_color_by_sub_group(participants, all_pools, dict_of_participants_colors)
-        self.set_background_color(participants, all_pools, dict_of_participants_colors)
+        #dict_of_participants_colors = self.set_background_color_by_sub_group(participants, all_pools, dict_of_participants_colors)
+        self.set_background_color_and_append_empty_cells_after_necessary_ids(participants, all_pools, dict_of_participants_colors)
         return dict_of_participants_colors
     
     def set_different_font_color_if_has_mutual_wish_outside_own_group(self, participants, dict_of_participants_colors, names_of_mutuals_outside_own_mutual_pool):
@@ -120,17 +120,28 @@ class ExcelStyleFormatting(object):
                 self.add_empty_cells_after_these_ids[p_id_after_append_spaces] = 3
         return dict_of_participants_colors
     
-    def set_background_color(self, participants, mutual_pools, dict_of_participants_colors):
+    def set_background_color_and_append_empty_cells_after_necessary_ids(self, participants, mutual_pools, dict_of_participants_colors):
         rotating_background_color_index = -1
+        count_of_cells = 0
         for i, sub_pool in enumerate(mutual_pools):
             rotating_background_color_index += 1
             for j, mutual_pool in enumerate(sub_pool):
                 if len(sub_pool) != 1 and j != 0:
                     rotating_background_color_index += 1
-                for p_id in mutual_pool:
+                for k, p_id in enumerate(mutual_pool):
+                    count_of_cells += 1
                     background_color = ''
                     background_color = self.get_background_color_by_index(rotating_background_color_index)
                     self.add_background_to_participant(participants, dict_of_participants_colors, p_id, background_color)
+                    # is final mutual_pool in sub_pool and id is the final item in the final mutual pool
+                    if j == len(sub_pool)-1 and k == len(mutual_pool) - 1:
+                        final_p_id = mutual_pool[len(mutual_pool)-1]
+                        if count_of_cells % 2 == 0:
+                            self.add_empty_cells_after_these_ids[final_p_id] = 2
+                            count_of_cells += 2
+                        else:
+                            self.add_empty_cells_after_these_ids[final_p_id] = 3
+                            count_of_cells += 3
     
     # participants = list of participant obkects in order
     # p_id = the id of the participants which has the background change set
