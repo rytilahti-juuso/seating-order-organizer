@@ -138,7 +138,7 @@ class ExcelStyleFormatting(object):
         elif(i % 5 == 1):
             background_color = 'background-color: #92b1b6;'
         elif(i % 5 == 2):
-            background_color = 'background-color: #CED2C2;'
+            background_color = 'background-color: #A890F4;'
         elif(i % 5 == 3):
             background_color = 'background-color: #BFD1DF;'
         elif(i % 5 == 4):
