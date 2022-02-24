@@ -71,15 +71,15 @@ class ExcelStyleFormatting(object):
             for i, pool in enumerate(sub_pool):
                 color = ''
                 if(i % 5 == 0):
-                    color = 'color: blue;'
-                elif(i % 5 == 1):
-                    color = 'color: yellow;'
-                elif(i % 5 == 2):
-                    color = 'color: orange;'
-                elif(i % 5 == 3):
-                    color = 'color: purple;'
-                elif(i % 5 == 4):
                     color = 'color: green;'
+                elif(i % 5 == 1):
+                    color = 'color: blue;'
+                elif(i % 5 == 2):
+                    color = 'color: purple;'
+                elif(i % 5 == 3):
+                    color = 'color: yellow;'
+                elif(i % 5 == 4):
+                    color = 'color: brown;'
                 for name in pool:
                     if name in dict_of_participants_colors:
                         dict_of_participants_colors += color
