@@ -104,17 +104,7 @@ class ExcelStyleFormatting(object):
             # Loop through mutual wishes pools inside the bigger pool
             for i in range(pool_length):
                 j += i
-                background_color= ''
-                if(j % 5 == 0):
-                    background_color = 'background-color: #ECDDD0;'
-                elif(j % 5 == 1):
-                    background_color = 'background-color: #92b1b6;'
-                elif(j % 5 == 2):
-                    background_color = 'background-color: #CED2C2;'
-                elif(j % 5 == 3):
-                    background_color = 'background-color: #BFD1DF;'
-                elif(j % 5 == 4):
-                    background_color = 'background-color: #C1BFB5;'
+                background_color = self.get_background_color_by_index(j)
                 #More colors if needed, #f1c5ae, #35455d, #D3D3D3
                 # Loop participants in the mutual wishes list and
                 # add for them correct background color
@@ -133,6 +123,19 @@ class ExcelStyleFormatting(object):
                 self.add_empty_cells_after_these_ids[p_id_after_append_spaces] = 3
         return dict_of_participants_colors
     
+    def get_background_color_by_index(self, i):
+        background_color= ''
+        if(i % 5 == 0):
+            background_color = 'background-color: #ECDDD0;'
+        elif(i % 5 == 1):
+            background_color = 'background-color: #92b1b6;'
+        elif(i % 5 == 2):
+            background_color = 'background-color: #CED2C2;'
+        elif(i % 5 == 3):
+            background_color = 'background-color: #BFD1DF;'
+        elif(i % 5 == 4):
+            background_color = 'background-color: #C1BFB5;'
+        return background_color
     ################################################
     #    Create participants style format ENDS   #
     ################################################
