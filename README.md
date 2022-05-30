@@ -52,7 +52,7 @@ Notes about first time setup:
 6. Check the created `output-seating-order.xlsx` file. Look for are cells where the font is **red**. This means that the participant has special wishes (e.g. "I would like to sit next to the other old students") or they have typos in their wishes. Look in the `input-participant-and_wishing-list.xlsx` and correct the wishes so that they match the names of the participants. If there is someone who has a special wish "I don't want to sit next to person xx" you can leave that wish unaltered. It will not affect functionality of the code, only the font color of the said participants name will be red in the output excel.
 7. Run code again with the altered input file using the same command (`python excel_import_and_export.py`).
 8. Now open the output and open a **new** empty excel file next to it.
-9. Now you can copy names to that new excel file which you just created either one name at a time or in groups using cut and paste (`ctrl + x` and `ctrl +v`). Cut is better than copy because then you avoid accidently placing someone twice to actual the seating chart.
+9. Now you can copy names to that new excel file which you just created either one name at a time or in groups using cut and paste (`ctrl + x` and `ctrl +v`). Cut is better than copy because then you avoid accidently placing someone twice to the actual seating chart.
 10. Finally do correct style formatting to the excel that you just created (Actual final seating chart): Set all cells to have the following style: background color white, font color black and set border color to be gray. Save the created excel as `my-event-name-year.xslx`.
 11. Close the terminal or deactive the enviroment using `deactivate` command. 
 12. You're done! Congratz!
