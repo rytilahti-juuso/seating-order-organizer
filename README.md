@@ -1,4 +1,4 @@
-© 2021 Juuso Rytilahti.  All rights reserved. This code can be altered, forked and used freely by non-profit organizations e.g. different student unions with the permission from the copyright holder as long as authors of the code are credited and a link to the original repository is provided (if original repository is publicly available). 
+NOTE: requires Python 3.6 (or higher).
 
 # seating-order-organizer
 A way to generate seating order automatically for sitz or some other event. The main idea of the current version is to ease the work of the one doing the seating planning for sitz and other such events.
