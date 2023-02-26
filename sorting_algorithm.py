@@ -233,6 +233,11 @@ class PoolCreation(object):
         self.wish_pools = self.create_non_mutual_wish_pools(anonymous_list)
         self.all_mutual_wishes_pools = self.create_mutual_wishes_groups(self.wish_pools, anonymous_list)
         self.mutuals_outside_own_mutual_pool = self.mutual_wishes_outside_own_mutual_wishes_pool(self.all_mutual_wishes_pools, anonymous_list)
+        print(self.mutuals_outside_own_mutual_pool)
+        print("\n")
+        print(self.all_mutual_wishes_pools)
+        print("\n")
+        print(self.wish_pools)
         print('Pools have been created!')
     
     # If person has mutual wishes outside their own mutual wish pool, they will added together on separate pool created here
