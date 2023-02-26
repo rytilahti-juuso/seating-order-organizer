@@ -1,4 +1,4 @@
-NOTE: requires Python 3.6 (or higher).
+NOTE: requires Python 3.6 (or higher). Tested with Python 3.8.8
 
 # seating-order-organizer
 A way to generate seating order automatically for sitz or some other event. The main idea of the current version is to ease the work of the one doing the seating planning for sitz and other such events.
